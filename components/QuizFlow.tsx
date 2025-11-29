@@ -21,6 +21,22 @@ export const QuizFlow = () => {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [rangeValue, setRangeValue] = useState(50); // Generic slider state
   const [name, setName] = useState('');
+  const [peso, setPeso] = useState(70); // Weight in kg
+  const [altura, setAltura] = useState(165); // Height in cm
+
+  // Calculate IMC
+  const calcularIMC = () => {
+    const alturaMetros = altura / 100;
+    return peso / (alturaMetros * alturaMetros);
+  };
+
+  // Get IMC category
+  const getIMCCategory = (imc: number) => {
+    if (imc < 18.5) return 'bajo';
+    if (imc < 25) return 'normal';
+    if (imc < 30) return 'sobrepeso';
+    return 'obesidad';
+  };
 
   // Auto-scroll to top on step change
   useEffect(() => {
@@ -122,12 +138,19 @@ export const QuizFlow = () => {
     </div>
   );
 
-  const renderSlider = (title: string, min: number, max: number, unit: string, subtitle?: string, icon?: string, defaultValue?: number) => {
+  const renderSlider = (title: string, min: number, max: number, unit: string, subtitle?: string, icon?: string, defaultValue?: number, onSave?: (value: number) => void) => {
     const currentValue = rangeValue < min || rangeValue > max ? (defaultValue || Math.round((min + max) / 2)) : rangeValue;
     const percentage = ((currentValue - min) / (max - min)) * 100;
     
     const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setRangeValue(parseInt(e.target.value));
+      const newValue = parseInt(e.target.value);
+      setRangeValue(newValue);
+      if (onSave) onSave(newValue);
+    };
+
+    const handleContinue = () => {
+      if (onSave) onSave(currentValue);
+      handleNext();
     };
 
     return (
@@ -190,7 +213,7 @@ export const QuizFlow = () => {
         </div>
 
         <button 
-          onClick={handleNext}
+          onClick={handleContinue}
           className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
         >
           Continuar
@@ -367,7 +390,12 @@ export const QuizFlow = () => {
     </div>
   );
 
-  const renderResult = () => (
+  const renderResult = () => {
+    const imc = calcularIMC();
+    const category = getIMCCategory(imc);
+    const imcPosition = Math.min(Math.max(((imc - 15) / (35 - 15)) * 100, 0), 100);
+    
+    return (
     <div className="space-y-6 animate-fade-in">
       <h2 className="font-serif text-2xl font-bold text-news-black leading-tight">
         ¡ATENCIÓN, {name.toUpperCase() || 'AMIGA'}!
@@ -378,22 +406,40 @@ export const QuizFlow = () => {
       </p>
 
       {/* IMC visualizer */}
-      <div className="space-y-2 my-6">
-        <div className="flex items-center gap-2 mb-4">
-          <span className="text-xl">⚖️</span>
-          <h4 className="font-bold text-sm">Índice de Masa Corporal (IMC)</h4>
+      <div className="space-y-4 my-6">
+        <div className="text-center">
+          <p className="text-gray-600 text-sm mb-1">Tu IMC:</p>
+          <p className="text-4xl font-bold text-orange-500">{imc.toFixed(1)}</p>
+          <p className="text-gray-500 text-xs mt-1">Índice de Masa Corporal (IMC)</p>
         </div>
-        <div className="p-3 bg-gray-50 border rounded text-gray-400 text-sm">Abaixo do Peso</div>
-        <div className="p-3 bg-gray-50 border rounded text-gray-400 text-sm">Normal</div>
-        <div className="p-3 bg-yellow-100 border border-yellow-400 rounded text-black font-bold text-sm flex justify-between items-center shadow-sm">
-          Sobrepeso
-          <span className="text-lg">⚠️</span>
+        
+        {/* IMC Bar */}
+        <div className="relative mt-6">
+          {/* Indicator Arrow */}
+          <div 
+            className="absolute -top-6 transform -translate-x-1/2 flex flex-col items-center"
+            style={{ left: `${imcPosition}%` }}
+          >
+            <span className="text-orange-500 text-xs font-medium">Tú hoy</span>
+            <span className="text-orange-500">▼</span>
+          </div>
+          
+          {/* Color Bar */}
+          <div className="flex h-8 rounded-lg overflow-hidden">
+            <div className={`flex-1 flex items-center justify-center text-xs font-medium text-white ${category === 'bajo' ? 'ring-2 ring-offset-1 ring-blue-600' : ''}`} style={{ backgroundColor: '#3B82F6' }}>
+              Bajo peso
+            </div>
+            <div className={`flex-1 flex items-center justify-center text-xs font-medium text-white ${category === 'normal' ? 'ring-2 ring-offset-1 ring-green-600' : ''}`} style={{ backgroundColor: '#22C55E' }}>
+              Normal
+            </div>
+            <div className={`flex-1 flex items-center justify-center text-xs font-medium text-white ${category === 'sobrepeso' ? 'ring-2 ring-offset-1 ring-orange-600' : ''}`} style={{ backgroundColor: '#F97316' }}>
+              Sobrepeso
+            </div>
+            <div className={`flex-1 flex items-center justify-center text-xs font-medium text-white ${category === 'obesidad' ? 'ring-2 ring-offset-1 ring-red-600' : ''}`} style={{ backgroundColor: '#EF4444' }}>
+              Obesidad
+            </div>
+          </div>
         </div>
-        <div className="p-3 bg-gray-50 border rounded text-gray-400 text-sm">Obesidad</div>
-      </div>
-
-      <div className="bg-yellow-100 p-3 rounded text-center text-sm font-bold border border-yellow-200">
-        Zona de Alerta – ¡Este es tu resultado!
       </div>
 
       <h3 className="font-serif text-xl font-bold text-center mt-6">
@@ -451,8 +497,14 @@ export const QuizFlow = () => {
       </button>
     </div>
   );
+  };
 
-  const renderSales = () => (
+  const renderSales = () => {
+    const imc = calcularIMC();
+    const category = getIMCCategory(imc);
+    const imcPosition = Math.min(Math.max(((imc - 15) / (35 - 15)) * 100, 0), 100);
+    
+    return (
     <div className="space-y-6 animate-fade-in">
       <h2 className="font-serif text-2xl font-bold text-news-black leading-tight">
         ¡ATENCIÓN, {name.toUpperCase() || 'AMIGA'}!
@@ -463,22 +515,40 @@ export const QuizFlow = () => {
       </p>
 
       {/* IMC visualizer */}
-      <div className="space-y-2 my-6">
-        <div className="flex items-center gap-2 mb-4">
-          <span className="text-xl">⚖️</span>
-          <h4 className="font-bold text-sm">Índice de Masa Corporal (IMC)</h4>
+      <div className="space-y-4 my-6">
+        <div className="text-center">
+          <p className="text-gray-600 text-sm mb-1">Tu IMC:</p>
+          <p className="text-4xl font-bold text-orange-500">{imc.toFixed(1)}</p>
+          <p className="text-gray-500 text-xs mt-1">Índice de Masa Corporal (IMC)</p>
         </div>
-        <div className="p-3 bg-gray-50 border rounded text-gray-400 text-sm">Abaixo do Peso</div>
-        <div className="p-3 bg-gray-50 border rounded text-gray-400 text-sm">Normal</div>
-        <div className="p-3 bg-yellow-100 border border-yellow-400 rounded text-black font-bold text-sm flex justify-between items-center shadow-sm">
-          Sobrepeso
-          <span className="text-lg">⚠️</span>
+        
+        {/* IMC Bar */}
+        <div className="relative mt-6">
+          {/* Indicator Arrow */}
+          <div 
+            className="absolute -top-6 transform -translate-x-1/2 flex flex-col items-center"
+            style={{ left: `${imcPosition}%` }}
+          >
+            <span className="text-orange-500 text-xs font-medium">Tú hoy</span>
+            <span className="text-orange-500">▼</span>
+          </div>
+          
+          {/* Color Bar */}
+          <div className="flex h-8 rounded-lg overflow-hidden">
+            <div className={`flex-1 flex items-center justify-center text-xs font-medium text-white ${category === 'bajo' ? 'ring-2 ring-offset-1 ring-blue-600' : ''}`} style={{ backgroundColor: '#3B82F6' }}>
+              Bajo peso
+            </div>
+            <div className={`flex-1 flex items-center justify-center text-xs font-medium text-white ${category === 'normal' ? 'ring-2 ring-offset-1 ring-green-600' : ''}`} style={{ backgroundColor: '#22C55E' }}>
+              Normal
+            </div>
+            <div className={`flex-1 flex items-center justify-center text-xs font-medium text-white ${category === 'sobrepeso' ? 'ring-2 ring-offset-1 ring-orange-600' : ''}`} style={{ backgroundColor: '#F97316' }}>
+              Sobrepeso
+            </div>
+            <div className={`flex-1 flex items-center justify-center text-xs font-medium text-white ${category === 'obesidad' ? 'ring-2 ring-offset-1 ring-red-600' : ''}`} style={{ backgroundColor: '#EF4444' }}>
+              Obesidad
+            </div>
+          </div>
         </div>
-        <div className="p-3 bg-gray-50 border rounded text-gray-400 text-sm">Obesidad</div>
-      </div>
-
-      <div className="bg-yellow-100 p-3 rounded text-center text-sm font-bold border border-yellow-200">
-        Zona de Alerta – ¡Este es tu resultado!
       </div>
 
       <h3 className="font-serif text-xl font-bold text-center mt-6">
@@ -536,6 +606,7 @@ export const QuizFlow = () => {
       </button>
     </div>
   );
+  };
 
   const renderVideoPage = () => (
     <div className="space-y-6 animate-fade-in">
@@ -808,9 +879,9 @@ export const QuizFlow = () => {
     case 10:
       return renderTestimonials();
     case 11:
-      return renderSlider('¿Cuál es tu peso actual?', 50, 150, 'kg', '¡Comencemos! Esto nos ayuda a personalizar tu protocolo.', undefined, 70);
+      return renderSlider('¿Cuál es tu peso actual?', 50, 150, 'kg', '¡Comencemos! Esto nos ayuda a personalizar tu protocolo.', undefined, 70, setPeso);
     case 12:
-      return renderSlider('¿Cuál es tu estatura?', 140, 200, 'cm', 'Calcularemos la dosis exacta del Protocolo para tu cuerpo.', undefined, 165);
+      return renderSlider('¿Cuál es tu estatura?', 140, 200, 'cm', 'Calcularemos la dosis exacta del Protocolo para tu cuerpo.', undefined, 165, setAltura);
     case 13:
       return renderSlider('¿Cuál es tu peso objetivo?', 40, 100, 'kg', '¡Ya casi terminamos! Este es el peso que deseas alcanzar.', undefined, 60);
     case 14:
