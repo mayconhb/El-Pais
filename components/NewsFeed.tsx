@@ -1,20 +1,23 @@
 import React from 'react';
+import patriciaBarcaImage from '@assets/Patricia barca_1764452735065.webp';
+import mariaImage from '@assets/Maria_1764452735066.webp';
+import jovemMexicanaImage from '@assets/Jovem mexicana_1764452735066.webp';
 
 const stories = [
   {
     title: "Después de 10 años de dietas fallidas, exmodelo brasileña pierde 44 kg en 5 meses.",
     excerpt: "Patricia Barca, de Río de Janeiro, adoptó el método Protocolo Gelatina Bariátrica y perdió 44 kg en solo 5 meses.",
-    image: "https://picsum.photos/seed/weightloss1/600/400"
+    image: patriciaBarcaImage
   },
   {
     title: "Cocinera que almorzaba croquetas y pasteles pierde 27 kg después de empezar a usar la famosa gelatina bariátrica.",
     excerpt: "Lo único que me motivaba era comer, afirma María. La colombiana llegó a pesar 108 kg y sufrió de hipertensión.",
-    image: "https://picsum.photos/seed/weightloss2/600/400"
+    image: mariaImage
   },
   {
     title: "Joven mexicana renuncia a la cirugía bariátrica y pierde 43 kg después de tomar dos veces al día la famosa gelatina adelgazante.",
     excerpt: "La estudiante llegó a pesar 116 kg y por poco se sometió a una cirugía. Con la vida transformada, hoy motiva a otras.",
-    image: "https://picsum.photos/seed/weightloss3/600/400"
+    image: jovemMexicanaImage
   }
 ];
 
@@ -35,10 +38,6 @@ export const NewsFeed = () => {
               {story.excerpt}
             </p>
             <div className="w-full h-48 overflow-hidden rounded-sm bg-gray-100">
-               {/* 
-                  Using placeholder images as requested. 
-                  In production these would be the real transformation photos.
-               */}
                <img 
                 src={story.image} 
                 alt="Transformation" 
