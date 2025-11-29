@@ -410,18 +410,24 @@ export const QuizFlow = () => {
         <div className="text-center">
           <p className="text-gray-600 text-sm mb-1">Tu IMC:</p>
           <p className="text-4xl font-bold text-orange-500">{imc.toFixed(1)}</p>
-          <p className="text-gray-500 text-xs mt-1">Índice de Masa Corporal (IMC)</p>
         </div>
         
         {/* IMC Bar */}
-        <div className="relative mt-6">
+        <div className="relative mt-8 pt-2">
           {/* Indicator Arrow */}
           <div 
-            className="absolute -top-6 transform -translate-x-1/2 flex flex-col items-center"
+            className="absolute -top-5 transform -translate-x-1/2 flex flex-col items-center z-10"
             style={{ left: `${imcPosition}%` }}
           >
-            <span className="text-orange-500 text-xs font-medium">Tú hoy</span>
-            <span className="text-orange-500">▼</span>
+            <span className="text-orange-500 text-xs font-medium mb-0.5">Tú hoy</span>
+            <div 
+              className="w-0 h-0"
+              style={{
+                borderLeft: '8px solid transparent',
+                borderRight: '8px solid transparent',
+                borderTop: '10px solid #F97316'
+              }}
+            />
           </div>
           
           {/* Color Bar */}
@@ -519,18 +525,24 @@ export const QuizFlow = () => {
         <div className="text-center">
           <p className="text-gray-600 text-sm mb-1">Tu IMC:</p>
           <p className="text-4xl font-bold text-orange-500">{imc.toFixed(1)}</p>
-          <p className="text-gray-500 text-xs mt-1">Índice de Masa Corporal (IMC)</p>
         </div>
         
         {/* IMC Bar */}
-        <div className="relative mt-6">
+        <div className="relative mt-8 pt-2">
           {/* Indicator Arrow */}
           <div 
-            className="absolute -top-6 transform -translate-x-1/2 flex flex-col items-center"
+            className="absolute -top-5 transform -translate-x-1/2 flex flex-col items-center z-10"
             style={{ left: `${imcPosition}%` }}
           >
-            <span className="text-orange-500 text-xs font-medium">Tú hoy</span>
-            <span className="text-orange-500">▼</span>
+            <span className="text-orange-500 text-xs font-medium mb-0.5">Tú hoy</span>
+            <div 
+              className="w-0 h-0"
+              style={{
+                borderLeft: '8px solid transparent',
+                borderRight: '8px solid transparent',
+                borderTop: '10px solid #F97316'
+              }}
+            />
           </div>
           
           {/* Color Bar */}
