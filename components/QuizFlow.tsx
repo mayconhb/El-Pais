@@ -275,8 +275,7 @@ export const QuizFlow = () => {
 
   const renderTestimonials = () => (
     <div className="space-y-6 animate-fade-in">
-      <h2 className="font-serif text-2xl font-bold text-news-black leading-tight text-center flex flex-col items-center gap-2">
-        <span className="text-3xl">🔥</span>
+      <h2 className="font-serif text-2xl font-bold text-news-black leading-tight text-center">
         Historias Reales de Transformación de nuestras clientas con el Protocolo Gelatina Bariátrica
       </h2>
 
@@ -538,11 +537,11 @@ export const QuizFlow = () => {
     case 10:
       return renderTestimonials();
     case 11:
-      return renderSlider('¿Cuál es tu peso actual?', 50, 150, 'kg', '¡Comencemos! Esto nos ayuda a personalizar tu protocolo.', '⚖️', 70);
+      return renderSlider('¿Cuál es tu peso actual?', 50, 150, 'kg', '¡Comencemos! Esto nos ayuda a personalizar tu protocolo.', undefined, 70);
     case 12:
-      return renderSlider('¿Cuál es tu estatura?', 140, 200, 'cm', 'Calcularemos la dosis exacta del Protocolo para tu cuerpo.', '📏', 165);
+      return renderSlider('¿Cuál es tu estatura?', 140, 200, 'cm', 'Calcularemos la dosis exacta del Protocolo para tu cuerpo.', undefined, 165);
     case 13:
-      return renderSlider('¿Cuál es tu peso objetivo?', 40, 100, 'kg', '¡Ya casi terminamos! Este es el peso que deseas alcanzar.', '🎯', 60);
+      return renderSlider('¿Cuál es tu peso objetivo?', 40, 100, 'kg', '¡Ya casi terminamos! Este es el peso que deseas alcanzar.', undefined, 60);
     case 14:
       return renderButtons('¿Cuántos vasos de agua bebes al día?', [
         'Solo bebo café o té',
