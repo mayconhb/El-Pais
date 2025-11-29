@@ -413,7 +413,7 @@ export const QuizFlow = () => {
         </div>
         
         {/* IMC Bar */}
-        <div className="relative mt-8 pt-2">
+        <div className="relative mt-12 pt-2">
           {/* Indicator Arrow */}
           <div 
             className="absolute -top-5 transform -translate-x-1/2 flex flex-col items-center z-10"
@@ -528,7 +528,7 @@ export const QuizFlow = () => {
         </div>
         
         {/* IMC Bar */}
-        <div className="relative mt-8 pt-2">
+        <div className="relative mt-12 pt-2">
           {/* Indicator Arrow */}
           <div 
             className="absolute -top-5 transform -translate-x-1/2 flex flex-col items-center z-10"
