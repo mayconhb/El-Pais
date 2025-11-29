@@ -774,10 +774,6 @@ export const QuizFlow = () => {
         </p>
       </div>
 
-      {/* Footer */}
-      <div className="text-center pt-4 border-t">
-        <p className="text-xs text-gray-400">© Protocolo Gelatina Reductora 2024 – Todos los Derechos Reservados.</p>
-      </div>
     </div>
   );
 
