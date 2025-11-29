@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, AlertTriangle, Check, X } from 'lucide-react';
+import gomitaImage from '@assets/baixados_1764452903199.webp';
 
 // --- Types ---
 type StepType = 'intro' | 'button-select' | 'slider' | 'input' | 'loading' | 'result' | 'sales';
@@ -83,10 +84,8 @@ export const QuizFlow = () => {
         El cambio radical ocurrió después de que la influencer mexicana realizara una <strong className="font-bold">PRUEBA GRATUITA</strong> del Protocolo de la Gelatina Bariátrica, que activa las células adelgazantes del intestino y permite perder de <strong className="font-bold">3 a 5 kg en solo 7 días</strong> — sin dieta, sin medicamentos y sin gimnasio.
       </p>
       
-      <div className="grid grid-cols-3 gap-1">
-        <img src="https://picsum.photos/seed/intro1/300/400" className="w-full h-28 object-cover rounded-l-md" alt="Before" />
-        <img src="https://picsum.photos/seed/intro2/300/400" className="w-full h-28 object-cover" alt="During" />
-        <img src="https://picsum.photos/seed/intro3/300/400" className="w-full h-28 object-cover rounded-r-md" alt="After" />
+      <div className="w-full overflow-hidden rounded-md">
+        <img src={gomitaImage} className="w-full h-auto object-cover" alt="Transformación de Gomita" />
       </div>
 
       <div className="bg-yellow-50 border-l-4 border-news-yellow p-3">
