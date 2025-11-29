@@ -556,17 +556,6 @@ export const QuizFlow = () => {
         </div>
       </div>
 
-      <div className="text-center space-y-2">
-        <p className="text-sm text-gray-600">Comenzaste a ver este video?</p>
-        <button className="flex items-center justify-center gap-2 mx-auto text-news-yellow font-medium">
-          <span className="w-8 h-8 bg-news-yellow rounded-full flex items-center justify-center">
-            <span className="text-white text-xs">▶</span>
-          </span>
-          Continuar viendo
-        </button>
-        <p className="text-xs text-gray-400">Verlo desde el principio?</p>
-      </div>
-
       {/* Comments Section */}
       <div className="border-t pt-6 mt-6">
         <h4 className="font-bold text-sm mb-4">100+ comentarios</h4>
