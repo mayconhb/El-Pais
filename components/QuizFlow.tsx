@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, AlertTriangle, Check, X, Flame, Star } from 'lucide-react';
+import { ArrowRight, AlertTriangle, Check, X } from 'lucide-react';
 
 // --- Types ---
-type StepType = 'intro' | 'button-select' | 'slider' | 'input' | 'loading' | 'result' | 'sales' | 'testimonial';
+type StepType = 'intro' | 'button-select' | 'slider' | 'input' | 'loading' | 'result' | 'sales';
 
 interface StepConfig {
   id: number;
@@ -29,8 +29,8 @@ export const QuizFlow = () => {
 
   // Handle Loading Logic
   useEffect(() => {
-    // The loading step is now at index 15 (shifted due to testimonials)
-    if (step === 15) {
+    // The loading step is now at index 13
+    if (step === 13) {
       const interval = setInterval(() => {
         setLoadingProgress((prev) => {
           if (prev >= 100) {
@@ -171,49 +171,6 @@ export const QuizFlow = () => {
         onClick={handleNext}
         disabled={name.length < 2}
         className="w-full bg-news-yellow hover:bg-[#ebd040] disabled:opacity-50 disabled:cursor-not-allowed text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
-      >
-        Continuar
-      </button>
-    </div>
-  );
-
-  const renderTestimonial = (data: { title?: string, image: string, quote: string, author: string, verified: boolean }) => (
-    <div className="space-y-6 animate-fade-in">
-      {data.title && (
-        <h2 className="font-serif text-xl font-bold text-center leading-tight mb-4 flex flex-col items-center gap-2">
-          <Flame className="w-6 h-6 text-orange-500 fill-current" />
-          {data.title}
-        </h2>
-      )}
-      
-      <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
-        <div className="w-full relative">
-             {/* Using a grid of images simulation for Gomita if no single image fits perfectly, but a single placeholder works for now */}
-             <img src={data.image} alt="Transformation" className="w-full h-auto object-cover" />
-        </div>
-        <div className="p-6 space-y-4">
-          <p className="font-serif italic text-gray-700 leading-relaxed text-lg border-l-4 border-news-yellow pl-4">
-            {data.quote}
-          </p>
-          
-          <div className="font-bold text-news-black font-serif border-t border-gray-100 pt-3 mt-2">
-            {data.author}
-          </div>
-          
-          {data.verified && (
-            <div className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wide">
-              <div className="flex text-yellow-400">
-                {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 fill-current" />)}
-              </div>
-              <span>Cliente Verificada</span>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <button 
-        onClick={handleNext}
-        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
       >
         Continuar
       </button>
@@ -406,42 +363,24 @@ export const QuizFlow = () => {
         'Aumentar la autoestima y la confianza',
         'Reducir el estrés y la ansiedad'
       ], 'Personalizaremos tu protocolo para maximizar los resultados.');
-    // --- NEW TESTIMONIAL STEPS ---
     case 9:
-      return renderTestimonial({
-        title: "Historias Reales de Transformación de nuestras clientas con el Protocolo Gelatina Bariátrica",
-        image: "https://picsum.photos/seed/gomita/500/300", 
-        quote: "\"Ya había intentado de todo para adelgazar, pero nada funcionaba realmente. Después de empezar a usar la fórmula de la Gelatina Bariátrica en mi día a día, perdí 8 kilos en solo 17 días — sin cambiar nada en mi alimentación. Ahora me siento más ligera, más bonita y con una confianza que no sentía desde hacía años.\"",
-        author: "— Gomita / Influenciadora Mexicana",
-        verified: true
-      });
-    case 10:
-      return renderTestimonial({
-        image: "https://picsum.photos/seed/fernanda/500/400",
-        quote: "\"Ya había intentado de todo para adelgazar, pero nada funcionaba. Después de incluir la fórmula de la Gelatina Bariátrica en mi rutina, perdí 11 kg en solo 3 semanas sin cambiar nada en mi alimentación. Ahora me siento más segura y llena de energía. ¡Este Protocolo cambió mi vida!\"",
-        author: "— Fernanda Rodríguez — Ciudad de México",
-        verified: true
-      });
-    // --- SHIFTED STEPS ---
-    case 11:
       return renderSlider('¿Cuál es tu estatura?', 140, 200, 'cm', 'Esto nos ayudará a calcular la cantidad exacta del Protocolo Gelatina Bariátrica para tu cuerpo.');
-    case 12:
+    case 10:
       return renderSlider('¿Cuál es tu peso objetivo (deseado)?', 40, 100, 'kg', 'Esto nos ayudará a personalizar un plan específicamente para ti.');
-    case 13:
+    case 11:
       return renderSlider('¿Cuál es tu peso actual?', 50, 150, 'kg', '¡Ya casi terminamos! Ajustaremos tu plan de acuerdo con tu cuerpo.');
-    case 14:
+    case 12:
       return renderButtons('¿Cuántos vasos de agua bebes al día?', [
         'Solo bebo café o té',
         '1–2 vasos al día',
         '2–6 vasos al día',
         'Más de 6 vasos'
       ], 'Tu nivel de hidratación también influye en tu pérdida de peso.');
-    case 15:
-      // Pseudo-loading step
+    case 13:
       return renderLoading();
-    case 16:
+    case 14:
       return renderResult();
-    case 17:
+    case 15:
       return renderSales();
     default:
       return null;
