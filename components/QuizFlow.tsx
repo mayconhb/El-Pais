@@ -541,6 +541,86 @@ export const QuizFlow = () => {
     </div>
   );
 
+  const renderTransformReady = () => (
+    <div className="space-y-6 animate-fade-in">
+      <p className="text-xs text-gray-500 uppercase tracking-wider">PÉRDIDA DE PESO</p>
+      
+      <h2 className="font-serif text-2xl font-bold text-news-black leading-tight">
+        {name || 'Amiga'}, ¿Estás lista para transformar tu cuerpo y tu salud?
+      </h2>
+
+      <p className="font-serif text-base text-gray-700 leading-relaxed text-center">
+        Haz clic en <strong className="text-black">Continuar</strong> si deseas obtener tu <span className="text-news-yellow font-semibold">protocolo personalizado</span>.
+      </p>
+
+      {/* Before/After Images Placeholder */}
+      <div className="grid grid-cols-2 gap-2">
+        <div className="w-full h-48 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
+          <span className="text-gray-400 text-xs text-center px-2">Foto Antes</span>
+        </div>
+        <div className="w-full h-48 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
+          <span className="text-gray-400 text-xs text-center px-2">Foto Después</span>
+        </div>
+      </div>
+
+      {/* Comparison Table */}
+      <div className="grid grid-cols-2 gap-4 mt-6">
+        {/* Without Protocol */}
+        <div className="space-y-3">
+          <h4 className="text-red-500 font-bold text-sm text-center">Sin el Protocolo Gelatina Bariátrica</h4>
+          <div className="space-y-2 text-sm">
+            <p className="flex items-start gap-2">
+              <X className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+              <span><strong>Metabolismo:</strong> Lento</span>
+            </p>
+            <p className="flex items-start gap-2">
+              <X className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+              <span><strong>Nivel de estrés:</strong> Alto</span>
+            </p>
+            <p className="flex items-start gap-2">
+              <X className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+              <span><strong>Nivel de energía:</strong> Bajo</span>
+            </p>
+            <p className="flex items-start gap-2">
+              <X className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+              <span><strong>Riesgos de enfermedades:</strong> Altísimos</span>
+            </p>
+          </div>
+        </div>
+
+        {/* With Protocol */}
+        <div className="space-y-3">
+          <h4 className="text-green-600 font-bold text-sm text-center">Con el Protocolo Gelatina Bariátrica</h4>
+          <div className="space-y-2 text-sm">
+            <p className="flex items-start gap-2">
+              <Check className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
+              <span><strong>Metabolismo:</strong> Acelerado</span>
+            </p>
+            <p className="flex items-start gap-2">
+              <Check className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
+              <span><strong>Nivel de estrés:</strong> Bajo</span>
+            </p>
+            <p className="flex items-start gap-2">
+              <Check className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
+              <span><strong>Nivel de energía:</strong> Fuerte</span>
+            </p>
+            <p className="flex items-start gap-2">
+              <Check className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
+              <span><strong>Riesgo de enfermedades:</strong> Muy bajo</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <button 
+        onClick={handleNext}
+        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
+      >
+        Continuar
+      </button>
+    </div>
+  );
+
   // --- Main Switch ---
 
   switch (step) {
@@ -621,6 +701,8 @@ export const QuizFlow = () => {
       return renderResult();
     case 17:
       return renderSales();
+    case 18:
+      return renderTransformReady();
     default:
       return null;
   }
