@@ -369,8 +369,6 @@ export const QuizFlow = () => {
 
   const renderResult = () => (
     <div className="space-y-6 animate-fade-in">
-      <p className="text-xs text-gray-500 uppercase tracking-wider">PÉRDIDA DE PESO</p>
-      
       <h2 className="font-serif text-2xl font-bold text-news-black leading-tight">
         ¡ATENCIÓN, {name.toUpperCase() || 'AMIGA'}!
       </h2>
@@ -456,8 +454,6 @@ export const QuizFlow = () => {
 
   const renderSales = () => (
     <div className="space-y-6 animate-fade-in">
-      <p className="text-xs text-gray-500 uppercase tracking-wider">PÉRDIDA DE PESO</p>
-      
       <h2 className="font-serif text-2xl font-bold text-news-black leading-tight">
         ¡ATENCIÓN, {name.toUpperCase() || 'AMIGA'}!
       </h2>
@@ -543,8 +539,6 @@ export const QuizFlow = () => {
 
   const renderVideoPage = () => (
     <div className="space-y-6 animate-fade-in">
-      <p className="text-xs text-gray-500 uppercase tracking-wider">PÉRDIDA DE PESO</p>
-      
       <h2 className="font-serif text-xl font-bold text-news-black leading-tight text-center uppercase">
         MIRA EL VIDEO A CONTINUACIÓN Y DESCUBRE CÓMO ACCEDER A TU PROTOCOLO DE GELATINA BARIÁTRICA.
       </h2>
@@ -676,8 +670,6 @@ export const QuizFlow = () => {
 
   const renderTransformReady = () => (
     <div className="space-y-6 animate-fade-in">
-      <p className="text-xs text-gray-500 uppercase tracking-wider">PÉRDIDA DE PESO</p>
-      
       <h2 className="font-serif text-2xl font-bold text-news-black leading-tight">
         {name || 'Amiga'}, ¿Estás lista para transformar tu cuerpo y tu salud?
       </h2>
