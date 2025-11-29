@@ -84,7 +84,7 @@ export const QuizFlow = () => {
     if (step === 15) {
       const carouselInterval = setInterval(() => {
         setCarouselIndex((prev) => (prev + 1) % carouselImages.length);
-      }, 2000);
+      }, 800);
       return () => clearInterval(carouselInterval);
     }
   }, [step]);
