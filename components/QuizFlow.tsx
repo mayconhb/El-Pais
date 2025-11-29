@@ -9,6 +9,7 @@ import carouselImage1 from '@assets/lg-Wlmuz-slide-2-adriana-17kg_1764453347817.
 import carouselImage2 from '@assets/f4_1764453347817.webp';
 import carouselImage3 from '@assets/lg-qwnL0-slide-1nereide-16kg_1764453375116.webp';
 import rosanaImage from '@assets/50-year-old-woman-weight-600nw-2519627017_1764453653741.webp';
+import beforeAfterImage from '@assets/dfg_1764453736974.webp';
 
 // --- Types ---
 type StepType = 'intro' | 'button-select' | 'slider' | 'input' | 'loading' | 'result' | 'sales';
@@ -790,14 +791,9 @@ export const QuizFlow = () => {
         Haz clic en <strong className="text-black">Continuar</strong> si deseas obtener tu <span className="text-news-yellow font-semibold">protocolo personalizado</span>.
       </p>
 
-      {/* Before/After Images Placeholder */}
-      <div className="grid grid-cols-2 gap-2">
-        <div className="w-full h-48 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
-          <span className="text-gray-400 text-xs text-center px-2">Foto Antes</span>
-        </div>
-        <div className="w-full h-48 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
-          <span className="text-gray-400 text-xs text-center px-2">Foto Después</span>
-        </div>
+      {/* Before/After Image */}
+      <div className="w-full overflow-hidden rounded-lg">
+        <img src={beforeAfterImage} className="w-full h-auto object-cover" alt="Antes y Después" />
       </div>
 
       {/* Comparison Table */}
