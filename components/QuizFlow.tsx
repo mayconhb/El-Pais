@@ -5,6 +5,9 @@ import protocoloImage from '@assets/Inserir um título (2)_1764453061315.png';
 import gomitaTestimonial from '@assets/Gomita_1764453233335.webp';
 import fernandaTestimonial from '@assets/Fernanda_1764453233336.webp';
 import marianaTestimonial from '@assets/Mariana_1764453233336.webp';
+import carouselImage1 from '@assets/lg-Wlmuz-slide-2-adriana-17kg_1764453347817.jpg';
+import carouselImage2 from '@assets/f4_1764453347817.webp';
+import carouselImage3 from '@assets/lg-qwnL0-slide-1nereide-16kg_1764453375116.webp';
 
 // --- Types ---
 type StepType = 'intro' | 'button-select' | 'slider' | 'input' | 'loading' | 'result' | 'sales';
@@ -21,6 +24,8 @@ interface StepConfig {
   loadingText?: string; // For loading step
 }
 
+const carouselImages = [carouselImage1, carouselImage2, carouselImage3];
+
 export const QuizFlow = () => {
   const [step, setStep] = useState(0);
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -28,6 +33,7 @@ export const QuizFlow = () => {
   const [name, setName] = useState('');
   const [peso, setPeso] = useState(70); // Weight in kg
   const [altura, setAltura] = useState(165); // Height in cm
+  const [carouselIndex, setCarouselIndex] = useState(0);
 
   // Calculate IMC
   const calcularIMC = () => {
@@ -70,6 +76,16 @@ export const QuizFlow = () => {
         });
       }, 50);
       return () => clearInterval(interval);
+    }
+  }, [step]);
+
+  // Carousel auto-rotation during loading
+  useEffect(() => {
+    if (step === 15) {
+      const carouselInterval = setInterval(() => {
+        setCarouselIndex((prev) => (prev + 1) % carouselImages.length);
+      }, 2000);
+      return () => clearInterval(carouselInterval);
     }
   }, [step]);
 
@@ -371,9 +387,27 @@ export const QuizFlow = () => {
         Espera mientras preparamos tu Protocolo Gelatina Bariátrica...
       </h2>
 
-      <div className="grid grid-cols-2 gap-2 mb-8 opacity-80">
-         <img src="https://picsum.photos/seed/load1/300/400" className="w-full h-64 object-cover rounded-l-lg" alt="Analysis 1" />
-         <img src="https://picsum.photos/seed/load2/300/400" className="w-full h-64 object-cover rounded-r-lg" alt="Analysis 2" />
+      <div className="relative w-full h-64 mb-8 overflow-hidden rounded-lg">
+        {carouselImages.map((img, index) => (
+          <img 
+            key={index}
+            src={img} 
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+              index === carouselIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+            alt={`Transformación ${index + 1}`} 
+          />
+        ))}
+        <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-2">
+          {carouselImages.map((_, index) => (
+            <div 
+              key={index}
+              className={`w-2 h-2 rounded-full transition-all ${
+                index === carouselIndex ? 'bg-news-yellow w-4' : 'bg-white/60'
+              }`}
+            />
+          ))}
+        </div>
       </div>
 
       <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
