@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { ArrowRight, AlertTriangle, Check, X } from 'lucide-react';
 import gomitaImage from '@assets/baixados_1764452903199.webp';
 import protocoloImage from '@assets/Inserir um título (2)_1764453061315.png';
+import gomitaTestimonial from '@assets/Gomita_1764453233335.webp';
+import fernandaTestimonial from '@assets/Fernanda_1764453233336.webp';
+import marianaTestimonial from '@assets/Mariana_1764453233336.webp';
 
 // --- Types ---
 type StepType = 'intro' | 'button-select' | 'slider' | 'input' | 'loading' | 'result' | 'sales';
@@ -303,9 +306,7 @@ export const QuizFlow = () => {
 
       {/* Testimonial 1 - Gomita */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
-        <div className="w-full h-48 bg-gray-100 border-b border-dashed border-gray-300 flex items-center justify-center">
-          <span className="text-gray-400 text-sm">Espacio para foto</span>
-        </div>
+        <img src={gomitaTestimonial} className="w-full h-auto object-cover" alt="Transformación de Gomita" />
         <div className="p-4 space-y-3">
           <p className="font-serif italic text-gray-700 text-sm leading-relaxed border-l-4 border-news-yellow pl-3">
             "Ya había intentado de todo para adelgazar, pero nada funcionaba realmente. Después de empezar a usar la fórmula de la Gelatina Bariátrica en mi día a día, perdí 8 kilos en solo 17 días — sin cambiar nada en mi alimentación. Ahora me siento más ligera, más bonita y con una confianza que no sentía desde hacía años."
@@ -327,9 +328,7 @@ export const QuizFlow = () => {
 
       {/* Testimonial 2 - Fernanda */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
-        <div className="w-full h-48 bg-gray-100 border-b border-dashed border-gray-300 flex items-center justify-center">
-          <span className="text-gray-400 text-sm">Espacio para foto</span>
-        </div>
+        <img src={fernandaTestimonial} className="w-full h-auto object-cover" alt="Transformación de Fernanda" />
         <div className="p-4 space-y-3">
           <p className="font-serif italic text-gray-700 text-sm leading-relaxed border-l-4 border-news-yellow pl-3">
             "Ya había intentado de todo para adelgazar, pero nada funcionaba. Después de incluir la fórmula de la Gelatina Bariátrica en mi rutina, perdí 11 kg en solo 3 semanas sin cambiar nada en mi alimentación. Ahora me siento más segura y llena de energía. ¡Este Protocolo cambió mi vida!"
@@ -344,9 +343,7 @@ export const QuizFlow = () => {
 
       {/* Testimonial 3 - Mariana */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
-        <div className="w-full h-48 bg-gray-100 border-b border-dashed border-gray-300 flex items-center justify-center">
-          <span className="text-gray-400 text-sm">Espacio para foto</span>
-        </div>
+        <img src={marianaTestimonial} className="w-full h-auto object-cover" alt="Transformación de Mariana" />
         <div className="p-4 space-y-3">
           <p className="font-serif italic text-gray-700 text-sm leading-relaxed border-l-4 border-news-yellow pl-3">
             "Siempre luché con mi peso y me sentía cansada todo el tiempo. Desde que empecé con la fórmula de la Sal Rosa, logré bajar 15 kilos en 2 semanas. No tuve que hacer dietas extremas ni pasar hambre. Hoy tengo más energía, mi ropa me queda mejor y me siento orgullosa de mi misma."
