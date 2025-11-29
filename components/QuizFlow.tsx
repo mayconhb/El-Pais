@@ -59,42 +59,42 @@ export const QuizFlow = () => {
   // --- Step Content Renderers ---
 
   const renderIntro = () => (
-    <div className="space-y-6 animate-fade-in">
-      <h1 className="font-serif text-3xl font-bold leading-tight text-news-black">
+    <div className="space-y-3 animate-fade-in">
+      <h1 className="font-serif text-xl font-bold leading-tight text-news-black">
         GOMITA SORPRENDE A SUS FANS AL REVELAR CÓMO PERDIÓ 8 KG CON UNA GELATINA BARIÁTRICA CONSUMIDA ANTES DE LAS COMIDAS
       </h1>
-      <p className="font-serif text-lg leading-relaxed text-gray-700">
+      <p className="font-serif text-sm leading-relaxed text-gray-700">
         El cambio radical ocurrió después de que la influencer mexicana realizara una <strong className="font-bold">PRUEBA GRATUITA</strong> del Protocolo de la Gelatina Bariátrica, que activa las células adelgazantes del intestino y permite perder de <strong className="font-bold">3 a 5 kg en solo 7 días</strong> — sin dieta, sin medicamentos y sin gimnasio.
       </p>
       
       <div className="grid grid-cols-3 gap-1">
-        <img src="https://picsum.photos/seed/intro1/300/400" className="w-full h-40 object-cover rounded-l-md" alt="Before" />
-        <img src="https://picsum.photos/seed/intro2/300/400" className="w-full h-40 object-cover" alt="During" />
-        <img src="https://picsum.photos/seed/intro3/300/400" className="w-full h-40 object-cover rounded-r-md" alt="After" />
+        <img src="https://picsum.photos/seed/intro1/300/400" className="w-full h-28 object-cover rounded-l-md" alt="Before" />
+        <img src="https://picsum.photos/seed/intro2/300/400" className="w-full h-28 object-cover" alt="During" />
+        <img src="https://picsum.photos/seed/intro3/300/400" className="w-full h-28 object-cover rounded-r-md" alt="After" />
       </div>
 
-      <div className="bg-yellow-50 border-l-4 border-news-yellow p-4 my-4">
-        <p className="font-serif text-sm italic text-gray-700">
+      <div className="bg-yellow-50 border-l-4 border-news-yellow p-3">
+        <p className="font-serif text-xs italic text-gray-700">
           👉 Haz clic en el botón de abajo y descubre si este protocolo también funciona para tu cuerpo. <span className="font-bold">¡Haz la prueba gratuita ahora!</span>
         </p>
       </div>
 
       <button 
         onClick={handleNext}
-        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2"
+        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-base py-3 px-6 rounded shadow-md transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2"
       >
         Iniciar mi prueba GRATIS ahora
       </button>
 
-      <div className="flex flex-col gap-2 text-sm text-gray-500">
+      <div className="flex flex-col gap-1 text-xs text-gray-500">
         <div className="flex items-center gap-2">
-          <Check className="w-4 h-4 text-news-yellow" /> Prueba 100% gratuita
+          <Check className="w-3 h-3 text-news-yellow" /> Prueba 100% gratuita
         </div>
         <div className="flex items-center gap-2">
-          <Check className="w-4 h-4 text-news-yellow" /> Toma menos de 2 minutos
+          <Check className="w-3 h-3 text-news-yellow" /> Toma menos de 2 minutos
         </div>
         <div className="flex items-center gap-2">
-          <Check className="w-4 h-4 text-news-yellow" /> Información 100% encriptada
+          <Check className="w-3 h-3 text-news-yellow" /> Información 100% encriptada
         </div>
       </div>
     </div>
