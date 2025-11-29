@@ -29,8 +29,8 @@ export const QuizFlow = () => {
 
   // Handle Loading Logic
   useEffect(() => {
-    // The loading step is now at index 14
-    if (step === 14) {
+    // The loading step is now at index 15
+    if (step === 15) {
       const interval = setInterval(() => {
         setLoadingProgress((prev) => {
           if (prev >= 100) {
@@ -216,6 +216,80 @@ export const QuizFlow = () => {
       <p className="font-serif text-gray-700 text-center">
         Esto mantiene tu metabolismo quemando grasa <strong className="text-black">hasta 10 veces más rápido</strong> durante el sueño.
       </p>
+
+      <button 
+        onClick={handleNext}
+        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
+      >
+        Continuar
+      </button>
+    </div>
+  );
+
+  const renderTestimonials = () => (
+    <div className="space-y-6 animate-fade-in">
+      <h2 className="font-serif text-2xl font-bold text-news-black leading-tight text-center flex flex-col items-center gap-2">
+        <span className="text-3xl">🔥</span>
+        Historias Reales de Transformación de nuestras clientas con el Protocolo Gelatina Bariátrica
+      </h2>
+
+      {/* Testimonial 1 - Gomita */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+        <div className="w-full h-48 bg-gray-100 border-b border-dashed border-gray-300 flex items-center justify-center">
+          <span className="text-gray-400 text-sm">Espacio para foto</span>
+        </div>
+        <div className="p-4 space-y-3">
+          <p className="font-serif italic text-gray-700 text-sm leading-relaxed border-l-4 border-news-yellow pl-3">
+            "Ya había intentado de todo para adelgazar, pero nada funcionaba realmente. Después de empezar a usar la fórmula de la Gelatina Bariátrica en mi día a día, perdí 8 kilos en solo 17 días — sin cambiar nada en mi alimentación. Ahora me siento más ligera, más bonita y con una confianza que no sentía desde hacía años."
+          </p>
+          <p className="font-bold text-news-black text-sm">— Gomita / Influenciadora Mexicana</p>
+          <div className="flex items-center gap-2 text-xs text-gray-500">
+            <span className="text-yellow-400">★★★★★</span>
+            <span>Cliente Verificada</span>
+          </div>
+        </div>
+      </div>
+
+      <button 
+        onClick={handleNext}
+        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
+      >
+        Continuar
+      </button>
+
+      {/* Testimonial 2 - Fernanda */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+        <div className="w-full h-48 bg-gray-100 border-b border-dashed border-gray-300 flex items-center justify-center">
+          <span className="text-gray-400 text-sm">Espacio para foto</span>
+        </div>
+        <div className="p-4 space-y-3">
+          <p className="font-serif italic text-gray-700 text-sm leading-relaxed border-l-4 border-news-yellow pl-3">
+            "Ya había intentado de todo para adelgazar, pero nada funcionaba. Después de incluir la fórmula de la Gelatina Bariátrica en mi rutina, perdí 11 kg en solo 3 semanas sin cambiar nada en mi alimentación. Ahora me siento más segura y llena de energía. ¡Este Protocolo cambió mi vida!"
+          </p>
+          <p className="font-bold text-news-black text-sm">— Fernanda Rodríguez — Ciudad de México</p>
+          <div className="flex items-center gap-2 text-xs text-gray-500">
+            <span className="text-yellow-400">★★★★★</span>
+            <span>Cliente Verificada</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Testimonial 3 - Mariana */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+        <div className="w-full h-48 bg-gray-100 border-b border-dashed border-gray-300 flex items-center justify-center">
+          <span className="text-gray-400 text-sm">Espacio para foto</span>
+        </div>
+        <div className="p-4 space-y-3">
+          <p className="font-serif italic text-gray-700 text-sm leading-relaxed border-l-4 border-news-yellow pl-3">
+            "Siempre luché con mi peso y me sentía cansada todo el tiempo. Desde que empecé con la fórmula de la Sal Rosa, logré bajar 15 kilos en 2 semanas. No tuve que hacer dietas extremas ni pasar hambre. Hoy tengo más energía, mi ropa me queda mejor y me siento orgullosa de mi misma."
+          </p>
+          <p className="font-bold text-news-black text-sm">— Mariana López - Buenos Aires</p>
+          <div className="flex items-center gap-2 text-xs text-gray-500">
+            <span className="text-yellow-400">★★★★★</span>
+            <span>Cliente Verificada</span>
+          </div>
+        </div>
+      </div>
 
       <button 
         onClick={handleNext}
@@ -415,23 +489,25 @@ export const QuizFlow = () => {
     case 9:
       return renderProtocolIntro();
     case 10:
-      return renderSlider('¿Cuál es tu estatura?', 140, 200, 'cm', 'Esto nos ayudará a calcular la cantidad exacta del Protocolo Gelatina Bariátrica para tu cuerpo.');
+      return renderTestimonials();
     case 11:
-      return renderSlider('¿Cuál es tu peso objetivo (deseado)?', 40, 100, 'kg', 'Esto nos ayudará a personalizar un plan específicamente para ti.');
+      return renderSlider('¿Cuál es tu estatura?', 140, 200, 'cm', 'Esto nos ayudará a calcular la cantidad exacta del Protocolo Gelatina Bariátrica para tu cuerpo.');
     case 12:
-      return renderSlider('¿Cuál es tu peso actual?', 50, 150, 'kg', '¡Ya casi terminamos! Ajustaremos tu plan de acuerdo con tu cuerpo.');
+      return renderSlider('¿Cuál es tu peso objetivo (deseado)?', 40, 100, 'kg', 'Esto nos ayudará a personalizar un plan específicamente para ti.');
     case 13:
+      return renderSlider('¿Cuál es tu peso actual?', 50, 150, 'kg', '¡Ya casi terminamos! Ajustaremos tu plan de acuerdo con tu cuerpo.');
+    case 14:
       return renderButtons('¿Cuántos vasos de agua bebes al día?', [
         'Solo bebo café o té',
         '1–2 vasos al día',
         '2–6 vasos al día',
         'Más de 6 vasos'
       ], 'Tu nivel de hidratación también influye en tu pérdida de peso.');
-    case 14:
-      return renderLoading();
     case 15:
-      return renderResult();
+      return renderLoading();
     case 16:
+      return renderResult();
+    case 17:
       return renderSales();
     default:
       return null;
