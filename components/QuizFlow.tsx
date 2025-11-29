@@ -115,42 +115,105 @@ export const QuizFlow = () => {
     </div>
   );
 
-  const renderSlider = (title: string, min: number, max: number, unit: string, subtitle?: string) => (
-    <div className="space-y-8 animate-fade-in">
-      <h2 className="font-serif text-2xl font-bold text-news-black leading-tight">
-        {title}
-      </h2>
-      {subtitle && <p className="text-gray-600 font-serif">{subtitle}</p>}
+  const renderSlider = (title: string, min: number, max: number, unit: string, subtitle?: string, icon?: string) => {
+    const percentage = ((rangeValue - min) / (max - min)) * 100;
+    
+    const adjustValue = (delta: number) => {
+      const newValue = Math.max(min, Math.min(max, rangeValue + delta));
+      setRangeValue(newValue);
+    };
 
-      <div className="text-center">
-        <span className="text-6xl font-bold font-serif">{rangeValue}</span>
-        <span className="text-2xl font-serif text-gray-500 ml-2">{unit}</span>
+    return (
+      <div className="space-y-6 animate-fade-in">
+        <div className="text-center">
+          {icon && <span className="text-4xl mb-2 block">{icon}</span>}
+          <h2 className="font-serif text-2xl font-bold text-news-black leading-tight">
+            {title}
+          </h2>
+          {subtitle && <p className="text-gray-500 font-serif text-sm mt-2">{subtitle}</p>}
+        </div>
+
+        {/* Value Display Card */}
+        <div className="bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-news-yellow rounded-2xl p-6 shadow-lg">
+          <div className="flex items-center justify-center gap-4">
+            {/* Minus Button */}
+            <button 
+              onClick={() => adjustValue(-1)}
+              className="w-14 h-14 rounded-full bg-white border-2 border-gray-200 hover:border-news-yellow hover:bg-yellow-50 flex items-center justify-center text-2xl font-bold text-gray-600 hover:text-news-black transition-all shadow-md active:scale-95"
+            >
+              −
+            </button>
+            
+            {/* Value Display */}
+            <div className="text-center min-w-[140px]">
+              <div className="flex items-baseline justify-center">
+                <span className="text-6xl font-bold font-serif text-news-black">{rangeValue}</span>
+                <span className="text-2xl font-serif text-gray-500 ml-2">{unit}</span>
+              </div>
+            </div>
+            
+            {/* Plus Button */}
+            <button 
+              onClick={() => adjustValue(1)}
+              className="w-14 h-14 rounded-full bg-white border-2 border-gray-200 hover:border-news-yellow hover:bg-yellow-50 flex items-center justify-center text-2xl font-bold text-gray-600 hover:text-news-black transition-all shadow-md active:scale-95"
+            >
+              +
+            </button>
+          </div>
+        </div>
+
+        {/* Slider Track */}
+        <div className="px-2">
+          <div className="relative">
+            {/* Background Track */}
+            <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+              {/* Filled Track */}
+              <div 
+                className="h-full bg-gradient-to-r from-news-yellow to-orange-400 rounded-full transition-all duration-150 ease-out"
+                style={{ width: `${percentage}%` }}
+              />
+            </div>
+            
+            {/* Custom Range Input */}
+            <input 
+              type="range" 
+              min={min} 
+              max={max} 
+              value={rangeValue} 
+              onChange={(e) => setRangeValue(parseInt(e.target.value))}
+              className="absolute top-0 left-0 w-full h-3 opacity-0 cursor-pointer"
+            />
+            
+            {/* Thumb Indicator */}
+            <div 
+              className="absolute top-1/2 -translate-y-1/2 w-6 h-6 bg-white border-4 border-news-yellow rounded-full shadow-lg pointer-events-none transition-all duration-150 ease-out"
+              style={{ left: `calc(${percentage}% - 12px)` }}
+            />
+          </div>
+          
+          {/* Min/Max Labels */}
+          <div className="flex justify-between mt-2 text-sm text-gray-400 font-medium">
+            <span>{min} {unit}</span>
+            <span>{max} {unit}</span>
+          </div>
+        </div>
+
+        {/* Helper Text */}
+        <div className="bg-gray-50 border border-gray-100 p-4 rounded-xl text-center">
+          <p className="text-sm text-gray-600 font-serif">
+            <span className="text-news-yellow">✓</span> Ajustaremos la <strong className="text-news-black">dosis ideal</strong> del Protocolo para tu cuerpo.
+          </p>
+        </div>
+
+        <button 
+          onClick={handleNext}
+          className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded-xl shadow-md transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+        >
+          Continuar
+        </button>
       </div>
-
-      <input 
-        type="range" 
-        min={min} 
-        max={max} 
-        value={rangeValue} 
-        onChange={(e) => setRangeValue(parseInt(e.target.value))}
-        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-news-yellow"
-      />
-      <div className="flex justify-between text-xs text-gray-400 font-sans uppercase tracking-widest">
-        <span>Desliza para ajustar</span>
-      </div>
-
-      <div className="bg-gray-50 p-4 rounded text-center text-sm text-gray-600 font-serif">
-        Basándonos en eso, ajustaremos la <strong className="text-news-black">dosis ideal</strong> para obtener los mejores resultados.
-      </div>
-
-      <button 
-        onClick={handleNext}
-        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
-      >
-        Continuar
-      </button>
-    </div>
-  );
+    );
+  };
 
   const renderInput = () => (
     <div className="space-y-6 animate-fade-in">
@@ -491,11 +554,11 @@ export const QuizFlow = () => {
     case 10:
       return renderTestimonials();
     case 11:
-      return renderSlider('¿Cuál es tu estatura?', 140, 200, 'cm', 'Esto nos ayudará a calcular la cantidad exacta del Protocolo Gelatina Bariátrica para tu cuerpo.');
+      return renderSlider('¿Cuál es tu peso actual?', 50, 150, 'kg', '¡Comencemos! Esto nos ayuda a personalizar tu protocolo.', '⚖️');
     case 12:
-      return renderSlider('¿Cuál es tu peso objetivo (deseado)?', 40, 100, 'kg', 'Esto nos ayudará a personalizar un plan específicamente para ti.');
+      return renderSlider('¿Cuál es tu estatura?', 140, 200, 'cm', 'Calcularemos la dosis exacta del Protocolo para tu cuerpo.', '📏');
     case 13:
-      return renderSlider('¿Cuál es tu peso actual?', 50, 150, 'kg', '¡Ya casi terminamos! Ajustaremos tu plan de acuerdo con tu cuerpo.');
+      return renderSlider('¿Cuál es tu peso objetivo?', 40, 100, 'kg', '¡Ya casi terminamos! Este es el peso que deseas alcanzar.', '🎯');
     case 14:
       return renderButtons('¿Cuántos vasos de agua bebes al día?', [
         'Solo bebo café o té',
