@@ -541,6 +541,150 @@ export const QuizFlow = () => {
     </div>
   );
 
+  const renderVideoPage = () => (
+    <div className="space-y-6 animate-fade-in">
+      <p className="text-xs text-gray-500 uppercase tracking-wider">PÉRDIDA DE PESO</p>
+      
+      <h2 className="font-serif text-xl font-bold text-news-black leading-tight text-center uppercase">
+        MIRA EL VIDEO A CONTINUACIÓN Y DESCUBRE CÓMO ACCEDER A TU PROTOCOLO DE GELATINA BARIÁTRICA.
+      </h2>
+
+      {/* Video Placeholder */}
+      <div className="relative w-full aspect-video bg-yellow-100 rounded-lg overflow-hidden flex flex-col items-center justify-center">
+        <div className="w-full h-full bg-gray-200 border-2 border-dashed border-gray-300 flex items-center justify-center">
+          <span className="text-gray-400 text-sm">Espacio para video</span>
+        </div>
+      </div>
+
+      <div className="text-center space-y-2">
+        <p className="text-sm text-gray-600">Comenzaste a ver este video?</p>
+        <button className="flex items-center justify-center gap-2 mx-auto text-news-yellow font-medium">
+          <span className="w-8 h-8 bg-news-yellow rounded-full flex items-center justify-center">
+            <span className="text-white text-xs">▶</span>
+          </span>
+          Continuar viendo
+        </button>
+        <p className="text-xs text-gray-400">Verlo desde el principio?</p>
+      </div>
+
+      {/* Comments Section */}
+      <div className="border-t pt-6 mt-6">
+        <h4 className="font-bold text-sm mb-4">100+ comentarios</h4>
+        
+        <div className="space-y-4">
+          {/* Comment 1 */}
+          <div className="flex gap-3">
+            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <div className="flex-1">
+              <p className="font-bold text-sm">Mariana Gutiérrez</p>
+              <p className="text-xs text-gray-600 mt-1">Este protocolo lo cambió todo para mí. En pocas semanas vi cómo mi abdomen desinflamaba y la ropa volvía a quedarme.</p>
+              <p className="text-xs text-gray-400 mt-1">Responder · Me gusta · hace 2 min</p>
+            </div>
+          </div>
+
+          {/* Comment 2 */}
+          <div className="flex gap-3">
+            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <div className="flex-1">
+              <p className="font-bold text-sm">Camila Rodríguez</p>
+              <p className="text-xs text-gray-600 mt-1">Intenté de todo, pero nada funcionaba... hasta conocer este protocolo. Hoy estoy 14 kg más liviana y con la autoestima por las nubes.</p>
+              <p className="text-xs text-gray-400 mt-1">Responder · Me gusta · hace 5 min</p>
+            </div>
+          </div>
+
+          {/* Comment 3 */}
+          <div className="flex gap-3">
+            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <div className="flex-1">
+              <p className="font-bold text-sm">Sofía Morales</p>
+              <p className="text-xs text-gray-600 mt-1">Es increíble cómo algo tan simple puede transformar tanto. Ya son 3 meses siguiéndolo y me siento otra persona.</p>
+              <p className="text-xs text-gray-400 mt-1">Responder · Me gusta · hace 8 min</p>
+            </div>
+          </div>
+
+          {/* Comment 4 */}
+          <div className="flex gap-3">
+            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <div className="flex-1">
+              <p className="font-bold text-sm">Valeria Castillo</p>
+              <p className="text-xs text-gray-600 mt-1">Había perdido las esperanzas, pero este protocolo que devolvió la confianza y la energía. Nunca imaginé que funcionaría tan bien.</p>
+              <p className="text-xs text-gray-400 mt-1">Responder · Me gusta · hace 12 min</p>
+            </div>
+          </div>
+
+          {/* Comment 5 */}
+          <div className="flex gap-3">
+            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <div className="flex-1">
+              <p className="font-bold text-sm">Fernanda López</p>
+              <p className="text-xs text-gray-600 mt-1">Mi vida cambió por completo. La balanza finalmente empezó a bajar y no se detuvo más.</p>
+              <p className="text-xs text-gray-400 mt-1">Responder · Me gusta · hace 15 min</p>
+            </div>
+          </div>
+
+          {/* Comment 6 */}
+          <div className="flex gap-3">
+            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <div className="flex-1">
+              <p className="font-bold text-sm">Carolina Ramírez</p>
+              <p className="text-xs text-gray-600 mt-1">Nunca voy a olvidar la sensación de ver mi cuerpo cambiar día tras día gracias a este protocolo.</p>
+              <p className="text-xs text-gray-400 mt-1">Responder · Me gusta · hace 18 min</p>
+            </div>
+          </div>
+
+          {/* Comment 7 */}
+          <div className="flex gap-3">
+            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <div className="flex-1">
+              <p className="font-bold text-sm">Lucía Fernández</p>
+              <p className="text-xs text-gray-600 mt-1">En solo 10 días ya vi resultados que no logré en años de gimnasio y dietas.</p>
+              <p className="text-xs text-gray-400 mt-1">Responder · Me gusta · hace 22 min</p>
+            </div>
+          </div>
+
+          {/* Comment 8 */}
+          <div className="flex gap-3">
+            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <div className="flex-1">
+              <p className="font-bold text-sm">Gabriela Torres</p>
+              <p className="text-xs text-gray-600 mt-1">El protocolo fue como un renacimiento para mí. Me siento más joven, más ligera y feliz con mi cuerpo.</p>
+              <p className="text-xs text-gray-400 mt-1">Responder · Me gusta · hace 25 min</p>
+            </div>
+          </div>
+
+          {/* Comment 9 */}
+          <div className="flex gap-3">
+            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <div className="flex-1">
+              <p className="font-bold text-sm">Isabella Vargas</p>
+              <p className="text-xs text-gray-600 mt-1">Hoy, después de 18 kg menos, solo tengo una palabra: gratitud por este protocolo.</p>
+              <p className="text-xs text-gray-400 mt-1">Responder · Me gusta · hace 30 min</p>
+            </div>
+          </div>
+
+          {/* Comment 10 */}
+          <div className="flex gap-3">
+            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <div className="flex-1">
+              <p className="font-bold text-sm">Patricia Martínez</p>
+              <p className="text-xs text-gray-600 mt-1">Hoy, después de 18 kg menos, solo tengo una palabra: gratitud por este protocolo.</p>
+              <p className="text-xs text-gray-400 mt-1">Responder · Me gusta · hace 35 min</p>
+            </div>
+          </div>
+        </div>
+
+        <p className="text-xs text-gray-400 text-center mt-6 pt-4 border-t">
+          Para comentar, inicia sesión en tu cuenta.
+        </p>
+      </div>
+
+      {/* Footer */}
+      <div className="text-center pt-4 border-t">
+        <p className="text-xs text-gray-400">© Protocolo Gelatina Bariátrica 2024 – Todos los Derechos Reservados.</p>
+      </div>
+    </div>
+  );
+
   const renderTransformReady = () => (
     <div className="space-y-6 animate-fade-in">
       <p className="text-xs text-gray-500 uppercase tracking-wider">PÉRDIDA DE PESO</p>
@@ -703,6 +847,8 @@ export const QuizFlow = () => {
       return renderSales();
     case 18:
       return renderTransformReady();
+    case 19:
+      return renderVideoPage();
     default:
       return null;
   }
