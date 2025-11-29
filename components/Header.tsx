@@ -11,20 +11,11 @@ export const Header = () => {
             <Menu className="w-6 h-6" />
           </button>
           
-          {/* Logo Inline SVG for pixel-perfect rendering without external dependencies */}
-          <svg width="100" height="24" viewBox="0 0 100 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5 select-none pointer-events-none">
-            {/* 'EL PA' */}
-            <text x="0" y="20" fontFamily="'Times New Roman', Times, serif" fontSize="24" fontWeight="900" fill="#121212" letterSpacing="-1">EL PA</text>
-            
-            {/* 'I' */}
-            <text x="66" y="20" fontFamily="'Times New Roman', Times, serif" fontSize="24" fontWeight="900" fill="#121212">I</text>
-            
-            {/* Blue Accent Mark (Tilde style wedge) */}
-            <path d="M66 4 L76 2 L77 5 L66 7 Z" fill="#005596" />
-            
-            {/* 'S' */}
-            <text x="78" y="20" fontFamily="'Times New Roman', Times, serif" fontSize="24" fontWeight="900" fill="#121212">S</text>
-          </svg>
+          <img 
+            src="/attached_assets/el-pais_1764448317569.png" 
+            alt="EL PAÍS" 
+            className="h-6 select-none pointer-events-none"
+          />
         </div>
 
         {/* Right: CTA & User */}
