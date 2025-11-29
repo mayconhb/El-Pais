@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, AlertTriangle, Check, X } from 'lucide-react';
 import gomitaImage from '@assets/baixados_1764452903199.webp';
+import protocoloImage from '@assets/Inserir um título (2)_1764453061315.png';
 
 // --- Types ---
 type StepType = 'intro' | 'button-select' | 'slider' | 'input' | 'loading' | 'result' | 'sales';
@@ -267,14 +268,13 @@ export const QuizFlow = () => {
         Continuar
       </button>
 
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 my-6">
+      <div className="my-6">
         <h3 className="font-serif text-xl font-bold text-center text-news-black mb-6">
           ¿CÓMO FUNCIONA EL PROTOCOLO DE GELATINA BARIÁTRICA?
         </h3>
         
-        {/* Placeholder for illustration */}
-        <div className="w-full h-64 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center mb-6">
-          <span className="text-gray-400 text-sm">Espacio para imagen ilustrativa</span>
+        <div className="w-full overflow-hidden rounded-lg">
+          <img src={protocoloImage} className="w-full h-auto object-contain" alt="Cómo funciona el Protocolo de Gelatina Bariátrica" />
         </div>
       </div>
 
