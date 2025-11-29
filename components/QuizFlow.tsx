@@ -27,6 +27,13 @@ export const QuizFlow = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [step]);
 
+  // Reset slider value when entering slider steps
+  useEffect(() => {
+    if (step === 11) setRangeValue(70);  // Peso actual
+    if (step === 12) setRangeValue(165); // Estatura
+    if (step === 13) setRangeValue(60);  // Peso objetivo
+  }, [step]);
+
   // Handle Loading Logic
   useEffect(() => {
     // The loading step is now at index 15
@@ -115,16 +122,16 @@ export const QuizFlow = () => {
     </div>
   );
 
-  const renderSlider = (title: string, min: number, max: number, unit: string, subtitle?: string, icon?: string) => {
-    const percentage = ((rangeValue - min) / (max - min)) * 100;
+  const renderSlider = (title: string, min: number, max: number, unit: string, subtitle?: string, icon?: string, defaultValue?: number) => {
+    const currentValue = rangeValue < min || rangeValue > max ? (defaultValue || Math.round((min + max) / 2)) : rangeValue;
+    const percentage = ((currentValue - min) / (max - min)) * 100;
     
-    const adjustValue = (delta: number) => {
-      const newValue = Math.max(min, Math.min(max, rangeValue + delta));
-      setRangeValue(newValue);
+    const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setRangeValue(parseInt(e.target.value));
     };
 
     return (
-      <div className="space-y-6 animate-fade-in">
+      <div className="space-y-8 animate-fade-in">
         <div className="text-center">
           {icon && <span className="text-4xl mb-2 block">{icon}</span>}
           <h2 className="font-serif text-2xl font-bold text-news-black leading-tight">
@@ -133,73 +140,50 @@ export const QuizFlow = () => {
           {subtitle && <p className="text-gray-500 font-serif text-sm mt-2">{subtitle}</p>}
         </div>
 
-        {/* Value Display Card */}
-        <div className="bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-news-yellow rounded-2xl p-6 shadow-lg">
-          <div className="flex items-center justify-center gap-4">
-            {/* Minus Button */}
-            <button 
-              onClick={() => adjustValue(-1)}
-              className="w-14 h-14 rounded-full bg-white border-2 border-gray-200 hover:border-news-yellow hover:bg-yellow-50 flex items-center justify-center text-2xl font-bold text-gray-600 hover:text-news-black transition-all shadow-md active:scale-95"
-            >
-              −
-            </button>
-            
-            {/* Value Display */}
-            <div className="text-center min-w-[140px]">
-              <div className="flex items-baseline justify-center">
-                <span className="text-6xl font-bold font-serif text-news-black">{rangeValue}</span>
-                <span className="text-2xl font-serif text-gray-500 ml-2">{unit}</span>
-              </div>
-            </div>
-            
-            {/* Plus Button */}
-            <button 
-              onClick={() => adjustValue(1)}
-              className="w-14 h-14 rounded-full bg-white border-2 border-gray-200 hover:border-news-yellow hover:bg-yellow-50 flex items-center justify-center text-2xl font-bold text-gray-600 hover:text-news-black transition-all shadow-md active:scale-95"
-            >
-              +
-            </button>
-          </div>
+        {/* Value Display */}
+        <div className="text-center py-4">
+          <span className="text-6xl font-bold font-serif text-news-black">{currentValue}</span>
+          <span className="text-2xl font-serif text-gray-500 ml-2">{unit}</span>
         </div>
 
         {/* Slider Track */}
         <div className="px-2">
-          <div className="relative">
+          <div className="relative h-8 flex items-center">
             {/* Background Track */}
-            <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+            <div className="absolute w-full h-3 bg-gray-200 rounded-full overflow-hidden">
               {/* Filled Track */}
               <div 
-                className="h-full bg-gradient-to-r from-news-yellow to-orange-400 rounded-full transition-all duration-150 ease-out"
+                className="h-full bg-gradient-to-r from-news-yellow to-orange-400 rounded-full"
                 style={{ width: `${percentage}%` }}
               />
             </div>
             
-            {/* Custom Range Input */}
+            {/* Thumb Indicator */}
+            <div 
+              className="absolute w-7 h-7 bg-white border-4 border-news-yellow rounded-full shadow-lg pointer-events-none"
+              style={{ left: `calc(${percentage}% - 14px)` }}
+            />
+            
+            {/* Invisible Range Input on top */}
             <input 
               type="range" 
               min={min} 
               max={max} 
-              value={rangeValue} 
-              onChange={(e) => setRangeValue(parseInt(e.target.value))}
-              className="absolute top-0 left-0 w-full h-3 opacity-0 cursor-pointer"
-            />
-            
-            {/* Thumb Indicator */}
-            <div 
-              className="absolute top-1/2 -translate-y-1/2 w-6 h-6 bg-white border-4 border-news-yellow rounded-full shadow-lg pointer-events-none transition-all duration-150 ease-out"
-              style={{ left: `calc(${percentage}% - 12px)` }}
+              value={currentValue} 
+              onChange={handleSliderChange}
+              className="absolute w-full h-8 opacity-0 cursor-pointer z-10"
             />
           </div>
           
           {/* Min/Max Labels */}
-          <div className="flex justify-between mt-2 text-sm text-gray-400 font-medium">
+          <div className="flex justify-between mt-3 text-sm text-gray-400 font-medium">
             <span>{min} {unit}</span>
             <span>{max} {unit}</span>
           </div>
         </div>
 
         {/* Helper Text */}
-        <div className="bg-gray-50 border border-gray-100 p-4 rounded-xl text-center">
+        <div className="bg-gray-50 border border-gray-100 p-4 rounded-lg text-center">
           <p className="text-sm text-gray-600 font-serif">
             <span className="text-news-yellow">✓</span> Ajustaremos la <strong className="text-news-black">dosis ideal</strong> del Protocolo para tu cuerpo.
           </p>
@@ -207,7 +191,7 @@ export const QuizFlow = () => {
 
         <button 
           onClick={handleNext}
-          className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded-xl shadow-md transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+          className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
         >
           Continuar
         </button>
@@ -554,11 +538,11 @@ export const QuizFlow = () => {
     case 10:
       return renderTestimonials();
     case 11:
-      return renderSlider('¿Cuál es tu peso actual?', 50, 150, 'kg', '¡Comencemos! Esto nos ayuda a personalizar tu protocolo.', '⚖️');
+      return renderSlider('¿Cuál es tu peso actual?', 50, 150, 'kg', '¡Comencemos! Esto nos ayuda a personalizar tu protocolo.', '⚖️', 70);
     case 12:
-      return renderSlider('¿Cuál es tu estatura?', 140, 200, 'cm', 'Calcularemos la dosis exacta del Protocolo para tu cuerpo.', '📏');
+      return renderSlider('¿Cuál es tu estatura?', 140, 200, 'cm', 'Calcularemos la dosis exacta del Protocolo para tu cuerpo.', '📏', 165);
     case 13:
-      return renderSlider('¿Cuál es tu peso objetivo?', 40, 100, 'kg', '¡Ya casi terminamos! Este es el peso que deseas alcanzar.', '🎯');
+      return renderSlider('¿Cuál es tu peso objetivo?', 40, 100, 'kg', '¡Ya casi terminamos! Este es el peso que deseas alcanzar.', '🎯', 60);
     case 14:
       return renderButtons('¿Cuántos vasos de agua bebes al día?', [
         'Solo bebo café o té',
