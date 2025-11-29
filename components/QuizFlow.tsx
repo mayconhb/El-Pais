@@ -29,8 +29,8 @@ export const QuizFlow = () => {
 
   // Handle Loading Logic
   useEffect(() => {
-    // The loading step is now at index 13
-    if (step === 13) {
+    // The loading step is now at index 14
+    if (step === 14) {
       const interval = setInterval(() => {
         setLoadingProgress((prev) => {
           if (prev >= 100) {
@@ -171,6 +171,55 @@ export const QuizFlow = () => {
         onClick={handleNext}
         disabled={name.length < 2}
         className="w-full bg-news-yellow hover:bg-[#ebd040] disabled:opacity-50 disabled:cursor-not-allowed text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
+      >
+        Continuar
+      </button>
+    </div>
+  );
+
+  const renderProtocolIntro = () => (
+    <div className="space-y-6 animate-fade-in">
+      <h2 className="font-serif text-2xl font-bold text-news-black leading-tight text-center">
+        ¡Conoce el Protocolo Gelatina Bariátrica que está ayudando a celebridades y a miles de mujeres comunes a adelgazar sin gastar una fortuna en farmacia!
+      </h2>
+      
+      <p className="font-serif text-gray-700 text-center">
+        Descubre el Protocolo <strong className="text-black">10 veces más potente</strong> que el Mounjaro y el Ozempic juntos...
+      </p>
+      
+      <p className="font-serif text-gray-700 text-center">
+        Controla tu apetito, acelera tu metabolismo y te ayuda a <span className="underline decoration-news-yellow decoration-2">eliminar grasa de forma rápida y eficaz</span>.
+      </p>
+
+      <button 
+        onClick={handleNext}
+        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
+      >
+        Continuar
+      </button>
+
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 my-6">
+        <h3 className="font-serif text-xl font-bold text-center text-news-black mb-6">
+          ¿CÓMO FUNCIONA EL PROTOCOLO DE GELATINA BARIÁTRICA?
+        </h3>
+        
+        {/* Placeholder for illustration */}
+        <div className="w-full h-64 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center mb-6">
+          <span className="text-gray-400 text-sm">Espacio para imagen ilustrativa</span>
+        </div>
+      </div>
+
+      <p className="font-serif text-gray-700 text-center">
+        Los componentes del Protocolo Gelatina Bariátrica siguen actuando mientras duermes, <strong className="text-black">activando tus células quemadoras de grasa</strong> y acelerando la producción natural de GLP-1.
+      </p>
+
+      <p className="font-serif text-gray-700 text-center">
+        Esto mantiene tu metabolismo quemando grasa <strong className="text-black">hasta 10 veces más rápido</strong> durante el sueño.
+      </p>
+
+      <button 
+        onClick={handleNext}
+        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
       >
         Continuar
       </button>
@@ -364,23 +413,25 @@ export const QuizFlow = () => {
         'Reducir el estrés y la ansiedad'
       ], 'Personalizaremos tu protocolo para maximizar los resultados.');
     case 9:
-      return renderSlider('¿Cuál es tu estatura?', 140, 200, 'cm', 'Esto nos ayudará a calcular la cantidad exacta del Protocolo Gelatina Bariátrica para tu cuerpo.');
+      return renderProtocolIntro();
     case 10:
-      return renderSlider('¿Cuál es tu peso objetivo (deseado)?', 40, 100, 'kg', 'Esto nos ayudará a personalizar un plan específicamente para ti.');
+      return renderSlider('¿Cuál es tu estatura?', 140, 200, 'cm', 'Esto nos ayudará a calcular la cantidad exacta del Protocolo Gelatina Bariátrica para tu cuerpo.');
     case 11:
-      return renderSlider('¿Cuál es tu peso actual?', 50, 150, 'kg', '¡Ya casi terminamos! Ajustaremos tu plan de acuerdo con tu cuerpo.');
+      return renderSlider('¿Cuál es tu peso objetivo (deseado)?', 40, 100, 'kg', 'Esto nos ayudará a personalizar un plan específicamente para ti.');
     case 12:
+      return renderSlider('¿Cuál es tu peso actual?', 50, 150, 'kg', '¡Ya casi terminamos! Ajustaremos tu plan de acuerdo con tu cuerpo.');
+    case 13:
       return renderButtons('¿Cuántos vasos de agua bebes al día?', [
         'Solo bebo café o té',
         '1–2 vasos al día',
         '2–6 vasos al día',
         'Más de 6 vasos'
       ], 'Tu nivel de hidratación también influye en tu pérdida de peso.');
-    case 13:
-      return renderLoading();
     case 14:
-      return renderResult();
+      return renderLoading();
     case 15:
+      return renderResult();
+    case 16:
       return renderSales();
     default:
       return null;
