@@ -26,7 +26,7 @@ export default function App() {
       </main>
 
       <footer className="bg-[#f5f5f5] py-8 mt-8 text-center text-xs text-gray-500 border-t border-gray-200">
-        <p>© Protocolo Gelatina Bariátrica 2025 — Todos los Derechos Reservados.</p>
+        <p>© Protocolo Gelatina Reductora 2025 — Todos los Derechos Reservados.</p>
         <div className="mt-2 space-x-2">
           <a href="#" className="underline">Política de Privacidad</a>
           <span>|</span>

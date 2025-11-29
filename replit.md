@@ -1,7 +1,7 @@
-# Protocolo Gelatina Bariátrica - Advertorial
+# Protocolo Gelatina Reductora - Advertorial
 
 ## Overview
-This is a React-based advertorial/quiz flow application for a weight loss product called "Protocolo Gelatina Bariátrica". The app features an interactive quiz that collects user information and presents a sales pitch for the product.
+This is a React-based advertorial/quiz flow application for a weight loss product called "Protocolo Gelatina Reductora". The app features an interactive quiz that collects user information and presents a sales pitch for the product.
 
 ## Technology Stack
 - **Frontend Framework**: React 19.2.0

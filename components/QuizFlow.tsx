@@ -100,10 +100,10 @@ export const QuizFlow = () => {
   const renderIntro = () => (
     <div className="space-y-3 animate-fade-in">
       <h1 className="font-serif text-xl font-bold leading-tight text-news-black">
-        GOMITA SORPRENDE A SUS FANS AL REVELAR CÓMO PERDIÓ 8 KG CON UNA GELATINA BARIÁTRICA CONSUMIDA ANTES DE LAS COMIDAS
+        GOMITA SORPRENDE A SUS FANS AL REVELAR CÓMO PERDIÓ 8 KG CON UNA GELATINA REDUCTORA CONSUMIDA ANTES DE LAS COMIDAS
       </h1>
       <p className="font-serif text-sm leading-relaxed text-gray-700">
-        El cambio radical ocurrió después de que la influencer mexicana realizara una <strong className="font-bold">PRUEBA GRATUITA</strong> del Protocolo de la Gelatina Bariátrica, que activa las células adelgazantes del intestino y permite perder de <strong className="font-bold">3 a 5 kg en solo 7 días</strong> — sin dieta, sin medicamentos y sin gimnasio.
+        El cambio radical ocurrió después de que la influencer mexicana realizara una <strong className="font-bold">PRUEBA GRATUITA</strong> del Protocolo de la Gelatina Reductora, que activa las células adelgazantes del intestino y permite perder de <strong className="font-bold">3 a 5 kg en solo 7 días</strong> — sin dieta, sin medicamentos y sin gimnasio.
       </p>
       
       <div className="w-full overflow-hidden rounded-md">
@@ -271,7 +271,7 @@ export const QuizFlow = () => {
   const renderProtocolIntro = () => (
     <div className="space-y-6 animate-fade-in">
       <h2 className="font-serif text-2xl font-bold text-news-black leading-tight text-center">
-        ¡Conoce el Protocolo Gelatina Bariátrica que está ayudando a celebridades y a miles de mujeres comunes a adelgazar sin gastar una fortuna en farmacia!
+        ¡Conoce el Protocolo Gelatina Reductora que está ayudando a celebridades y a miles de mujeres comunes a adelgazar sin gastar una fortuna en farmacia!
       </h2>
       
       <p className="font-serif text-gray-700 text-center">
@@ -291,16 +291,16 @@ export const QuizFlow = () => {
 
       <div className="my-6">
         <h3 className="font-serif text-xl font-bold text-center text-news-black mb-6">
-          ¿CÓMO FUNCIONA EL PROTOCOLO DE GELATINA BARIÁTRICA?
+          ¿CÓMO FUNCIONA EL PROTOCOLO DE GELATINA REDUCTORA?
         </h3>
         
         <div className="w-full overflow-hidden rounded-lg">
-          <img src={protocoloImage} className="w-full h-auto object-contain" alt="Cómo funciona el Protocolo de Gelatina Bariátrica" />
+          <img src={protocoloImage} className="w-full h-auto object-contain" alt="Cómo funciona el Protocolo de Gelatina Reductora" />
         </div>
       </div>
 
       <p className="font-serif text-gray-700 text-center">
-        Los componentes del Protocolo Gelatina Bariátrica siguen actuando mientras duermes, <strong className="text-black">activando tus células quemadoras de grasa</strong> y acelerando la producción natural de GLP-1.
+        Los componentes del Protocolo Gelatina Reductora siguen actuando mientras duermes, <strong className="text-black">activando tus células quemadoras de grasa</strong> y acelerando la producción natural de GLP-1.
       </p>
 
       <p className="font-serif text-gray-700 text-center">
@@ -319,7 +319,7 @@ export const QuizFlow = () => {
   const renderTestimonials = () => (
     <div className="space-y-6 animate-fade-in">
       <h2 className="font-serif text-2xl font-bold text-news-black leading-tight text-center">
-        Historias Reales de Transformación de nuestras clientas con el Protocolo Gelatina Bariátrica
+        Historias Reales de Transformación de nuestras clientas con el Protocolo Gelatina Reductora
       </h2>
 
       {/* Testimonial 1 - Gomita */}
@@ -327,7 +327,7 @@ export const QuizFlow = () => {
         <img src={gomitaTestimonial} className="w-full h-auto object-cover" alt="Transformación de Gomita" />
         <div className="p-4 space-y-3">
           <p className="font-serif italic text-gray-700 text-sm leading-relaxed border-l-4 border-news-yellow pl-3">
-            "Ya había intentado de todo para adelgazar, pero nada funcionaba realmente. Después de empezar a usar la fórmula de la Gelatina Bariátrica en mi día a día, perdí 8 kilos en solo 17 días — sin cambiar nada en mi alimentación. Ahora me siento más ligera, más bonita y con una confianza que no sentía desde hacía años."
+            "Ya había intentado de todo para adelgazar, pero nada funcionaba realmente. Después de empezar a usar la fórmula de la Gelatina Reductora en mi día a día, perdí 8 kilos en solo 17 días — sin cambiar nada en mi alimentación. Ahora me siento más ligera, más bonita y con una confianza que no sentía desde hacía años."
           </p>
           <p className="font-bold text-news-black text-sm">— Gomita / Influenciadora Mexicana</p>
           <div className="flex items-center gap-2 text-xs text-gray-500">
@@ -349,7 +349,7 @@ export const QuizFlow = () => {
         <img src={fernandaTestimonial} className="w-full h-auto object-cover" alt="Transformación de Fernanda" />
         <div className="p-4 space-y-3">
           <p className="font-serif italic text-gray-700 text-sm leading-relaxed border-l-4 border-news-yellow pl-3">
-            "Ya había intentado de todo para adelgazar, pero nada funcionaba. Después de incluir la fórmula de la Gelatina Bariátrica en mi rutina, perdí 11 kg en solo 3 semanas sin cambiar nada en mi alimentación. Ahora me siento más segura y llena de energía. ¡Este Protocolo cambió mi vida!"
+            "Ya había intentado de todo para adelgazar, pero nada funcionaba. Después de incluir la fórmula de la Gelatina Reductora en mi rutina, perdí 11 kg en solo 3 semanas sin cambiar nada en mi alimentación. Ahora me siento más segura y llena de energía. ¡Este Protocolo cambió mi vida!"
           </p>
           <p className="font-bold text-news-black text-sm">— Fernanda Rodríguez — Ciudad de México</p>
           <div className="flex items-center gap-2 text-xs text-gray-500">
@@ -386,7 +386,7 @@ export const QuizFlow = () => {
   const renderLoading = () => (
     <div className="space-y-6 animate-fade-in text-center py-10">
       <h2 className="font-serif text-2xl font-bold text-news-black leading-tight mb-8">
-        Espera mientras preparamos tu Protocolo Gelatina Bariátrica...
+        Espera mientras preparamos tu Protocolo Gelatina Reductora...
       </h2>
 
       <div className="relative w-full h-64 mb-8 overflow-hidden rounded-lg">
@@ -506,7 +506,7 @@ export const QuizFlow = () => {
           </p>
           <p className="flex items-start gap-2">
             <Check className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
-            <span>Con el Protocolo Gelatina Bariátrica, tu cuerpo acelera la quema de grasa de forma natural</span>
+            <span>Con el Protocolo Gelatina Reductora, tu cuerpo acelera la quema de grasa de forma natural</span>
           </p>
           <p className="flex items-start gap-2">
             <Check className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
@@ -517,7 +517,7 @@ export const QuizFlow = () => {
 
       <div className="text-center py-4 mt-4">
         <h3 className="font-serif font-bold text-xl mb-4 text-news-black">
-          ¡Descubre ahora cómo el Protocolo Gelatina Bariátrica puede transformar tu cuerpo!
+          ¡Descubre ahora cómo el Protocolo Gelatina Reductora puede transformar tu cuerpo!
         </h3>
         <p className="text-sm text-gray-600 mb-4">Mira la transformación de <span className="text-news-yellow font-semibold">Rosana Rosalez</span>.</p>
         
@@ -620,7 +620,7 @@ export const QuizFlow = () => {
           </p>
           <p className="flex items-start gap-2">
             <Check className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
-            <span>Con el Protocolo Gelatina Bariátrica, tu cuerpo acelera la quema de grasa de forma natural</span>
+            <span>Con el Protocolo Gelatina Reductora, tu cuerpo acelera la quema de grasa de forma natural</span>
           </p>
           <p className="flex items-start gap-2">
             <Check className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
@@ -631,7 +631,7 @@ export const QuizFlow = () => {
 
       <div className="text-center py-4 mt-4">
         <h3 className="font-serif font-bold text-xl mb-4 text-news-black">
-          ¡Descubre ahora cómo el Protocolo Gelatina Bariátrica puede transformar tu cuerpo!
+          ¡Descubre ahora cómo el Protocolo Gelatina Reductora puede transformar tu cuerpo!
         </h3>
         <p className="text-sm text-gray-600 mb-4">Mira la transformación de <span className="text-news-yellow font-semibold">Rosana Rosalez</span>.</p>
         
@@ -653,7 +653,7 @@ export const QuizFlow = () => {
   const renderVideoPage = () => (
     <div className="space-y-6 animate-fade-in">
       <h2 className="font-serif text-xl font-bold text-news-black leading-tight text-center uppercase">
-        MIRA EL VIDEO A CONTINUACIÓN Y DESCUBRE CÓMO ACCEDER A TU PROTOCOLO DE GELATINA BARIÁTRICA.
+        MIRA EL VIDEO A CONTINUACIÓN Y DESCUBRE CÓMO ACCEDER A TU PROTOCOLO DE GELATINA REDUCTORA.
       </h2>
 
       {/* Video Placeholder */}
@@ -776,7 +776,7 @@ export const QuizFlow = () => {
 
       {/* Footer */}
       <div className="text-center pt-4 border-t">
-        <p className="text-xs text-gray-400">© Protocolo Gelatina Bariátrica 2024 – Todos los Derechos Reservados.</p>
+        <p className="text-xs text-gray-400">© Protocolo Gelatina Reductora 2024 – Todos los Derechos Reservados.</p>
       </div>
     </div>
   );
@@ -800,7 +800,7 @@ export const QuizFlow = () => {
       <div className="grid grid-cols-2 gap-4 mt-6">
         {/* Without Protocol */}
         <div className="space-y-3">
-          <h4 className="text-red-500 font-bold text-sm text-center">Sin el Protocolo Gelatina Bariátrica</h4>
+          <h4 className="text-red-500 font-bold text-sm text-center">Sin el Protocolo Gelatina Reductora</h4>
           <div className="space-y-2 text-sm">
             <p className="flex items-start gap-2">
               <X className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
@@ -823,7 +823,7 @@ export const QuizFlow = () => {
 
         {/* With Protocol */}
         <div className="space-y-3">
-          <h4 className="text-green-600 font-bold text-sm text-center">Con el Protocolo Gelatina Bariátrica</h4>
+          <h4 className="text-green-600 font-bold text-sm text-center">Con el Protocolo Gelatina Reductora</h4>
           <div className="space-y-2 text-sm">
             <p className="flex items-start gap-2">
               <Check className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />

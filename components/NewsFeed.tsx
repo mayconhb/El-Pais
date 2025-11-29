@@ -6,11 +6,11 @@ import jovemMexicanaImage from '@assets/Jovem mexicana_1764452735066.webp';
 const stories = [
   {
     title: "Después de 10 años de dietas fallidas, exmodelo brasileña pierde 44 kg en 5 meses.",
-    excerpt: "Patricia Barca, de Río de Janeiro, adoptó el método Protocolo Gelatina Bariátrica y perdió 44 kg en solo 5 meses.",
+    excerpt: "Patricia Barca, de Río de Janeiro, adoptó el método Protocolo Gelatina Reductora y perdió 44 kg en solo 5 meses.",
     image: patriciaBarcaImage
   },
   {
-    title: "Cocinera que almorzaba croquetas y pasteles pierde 27 kg después de empezar a usar la famosa gelatina bariátrica.",
+    title: "Cocinera que almorzaba croquetas y pasteles pierde 27 kg después de empezar a usar la famosa gelatina reductora.",
     excerpt: "Lo único que me motivaba era comer, afirma María. La colombiana llegó a pesar 108 kg y sufrió de hipertensión.",
     image: mariaImage
   },
