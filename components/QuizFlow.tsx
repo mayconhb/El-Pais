@@ -8,6 +8,7 @@ import marianaTestimonial from '@assets/Mariana_1764453233336.webp';
 import carouselImage1 from '@assets/lg-Wlmuz-slide-2-adriana-17kg_1764453347817.jpg';
 import carouselImage2 from '@assets/f4_1764453347817.webp';
 import carouselImage3 from '@assets/lg-qwnL0-slide-1nereide-16kg_1764453375116.webp';
+import rosanaImage from '@assets/50-year-old-woman-weight-600nw-2519627017_1764453653741.webp';
 
 // --- Types ---
 type StepType = 'intro' | 'button-select' | 'slider' | 'input' | 'loading' | 'result' | 'sales';
@@ -519,9 +520,8 @@ export const QuizFlow = () => {
         </h3>
         <p className="text-sm text-gray-600 mb-4">Mira la transformación de <span className="text-news-yellow font-semibold">Rosana Rosalez</span>.</p>
         
-        {/* Placeholder for transformation photos */}
-        <div className="w-full h-64 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center mb-6">
-          <span className="text-gray-400 text-sm">Espacio para fotos de transformación</span>
+        <div className="w-full overflow-hidden rounded-lg mb-6">
+          <img src={rosanaImage} className="w-full h-auto object-cover" alt="Transformación de Rosana Rosalez" />
         </div>
       </div>
 
@@ -634,9 +634,8 @@ export const QuizFlow = () => {
         </h3>
         <p className="text-sm text-gray-600 mb-4">Mira la transformación de <span className="text-news-yellow font-semibold">Rosana Rosalez</span>.</p>
         
-        {/* Placeholder for transformation photos */}
-        <div className="w-full h-64 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center mb-6">
-          <span className="text-gray-400 text-sm">Espacio para fotos de transformación</span>
+        <div className="w-full overflow-hidden rounded-lg mb-6">
+          <img src={rosanaImage} className="w-full h-auto object-cover" alt="Transformación de Rosana Rosalez" />
         </div>
       </div>
 
