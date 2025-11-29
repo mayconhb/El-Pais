@@ -455,46 +455,89 @@ export const QuizFlow = () => {
   );
 
   const renderSales = () => (
-    <div className="space-y-6 animate-fade-in text-center">
-      <h2 className="font-serif text-2xl font-bold text-news-black leading-tight">
-        ¿CÓMO FUNCIONA EL PROTOCOLO DE GELATINA BARIÁTRICA?
-      </h2>
+    <div className="space-y-6 animate-fade-in">
+      <p className="text-xs text-gray-500 uppercase tracking-wider">PÉRDIDA DE PESO</p>
       
-      <div className="relative bg-gray-100 p-6 rounded-lg my-6">
-        {/* Placeholder for the diagram showing the mechanism */}
-        <div className="absolute top-0 left-0 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-tl-lg rounded-br-lg">
-          MECANISMO ÚNICO
-        </div>
-        <img 
-          src="https://picsum.photos/seed/mechanism/400/400" 
-          className="mx-auto rounded-full w-48 h-48 object-cover border-4 border-white shadow-lg mb-4" 
-          alt="Mechanism" 
-        />
-        <p className="font-serif text-sm italic">
-          Come 2 gomitas antes de las comidas para activar la quema de grasa automática.
-        </p>
-      </div>
+      <h2 className="font-serif text-2xl font-bold text-news-black leading-tight">
+        ¡ATENCIÓN, {name.toUpperCase() || 'AMIGA'}!
+      </h2>
 
-      <p className="font-serif text-lg text-gray-700">
-        Los componentes del Protocolo Gelatina Bariátrica siguen actuando mientras duermes, <strong className="text-black">activando tus células quemadoras de grasa</strong> y acelerando la producción natural de GLP-1.
+      <p className="font-serif text-base text-gray-700 leading-relaxed">
+        Según tus respuestas, tu cuerpo está en modo <strong className="text-black">ACUMULACIÓN DE GRASA</strong>. Si no actúas HOY, esta situación tiende a <strong className="text-black">EMPEORAR</strong>.
       </p>
 
-      <div className="bg-green-50 p-4 border border-green-200 rounded-lg">
-        <p className="font-serif text-green-900 font-medium">
-          Esto mantiene tu metabolismo quemando grasa <strong className="font-bold">hasta 10 veces más rápido</strong> durante el sueño.
-        </p>
+      {/* IMC visualizer */}
+      <div className="space-y-2 my-6">
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-xl">⚖️</span>
+          <h4 className="font-bold text-sm">Índice de Masa Corporal (IMC)</h4>
+        </div>
+        <div className="p-3 bg-gray-50 border rounded text-gray-400 text-sm">Abaixo do Peso</div>
+        <div className="p-3 bg-gray-50 border rounded text-gray-400 text-sm">Normal</div>
+        <div className="p-3 bg-yellow-100 border border-yellow-400 rounded text-black font-bold text-sm flex justify-between items-center shadow-sm">
+          Sobrepeso
+          <span className="text-lg">⚠️</span>
+        </div>
+        <div className="p-3 bg-gray-50 border rounded text-gray-400 text-sm">Obesidad</div>
+      </div>
+
+      <div className="bg-yellow-100 p-3 rounded text-center text-sm font-bold border border-yellow-200">
+        Zona de Alerta – ¡Este es tu resultado!
+      </div>
+
+      <h3 className="font-serif text-xl font-bold text-center mt-6">
+        ¡Tus células quemagrasas pueden estar dormidas y saboteando tu metabolismo sin que te des cuenta!
+      </h3>
+
+      <p className="font-serif text-sm text-gray-700 leading-relaxed">
+        Incluso si estás en un peso normal, tu cuerpo podría estar desactivando las <span className="text-news-yellow font-semibold">células quemagrasas del intestino</span>, lo que ralentiza tu metabolismo, dificulta la quema de grasa y favorece el aumento de peso.
+      </p>
+
+      <div className="space-y-4 mt-6">
+        <p className="font-bold text-sm text-news-black">Algunos signos de alerta:</p>
+        
+        <div className="space-y-3 text-sm font-serif text-gray-700">
+          <p className="flex items-start gap-2">
+            <X className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+            <span>Metabolismo lento y dificultad para adelgazar aunque comas poco</span>
+          </p>
+          <p className="flex items-start gap-2">
+            <X className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+            <span>Cansancio constante y sensación de hinchazón</span>
+          </p>
+          <p className="flex items-start gap-2">
+            <X className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+            <span>Acumulación de grasa en zonas específicas del cuerpo, especialmente en el abdomen</span>
+          </p>
+          <p className="flex items-start gap-2">
+            <Check className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
+            <span>Con el Protocolo Gelatina Bariátrica, tu cuerpo acelera la quema de grasa de forma natural</span>
+          </p>
+          <p className="flex items-start gap-2">
+            <Check className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
+            <span>La combinación ideal de ingredientes puede reactivar las células quemagrasas, acelerar el metabolismo, reducir la retención de líquidos y aumentar tu energía</span>
+          </p>
+        </div>
+      </div>
+
+      <div className="text-center py-4 mt-4">
+        <h3 className="font-serif font-bold text-xl mb-4 text-news-black">
+          ¡Descubre ahora cómo el Protocolo Gelatina Bariátrica puede transformar tu cuerpo!
+        </h3>
+        <p className="text-sm text-gray-600 mb-4">Mira la transformación de <span className="text-news-yellow font-semibold">Rosana Rosalez</span>.</p>
+        
+        {/* Placeholder for transformation photos */}
+        <div className="w-full h-64 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center mb-6">
+          <span className="text-gray-400 text-sm">Espacio para fotos de transformación</span>
+        </div>
       </div>
 
       <button 
-        onClick={() => alert('Redireccionando al checkout...')}
-        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-xl py-5 px-6 rounded shadow-xl transition-all uppercase tracking-wide border-b-4 border-yellow-500 active:border-b-0 active:translate-y-1"
+        onClick={handleNext}
+        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
       >
-        QUIERO MI PROTOCOLO AHORA
+        Continuar
       </button>
-
-      <p className="text-xs text-gray-400 mt-4">
-        Oferta limitada por tiempo. Garantía de satisfacción de 30 días.
-      </p>
     </div>
   );
 
