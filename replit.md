@@ -99,22 +99,22 @@ Navigate to `/dashboard` or `/analytics` to access the dashboard.
 ## VTurb/Meta Ads Integration
 
 ### How It Works
-The application tracks when users click on the VTurb video player's CTA (Call-to-Action) button and sends an `initiate_checkout` event to the dataLayer for Google Tag Manager and Meta Ads.
+The application uses a custom CTA button that appears when the VTurb video reaches the pitch moment. When clicked, it sends an `initiate_checkout` event to the dataLayer for Google Tag Manager and Meta Ads.
 
-### Implementation Details (index.html)
-1. **MutationObserver**: Watches for VTurb iframes being inserted into the DOM
-2. **SmartPlayer API**: Once the iframe is detected, polls for the smartplayer object and attaches event listeners
-3. **Multiple Event Handlers**: Listens for various CTA event name variations (`cta_click`, `ctaclick`, `ctaClick`, etc.)
-4. **PostMessage Fallback**: Also listens for postMessage events as a backup
-5. **Duplicate Prevention**: Uses a `ctaTracked` flag to ensure the event only fires once per session
+### Implementation Details (QuizFlow.tsx)
+1. **PostMessage Listener**: Listens for SmartPlayer events via postMessage from the VTurb iframe
+2. **Pitch Detection**: Captures `callactionConnected` event to get pitch start time, then monitors `videoTimeUpdate` to detect when video reaches that time
+3. **Custom CTA Button**: A green "QUIERO MI PROTOCOLO AHORA" button appears below the video when the pitch is shown
+4. **InitiateCheckout Event**: When the button is clicked, pushes the event to dataLayer and opens checkout link
+5. **Duplicate Prevention**: Uses `ctaTrackedRef` to ensure the event only fires once per session
 
 ### DataLayer Event Format
 ```javascript
 {
   'event': 'initiate_checkout',
   'event_category': 'ecommerce',
-  'event_label': 'vturb_cta_click',
-  'cta_source': 'smartplayer_cta_click' // varies by detection method
+  'event_label': 'cta_button_click',
+  'cta_source': 'custom_cta_button'
 }
 ```
 
@@ -122,7 +122,12 @@ The application tracks when users click on the VTurb video player's CTA (Call-to
 In Google Tag Manager, create a trigger for the custom event `initiate_checkout` and map it to the Meta Pixel `InitiateCheckout` standard event.
 
 ### Debug Logs
-The implementation includes console logs prefixed with `[VTurb Tracking]` for debugging. These can be removed once tracking is confirmed working.
+The implementation includes console logs prefixed with `[Pitch Detector]` for debugging:
+- `[Pitch Detector] Starting pitch detection for video page`
+- `[Pitch Detector] SmartPlayer event:` - logs all received events
+- `[Pitch Detector] Pitch configured to appear at: X seconds`
+- `[Pitch Detector] Video reached pitch time! Showing CTA button`
+- `[CTA Button] Button clicked - pushing InitiateCheckout to dataLayer`
 
 ## Development
 

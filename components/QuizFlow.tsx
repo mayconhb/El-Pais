@@ -47,8 +47,11 @@ export const QuizFlow = () => {
   const [peso, setPeso] = useState(70); // Weight in kg
   const [altura, setAltura] = useState(165); // Height in cm
   const [carouselIndex, setCarouselIndex] = useState(0);
+  const [showCTAButton, setShowCTAButton] = useState(false); // CTA button visibility
   const hasTrackedStart = useRef(false);
   const previousStep = useRef(0);
+  const pitchTimeRef = useRef<number | null>(null); // Store pitch start time
+  const ctaTrackedRef = useRef(false); // Prevent duplicate tracking
 
   // Calculate IMC
   const calcularIMC = () => {
@@ -152,45 +155,70 @@ export const QuizFlow = () => {
     }
   }, [step]);
 
-  // Debug: Capture all smartplayer events for VTurb tracking
+  // Detect VTurb pitch button via postMessage and show CTA when pitch time is reached
   useEffect(() => {
-    if (step === 18) {
-      let attempts = 0;
-      const maxAttempts = 60;
-      
-      const setupDebugListeners = () => {
-        const smartplayer = (window as any).smartplayer;
+    if (step !== 18) return;
+    
+    console.log('[Pitch Detector] Starting pitch detection for video page');
+    let ctaShown = false;
+    
+    const handleSmartPlayerMessage = (event: MessageEvent) => {
+      try {
+        let data = event.data;
         
-        if (!smartplayer || !smartplayer.instances || smartplayer.instances.length === 0) {
-          attempts++;
-          if (attempts < maxAttempts) {
-            setTimeout(setupDebugListeners, 500);
+        if (typeof data === 'string') {
+          try {
+            data = JSON.parse(data);
+          } catch {
+            return;
           }
-          return;
         }
         
-        const player = smartplayer.instances[0];
-        console.log('[VTurb Debug] SmartPlayer found:', player);
+        if (!data || typeof data !== 'object') return;
         
-        if (player && typeof player.on === 'function') {
-          const eventsToCapture = ['cta_click', 'ctaclick', 'cta', 'click', 'play', 'pause', 'ended', 'timeupdate'];
-          
-          eventsToCapture.forEach(eventName => {
-            try {
-              player.on(eventName, (data: any) => {
-                console.log(`[VTurb Debug] Event "${eventName}" fired:`, data);
-              });
-            } catch (e) {
-              console.log(`[VTurb Debug] Could not attach listener for "${eventName}"`);
-            }
-          });
-          
-          console.log('[VTurb Debug] Debug listeners attached');
+        // Log all SmartPlayer events for debugging
+        if (data.event || data.type) {
+          console.log('[Pitch Detector] SmartPlayer event:', data);
         }
-      };
-      
-      setupDebugListeners();
-    }
+        
+        // Capture pitch configuration when callactionConnected event fires
+        if (data.event === 'callactionConnected' && data.data) {
+          const pitchData = data.data;
+          const startTime = pitchData.start || pitchData.range?.start || 0;
+          pitchTimeRef.current = startTime;
+          console.log('[Pitch Detector] Pitch configured to appear at:', startTime, 'seconds');
+          console.log('[Pitch Detector] Full pitch data:', pitchData);
+        }
+        
+        // Monitor video time updates
+        if (data.event === 'videoTimeUpdate' && data.data) {
+          const currentTime = data.data.currentTime || data.data.time || 0;
+          
+          // Show CTA button when video reaches pitch start time
+          if (pitchTimeRef.current !== null && currentTime >= pitchTimeRef.current && !ctaShown) {
+            console.log('[Pitch Detector] Video reached pitch time! Showing CTA button');
+            ctaShown = true;
+            setShowCTAButton(true);
+          }
+        }
+        
+        // Alternative: detect when pitch/CTA is shown directly
+        if ((data.event === 'callactionShow' || data.event === 'ctaShow' || data.event === 'pitchShow') && !ctaShown) {
+          console.log('[Pitch Detector] Pitch/CTA show event detected');
+          ctaShown = true;
+          setShowCTAButton(true);
+        }
+        
+      } catch (e) {
+        console.log('[Pitch Detector] Error processing message:', e);
+      }
+    };
+    
+    window.addEventListener('message', handleSmartPlayerMessage);
+    
+    return () => {
+      window.removeEventListener('message', handleSmartPlayerMessage);
+    };
   }, [step]);
 
   // Preload all images in background after initial page load
@@ -236,6 +264,26 @@ export const QuizFlow = () => {
   const handleNext = () => {
     analytics.trackStepComplete(step);
     setStep((prev) => prev + 1);
+  };
+
+  // Handle CTA button click - triggers InitiateCheckout event
+  const handleCTAClick = () => {
+    if (ctaTrackedRef.current) return;
+    ctaTrackedRef.current = true;
+    
+    console.log('[CTA Button] Button clicked - pushing InitiateCheckout to dataLayer');
+    
+    // Push InitiateCheckout event to dataLayer for GTM/Meta Ads
+    (window as any).dataLayer = (window as any).dataLayer || [];
+    (window as any).dataLayer.push({
+      'event': 'initiate_checkout',
+      'event_category': 'ecommerce',
+      'event_label': 'cta_button_click',
+      'cta_source': 'custom_cta_button'
+    });
+    
+    // Redirect to checkout page
+    window.open('https://go.hotmart.com/B98362449P?ap=0093', '_blank');
   };
 
   // --- Step Content Renderers ---
@@ -712,6 +760,22 @@ export const QuizFlow = () => {
           </div>
         </div>
       </div>
+
+      {/* CTA Button - Initially hidden, appears when VTurb pitch is shown */}
+      {showCTAButton && (
+        <div className="mt-4 animate-fade-in">
+          <button
+            onClick={handleCTAClick}
+            className="w-full bg-green-500 hover:bg-green-600 text-white font-bold text-lg py-4 px-6 rounded-lg shadow-lg transition-all transform hover:scale-[1.02] animate-pulse-cta flex items-center justify-center gap-2"
+          >
+            <span>QUIERO MI PROTOCOLO AHORA</span>
+            <ArrowRight className="w-5 h-5" />
+          </button>
+          <p className="text-center text-xs text-gray-500 mt-2">
+            Oferta por tiempo limitado - Acceso inmediato
+          </p>
+        </div>
+      )}
 
       {/* Comments Section */}
       <div className="border-t pt-6 mt-6">
