@@ -91,6 +91,19 @@ export const QuizFlow = () => {
     }
   }, [step]);
 
+  // Load Vturb SDK when reaching video page
+  useEffect(() => {
+    if (step === 19) {
+      const existingScript = document.querySelector('script[src*="converteai.net"]');
+      if (!existingScript) {
+        const script = document.createElement('script');
+        script.src = 'https://scripts.converteai.net/lib/js/smartplayer-wc/v4/sdk.js';
+        script.async = true;
+        document.head.appendChild(script);
+      }
+    }
+  }, [step]);
+
   const handleNext = () => {
     setStep((prev) => prev + 1);
   };
@@ -656,10 +669,19 @@ export const QuizFlow = () => {
         MIRA EL VIDEO A CONTINUACIÓN Y DESCUBRE CÓMO ACCEDER A TU PROTOCOLO DE GELATINA REDUCTORA.
       </h2>
 
-      {/* Video Placeholder */}
-      <div className="relative w-full aspect-video bg-yellow-100 rounded-lg overflow-hidden flex flex-col items-center justify-center">
-        <div className="w-full h-full bg-gray-200 border-2 border-dashed border-gray-300 flex items-center justify-center">
-          <span className="text-gray-400 text-sm">Espacio para video</span>
+      {/* Vturb Video Player */}
+      <div className="relative w-full rounded-lg overflow-hidden">
+        <div id="ifr_692ba6b3da6a2d3096000097_wrapper" style={{ margin: '0 auto', width: '100%', maxWidth: '400px' }}>
+          <div style={{ position: 'relative', paddingTop: '152.59259259259258%' }} id="ifr_692ba6b3da6a2d3096000097_aspect">
+            <iframe 
+              frameBorder="0" 
+              allowFullScreen 
+              src={`https://scripts.converteai.net/17470c13-1093-48a3-966c-62777cb9eaca/players/692ba6b3da6a2d3096000097/v4/embed.html?vl=${encodeURIComponent(window.location.href)}`}
+              id="ifr_692ba6b3da6a2d3096000097" 
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} 
+              referrerPolicy="origin"
+            />
+          </div>
         </div>
       </div>
 
