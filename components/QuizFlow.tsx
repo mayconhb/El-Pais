@@ -161,11 +161,13 @@ export const QuizFlow = () => {
     
     console.log('[Pitch Detector] Starting pitch detection for video page');
     let ctaShown = false;
+    let pitchStartTime: number | null = null;
     
     const handleSmartPlayerMessage = (event: MessageEvent) => {
       try {
         let data = event.data;
         
+        // Parse JSON string if needed
         if (typeof data === 'string') {
           try {
             data = JSON.parse(data);
@@ -176,35 +178,50 @@ export const QuizFlow = () => {
         
         if (!data || typeof data !== 'object') return;
         
+        // Get event name from various possible fields
+        const eventName = data.event || data.type || data.eventName || '';
+        
         // Log all SmartPlayer events for debugging
-        if (data.event || data.type) {
-          console.log('[Pitch Detector] SmartPlayer event:', data);
+        if (eventName) {
+          console.log('[Pitch Detector] Event received:', eventName, data);
         }
         
         // Capture pitch configuration when callactionConnected event fires
-        if (data.event === 'callactionConnected' && data.data) {
+        // This event CONFIGURES the pitch but does NOT mean it's visible yet
+        if (eventName === 'callactionConnected' && data.data) {
           const pitchData = data.data;
-          const startTime = pitchData.start || pitchData.range?.start || 0;
-          pitchTimeRef.current = startTime;
-          console.log('[Pitch Detector] Pitch configured to appear at:', startTime, 'seconds');
-          console.log('[Pitch Detector] Full pitch data:', pitchData);
+          // Try multiple possible locations for the start time
+          pitchStartTime = pitchData.start ?? pitchData.range?.start ?? pitchData.startTime ?? pitchData.time ?? null;
+          pitchTimeRef.current = pitchStartTime;
+          console.log('[Pitch Detector] Pitch CONFIGURED (not visible yet) - Will appear at:', pitchStartTime, 'seconds');
+          console.log('[Pitch Detector] Full pitch config data:', JSON.stringify(pitchData));
         }
         
-        // Monitor video time updates
-        if (data.event === 'videoTimeUpdate' && data.data) {
-          const currentTime = data.data.currentTime || data.data.time || 0;
+        // Monitor video time updates - this is when we detect the pitch should become visible
+        if ((eventName === 'videoTimeUpdate' || eventName === 'smartplayer.videoTimeUpdate') && data.data) {
+          const currentTime = data.data.currentTime ?? data.data.time ?? data.data.currentVideoTime ?? 0;
           
-          // Show CTA button when video reaches pitch start time
-          if (pitchTimeRef.current !== null && currentTime >= pitchTimeRef.current && !ctaShown) {
-            console.log('[Pitch Detector] Video reached pitch time! Showing CTA button');
+          // Only show CTA when video reaches pitch start time AND we have a valid pitch time
+          if (pitchStartTime !== null && currentTime >= pitchStartTime && !ctaShown) {
+            console.log('[Pitch Detector] Video reached pitch time (' + currentTime + 's >= ' + pitchStartTime + 's) - Showing CTA button NOW');
             ctaShown = true;
             setShowCTAButton(true);
           }
         }
         
-        // Alternative: detect when pitch/CTA is shown directly
-        if ((data.event === 'callactionShow' || data.event === 'ctaShow' || data.event === 'pitchShow') && !ctaShown) {
-          console.log('[Pitch Detector] Pitch/CTA show event detected');
+        // Direct detection: when the pitch/CTA is explicitly shown by SmartPlayer
+        // These are the events that indicate the button is ACTUALLY visible on the video
+        const showEvents = [
+          'callactionShow', 
+          'smartplayer.callaction.show',
+          'ctaShow', 
+          'pitchShow',
+          'smartplayer.pitch.show',
+          'smartplayer.cta.show'
+        ];
+        
+        if (showEvents.includes(eventName) && !ctaShown) {
+          console.log('[Pitch Detector] Direct show event detected:', eventName, '- Showing CTA button NOW');
           ctaShown = true;
           setShowCTAButton(true);
         }
