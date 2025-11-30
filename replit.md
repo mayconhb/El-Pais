@@ -94,6 +94,35 @@ Navigate to `/dashboard` or `/analytics` to access the dashboard.
 - ✅ Date range filters (24h, 7d, 30d, 90d, all time)
 - ✅ **Supabase Integration**: Analytics data now persists in Supabase PostgreSQL database
 - ✅ Dashboard shows data source indicator (Local, Supabase, or Mixed)
+- ✅ **VTurb CTA Tracking for Meta Ads**: Fixed InitiateCheckout event tracking
+
+## VTurb/Meta Ads Integration
+
+### How It Works
+The application tracks when users click on the VTurb video player's CTA (Call-to-Action) button and sends an `initiate_checkout` event to the dataLayer for Google Tag Manager and Meta Ads.
+
+### Implementation Details (index.html)
+1. **MutationObserver**: Watches for VTurb iframes being inserted into the DOM
+2. **SmartPlayer API**: Once the iframe is detected, polls for the smartplayer object and attaches event listeners
+3. **Multiple Event Handlers**: Listens for various CTA event name variations (`cta_click`, `ctaclick`, `ctaClick`, etc.)
+4. **PostMessage Fallback**: Also listens for postMessage events as a backup
+5. **Duplicate Prevention**: Uses a `ctaTracked` flag to ensure the event only fires once per session
+
+### DataLayer Event Format
+```javascript
+{
+  'event': 'initiate_checkout',
+  'event_category': 'ecommerce',
+  'event_label': 'vturb_cta_click',
+  'cta_source': 'smartplayer_cta_click' // varies by detection method
+}
+```
+
+### GTM Configuration Required
+In Google Tag Manager, create a trigger for the custom event `initiate_checkout` and map it to the Meta Pixel `InitiateCheckout` standard event.
+
+### Debug Logs
+The implementation includes console logs prefixed with `[VTurb Tracking]` for debugging. These can be removed once tracking is confirmed working.
 
 ## Development
 
