@@ -152,6 +152,47 @@ export const QuizFlow = () => {
     }
   }, [step]);
 
+  // Debug: Capture all smartplayer events for VTurb tracking
+  useEffect(() => {
+    if (step === 18) {
+      let attempts = 0;
+      const maxAttempts = 60;
+      
+      const setupDebugListeners = () => {
+        const smartplayer = (window as any).smartplayer;
+        
+        if (!smartplayer || !smartplayer.instances || smartplayer.instances.length === 0) {
+          attempts++;
+          if (attempts < maxAttempts) {
+            setTimeout(setupDebugListeners, 500);
+          }
+          return;
+        }
+        
+        const player = smartplayer.instances[0];
+        console.log('[VTurb Debug] SmartPlayer found:', player);
+        
+        if (player && typeof player.on === 'function') {
+          const eventsToCapture = ['cta_click', 'ctaclick', 'cta', 'click', 'play', 'pause', 'ended', 'timeupdate'];
+          
+          eventsToCapture.forEach(eventName => {
+            try {
+              player.on(eventName, (data: any) => {
+                console.log(`[VTurb Debug] Event "${eventName}" fired:`, data);
+              });
+            } catch (e) {
+              console.log(`[VTurb Debug] Could not attach listener for "${eventName}"`);
+            }
+          });
+          
+          console.log('[VTurb Debug] Debug listeners attached');
+        }
+      };
+      
+      setupDebugListeners();
+    }
+  }, [step]);
+
   // Preload all images in background after initial page load
   useEffect(() => {
     const imagesToPreload = [

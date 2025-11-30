@@ -26,22 +26,139 @@
     <!-- Vturb CTA Tracking - Captura cliques no botão do player -->
     <script>
       window.dataLayer = window.dataLayer || [];
-      window.addEventListener('message', function(event) {
-        if (event.origin && (event.origin.includes('converteai.net') || event.origin.includes('smartplayer'))) {
-          var data = event.data;
-          if (data && (data.event === 'cta_click' || data.event === 'cta-click' || 
-              data.type === 'smartplayer_cta' || data.type === 'cta_click' ||
-              (typeof data === 'string' && data.includes('cta')))) {
-            window.dataLayer.push({
-              'event': 'initiate_checkout',
-              'event_category': 'ecommerce',
-              'event_label': 'vturb_cta_click',
-              'cta_source': 'vturb_smartplayer'
-            });
-            console.log('GTM Event: initiate_checkout triggered from Vturb CTA');
-          }
+      
+      (function() {
+        var ctaTracked = false;
+        var listenerAttached = false;
+        
+        function pushInitiateCheckout(source) {
+          if (ctaTracked) return;
+          ctaTracked = true;
+          
+          window.dataLayer.push({
+            'event': 'initiate_checkout',
+            'event_category': 'ecommerce',
+            'event_label': 'vturb_cta_click',
+            'cta_source': source || 'vturb_smartplayer'
+          });
+          console.log('[VTurb Tracking] InitiateCheckout pushed to dataLayer from:', source);
         }
-      });
+        
+        function attachSmartPlayerListeners() {
+          if (listenerAttached) return;
+          
+          var smartplayer = window.smartplayer;
+          if (!smartplayer || !smartplayer.instances || smartplayer.instances.length === 0) {
+            return false;
+          }
+          
+          var player = smartplayer.instances[0];
+          console.log('[VTurb Tracking] SmartPlayer instance found, attaching CTA listeners...');
+          
+          if (player && typeof player.on === 'function') {
+            listenerAttached = true;
+            
+            var ctaEvents = ['cta_click', 'ctaclick', 'ctaClick', 'cta-click', 'smartplayer_cta'];
+            ctaEvents.forEach(function(eventName) {
+              try {
+                player.on(eventName, function(eventData) {
+                  console.log('[VTurb Tracking] CTA click detected via "' + eventName + '":', eventData);
+                  pushInitiateCheckout('smartplayer_' + eventName);
+                });
+              } catch (e) {}
+            });
+            
+            console.log('[VTurb Tracking] CTA listeners attached successfully');
+            return true;
+          }
+          return false;
+        }
+        
+        function pollForSmartPlayer() {
+          var attempts = 0;
+          var maxAttempts = 120;
+          
+          var poll = function() {
+            if (attachSmartPlayerListeners()) {
+              return;
+            }
+            attempts++;
+            if (attempts < maxAttempts) {
+              setTimeout(poll, 500);
+            } else {
+              console.log('[VTurb Tracking] Max attempts reached, smartplayer not found');
+            }
+          };
+          
+          poll();
+        }
+        
+        function startTracking() {
+          console.log('[VTurb Tracking] VTurb iframe detected, starting smartplayer polling...');
+          pollForSmartPlayer();
+        }
+        
+        var observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+              if (node.nodeType === 1) {
+                if (node.tagName === 'IFRAME' && node.src && node.src.includes('converteai.net')) {
+                  startTracking();
+                }
+                var iframes = node.querySelectorAll ? node.querySelectorAll('iframe[src*="converteai.net"]') : [];
+                if (iframes.length > 0) {
+                  startTracking();
+                }
+              }
+            });
+          });
+        });
+        
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+        
+        var existingIframe = document.querySelector('iframe[src*="converteai.net"]');
+        if (existingIframe) {
+          startTracking();
+        }
+        
+        window.addEventListener('message', function(event) {
+          try {
+            var data = event.data;
+            
+            if (typeof data === 'string') {
+              try {
+                data = JSON.parse(data);
+              } catch (e) {
+                if (data.toLowerCase().includes('cta')) {
+                  console.log('[VTurb Tracking] CTA string message detected:', data);
+                  pushInitiateCheckout('postmessage_string');
+                }
+                return;
+              }
+            }
+            
+            if (!data || typeof data !== 'object') return;
+            
+            var isCTAEvent = 
+              data.event === 'cta_click' || 
+              data.event === 'cta-click' ||
+              data.event === 'ctaclick' ||
+              data.event === 'ctaClicked' ||
+              data.type === 'cta_click' ||
+              data.type === 'smartplayer_cta' ||
+              (data.detail && data.detail.event && data.detail.event.includes('cta')) ||
+              (data.name && data.name.toLowerCase().includes('cta')) ||
+              (data.action && data.action.toLowerCase().includes('cta'));
+            
+            if (isCTAEvent) {
+              console.log('[VTurb Tracking] CTA event detected via postMessage:', data);
+              pushInitiateCheckout('postmessage');
+            }
+          } catch (e) {
+            console.log('[VTurb Tracking] Error processing message:', e);
+          }
+        });
+      })();
     </script>
     <!-- End Vturb CTA Tracking -->
     
