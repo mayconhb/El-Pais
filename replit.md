@@ -10,6 +10,7 @@ This is a React-based advertorial/quiz flow application for a weight loss produc
 - **Styling**: Tailwind CSS (via CDN)
 - **Icons**: Lucide React
 - **Charts**: Recharts
+- **Database**: Supabase (PostgreSQL)
 - **Fonts**: Merriweather (serif), Inter (sans-serif)
 - **Deployment**: Vercel with Serverless Functions
 
@@ -26,13 +27,15 @@ This is a React-based advertorial/quiz flow application for a weight loss produc
 │   └── QuizFlow.tsx           # Main quiz component with multi-step flow
 ├── lib/
 │   ├── analytics.ts           # Analytics tracking service
-│   └── analyticsData.ts       # Dashboard data processing
+│   ├── analyticsData.ts       # Dashboard data processing
+│   └── supabase.ts            # Supabase client and functions
 ├── App.tsx                    # Main app with routing
 ├── index.tsx                  # Entry point
 ├── index.html                 # HTML template
 ├── vite.config.ts             # Vite configuration
 ├── vercel.json                # Vercel deployment configuration
 ├── tsconfig.json              # TypeScript configuration
+├── supabase_setup.sql         # SQL to create quiz_events table in Supabase
 └── package.json               # Dependencies
 ```
 
@@ -71,8 +74,13 @@ Navigate to `/dashboard` or `/analytics` to access the dashboard.
 
 ### How It Works
 1. **Tracking**: The quiz automatically tracks all user interactions
-2. **Storage**: Events are stored in localStorage (development) and sent to Vercel API (production)
-3. **Dashboard**: Visualizes all collected data with charts and tables
+2. **Storage**: Events are stored in localStorage AND sent to Supabase for persistent storage
+3. **Dashboard**: Visualizes all collected data with charts and tables from both local and Supabase sources
+
+### Supabase Configuration
+- **Project URL**: https://swnwftcfvlmdviknfdou.supabase.co
+- **Table**: `quiz_events`
+- **Setup**: Run the SQL in `supabase_setup.sql` in your Supabase SQL Editor to create the required table
 
 ## Recent Changes (November 30, 2025)
 - ✅ Added complete analytics tracking system
@@ -84,6 +92,8 @@ Navigate to `/dashboard` or `/analytics` to access the dashboard.
 - ✅ Funnel visualization
 - ✅ Answer distribution charts
 - ✅ Date range filters (24h, 7d, 30d, 90d, all time)
+- ✅ **Supabase Integration**: Analytics data now persists in Supabase PostgreSQL database
+- ✅ Dashboard shows data source indicator (Local, Supabase, or Mixed)
 
 ## Development
 

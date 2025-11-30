@@ -70,12 +70,12 @@ export function convertToQuizEvent(dbEvent: QuizEventDB) {
     id: dbEvent.id,
     sessionId: dbEvent.session_id,
     eventType: dbEvent.event_type as any,
-    step: dbEvent.step,
+    step: typeof dbEvent.step === 'string' ? parseInt(dbEvent.step, 10) : dbEvent.step,
     stepName: dbEvent.step_name,
     answer: dbEvent.answer,
-    answerIndex: dbEvent.answer_index,
-    timestamp: dbEvent.timestamp,
-    timeSpentOnStep: dbEvent.time_spent_on_step,
+    answerIndex: dbEvent.answer_index != null ? (typeof dbEvent.answer_index === 'string' ? parseInt(dbEvent.answer_index, 10) : dbEvent.answer_index) : undefined,
+    timestamp: typeof dbEvent.timestamp === 'string' ? parseInt(dbEvent.timestamp, 10) : dbEvent.timestamp,
+    timeSpentOnStep: dbEvent.time_spent_on_step != null ? (typeof dbEvent.time_spent_on_step === 'string' ? parseInt(dbEvent.time_spent_on_step, 10) : dbEvent.time_spent_on_step) : undefined,
     metadata: dbEvent.metadata,
   };
 }

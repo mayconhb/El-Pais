@@ -7,10 +7,11 @@ import { format, subDays, startOfDay, endOfDay } from 'date-fns';
 import { 
   Users, TrendingUp, TrendingDown, Clock, Target, AlertTriangle,
   CheckCircle, XCircle, BarChart3, PieChart as PieChartIcon, Activity,
-  Calendar, RefreshCw, Lock, Eye, EyeOff
+  Calendar, RefreshCw, Lock, Eye, EyeOff, Database
 } from 'lucide-react';
 import { getLocalEvents, calculateDashboardData, saveApiEvents, DashboardData } from '../../lib/analyticsData';
 import { QuizEvent } from '../../lib/analytics';
+import { getEventsFromSupabase, convertToQuizEvent } from '../../lib/supabase';
 
 const COLORS = ['#F7D844', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8'];
 
@@ -29,6 +30,7 @@ export const Dashboard: React.FC = () => {
   const [events, setEvents] = useState<QuizEvent[]>([]);
   const [selectedRange, setSelectedRange] = useState<string>('7d');
   const [activeTab, setActiveTab] = useState<'overview' | 'funnel' | 'answers' | 'events'>('overview');
+  const [dataSource, setDataSource] = useState<'local' | 'supabase' | 'mixed'>('local');
 
   const dateRanges: Record<string, DateRange> = {
     '24h': { start: subDays(new Date(), 1), end: new Date(), label: 'Últimas 24 horas' },
@@ -58,25 +60,26 @@ export const Dashboard: React.FC = () => {
     setLoading(true);
     
     const localEvents = getLocalEvents();
-    setEvents(localEvents);
+    let allEvents: QuizEvent[] = [...localEvents];
+    let source: 'local' | 'supabase' | 'mixed' = 'local';
 
     try {
-      const response = await fetch(`/api/analytics?password=${password}`);
-      if (response.ok) {
-        const data = await response.json();
-        if (data.events && data.events.length > 0) {
-          saveApiEvents(data.events);
-          const allEvents = [...localEvents, ...data.events];
-          const uniqueEvents = Array.from(
-            new Map(allEvents.map(e => [e.id, e])).values()
-          );
-          setEvents(uniqueEvents);
-        }
+      const supabaseEvents = await getEventsFromSupabase();
+      if (supabaseEvents.length > 0) {
+        const convertedEvents = supabaseEvents.map(convertToQuizEvent);
+        allEvents = [...localEvents, ...convertedEvents];
+        source = localEvents.length > 0 ? 'mixed' : 'supabase';
       }
     } catch (error) {
-      console.warn('Could not fetch remote events:', error);
+      console.warn('Could not fetch from Supabase:', error);
     }
 
+    const uniqueEvents = Array.from(
+      new Map(allEvents.map(e => [e.id, e])).values()
+    );
+    
+    setEvents(uniqueEvents);
+    setDataSource(source);
     setLoading(false);
   };
 
@@ -158,7 +161,17 @@ export const Dashboard: React.FC = () => {
               </div>
               <div>
                 <h1 className="text-xl font-bold">Quiz Analytics Dashboard</h1>
-                <p className="text-gray-400 text-sm">{events.length} eventos registrados</p>
+                <div className="flex items-center gap-2 text-sm">
+                  <span className="text-gray-400">{events.length} eventos registrados</span>
+                  <span className={`px-2 py-0.5 rounded-full text-xs flex items-center gap-1 ${
+                    dataSource === 'supabase' ? 'bg-green-500/20 text-green-400' :
+                    dataSource === 'mixed' ? 'bg-blue-500/20 text-blue-400' :
+                    'bg-gray-500/20 text-gray-400'
+                  }`}>
+                    <Database className="w-3 h-3" />
+                    {dataSource === 'supabase' ? 'Supabase' : dataSource === 'mixed' ? 'Local + Supabase' : 'Local'}
+                  </span>
+                </div>
               </div>
             </div>
 
