@@ -103,7 +103,7 @@ export const QuizFlow = () => {
 
   // Load Vturb SDK when reaching video page
   useEffect(() => {
-    if (step === 19) {
+    if (step === 18) {
       const existingScript = document.querySelector('script[src*="converteai.net"]');
       if (!existingScript) {
         const script = document.createElement('script');
@@ -599,120 +599,6 @@ export const QuizFlow = () => {
   );
   };
 
-  const renderSales = () => {
-    const imc = calcularIMC();
-    const category = getIMCCategory(imc);
-    const imcPosition = Math.min(Math.max(((imc - 15) / (35 - 15)) * 100, 0), 100);
-    
-    return (
-    <div className="space-y-6 animate-fade-in">
-      <h2 className="font-serif text-2xl font-bold text-news-black leading-tight">
-        ¡ATENCIÓN, {name.toUpperCase() || 'AMIGA'}!
-      </h2>
-
-      <p className="font-serif text-base text-gray-700 leading-relaxed">
-        Según tus respuestas, tu cuerpo está en modo <strong className="text-black">ACUMULACIÓN DE GRASA</strong>. Si no actúas HOY, esta situación tiende a <strong className="text-black">EMPEORAR</strong>.
-      </p>
-
-      {/* IMC visualizer */}
-      <div className="space-y-4 my-6">
-        <div className="text-center">
-          <p className="text-gray-600 text-sm mb-1">Tu IMC:</p>
-          <p className="text-4xl font-bold text-orange-500">{imc.toFixed(1)}</p>
-        </div>
-        
-        {/* IMC Bar */}
-        <div className="relative mt-12 pt-2">
-          {/* Indicator Arrow */}
-          <div 
-            className="absolute -top-5 transform -translate-x-1/2 flex flex-col items-center z-10"
-            style={{ left: `${imcPosition}%` }}
-          >
-            <span className="text-orange-500 text-xs font-medium mb-0.5">Tú hoy</span>
-            <div 
-              className="w-0 h-0"
-              style={{
-                borderLeft: '8px solid transparent',
-                borderRight: '8px solid transparent',
-                borderTop: '10px solid #F97316'
-              }}
-            />
-          </div>
-          
-          {/* Color Bar */}
-          <div className="flex h-8 rounded-lg overflow-hidden">
-            <div className={`flex-1 flex items-center justify-center text-xs font-medium text-white ${category === 'bajo' ? 'ring-2 ring-offset-1 ring-blue-600' : ''}`} style={{ backgroundColor: '#3B82F6' }}>
-              Bajo peso
-            </div>
-            <div className={`flex-1 flex items-center justify-center text-xs font-medium text-white ${category === 'normal' ? 'ring-2 ring-offset-1 ring-green-600' : ''}`} style={{ backgroundColor: '#22C55E' }}>
-              Normal
-            </div>
-            <div className={`flex-1 flex items-center justify-center text-xs font-medium text-white ${category === 'sobrepeso' ? 'ring-2 ring-offset-1 ring-orange-600' : ''}`} style={{ backgroundColor: '#F97316' }}>
-              Sobrepeso
-            </div>
-            <div className={`flex-1 flex items-center justify-center text-xs font-medium text-white ${category === 'obesidad' ? 'ring-2 ring-offset-1 ring-red-600' : ''}`} style={{ backgroundColor: '#EF4444' }}>
-              Obesidad
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <h3 className="font-serif text-xl font-bold text-center mt-6">
-        ¡Tus células quemagrasas pueden estar dormidas y saboteando tu metabolismo sin que te des cuenta!
-      </h3>
-
-      <p className="font-serif text-sm text-gray-700 leading-relaxed">
-        Incluso si estás en un peso normal, tu cuerpo podría estar desactivando las <span className="text-news-yellow font-semibold">células quemagrasas del intestino</span>, lo que ralentiza tu metabolismo, dificulta la quema de grasa y favorece el aumento de peso.
-      </p>
-
-      <div className="space-y-4 mt-6">
-        <p className="font-bold text-sm text-news-black">Algunos signos de alerta:</p>
-        
-        <div className="space-y-3 text-sm font-serif text-gray-700">
-          <p className="flex items-start gap-2">
-            <X className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-            <span>Metabolismo lento y dificultad para adelgazar aunque comas poco</span>
-          </p>
-          <p className="flex items-start gap-2">
-            <X className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-            <span>Cansancio constante y sensación de hinchazón</span>
-          </p>
-          <p className="flex items-start gap-2">
-            <X className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-            <span>Acumulación de grasa en zonas específicas del cuerpo, especialmente en el abdomen</span>
-          </p>
-          <p className="flex items-start gap-2">
-            <Check className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
-            <span>Con el Protocolo Gelatina Reductora, tu cuerpo acelera la quema de grasa de forma natural</span>
-          </p>
-          <p className="flex items-start gap-2">
-            <Check className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
-            <span>La combinación ideal de ingredientes puede reactivar las células quemagrasas, acelerar el metabolismo, reducir la retención de líquidos y aumentar tu energía</span>
-          </p>
-        </div>
-      </div>
-
-      <div className="text-center py-4 mt-4">
-        <h3 className="font-serif font-bold text-xl mb-4 text-news-black">
-          ¡Descubre ahora cómo el Protocolo Gelatina Reductora puede transformar tu cuerpo!
-        </h3>
-        <p className="text-sm text-gray-600 mb-4">Mira la transformación de <span className="text-news-yellow font-semibold">Rosana Rosalez</span>.</p>
-        
-        <div className="w-full overflow-hidden rounded-lg mb-6">
-          <img src={rosanaImage} decoding="async" className="w-full h-auto object-cover" alt="Transformación de Rosana Rosalez" />
-        </div>
-      </div>
-
-      <button 
-        onClick={handleNext}
-        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all animate-pulse-cta"
-      >
-        Continuar
-      </button>
-    </div>
-  );
-  };
-
   const renderVideoPage = () => (
     <div className="space-y-6 animate-fade-in">
       <h2 className="font-serif text-xl font-bold text-news-black leading-tight text-center uppercase">
@@ -1002,10 +888,8 @@ export const QuizFlow = () => {
     case 16:
       return renderResult();
     case 17:
-      return renderSales();
-    case 18:
       return renderTransformReady();
-    case 19:
+    case 18:
       return renderVideoPage();
     default:
       return null;
