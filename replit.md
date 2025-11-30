@@ -1,7 +1,7 @@
 # Protocolo Gelatina Reductora - Advertorial
 
 ## Overview
-This is a React-based advertorial/quiz flow application for a weight loss product called "Protocolo Gelatina Reductora". The app features an interactive quiz that collects user information and presents a sales pitch for the product.
+This is a React-based advertorial/quiz flow application for a weight loss product called "Protocolo Gelatina Reductora". The app features an interactive quiz that collects user information and presents a sales pitch for the product. Includes a comprehensive analytics dashboard.
 
 ## Technology Stack
 - **Frontend Framework**: React 19.2.0
@@ -9,21 +9,31 @@ This is a React-based advertorial/quiz flow application for a weight loss produc
 - **Language**: TypeScript 5.8.2
 - **Styling**: Tailwind CSS (via CDN)
 - **Icons**: Lucide React
+- **Charts**: Recharts
 - **Fonts**: Merriweather (serif), Inter (sans-serif)
+- **Deployment**: Vercel with Serverless Functions
 
 ## Project Structure
 ```
 .
+├── api/
+│   └── analytics.ts           # Vercel serverless function for analytics
 ├── components/
-│   ├── Header.tsx          # Top navigation bar
-│   ├── NewsFeed.tsx        # Bottom section with news/social proof
-│   └── QuizFlow.tsx        # Main quiz component with multi-step flow
-├── App.tsx                 # Main app component
-├── index.tsx               # Entry point
-├── index.html              # HTML template
-├── vite.config.ts          # Vite configuration
-├── tsconfig.json           # TypeScript configuration
-└── package.json            # Dependencies
+│   ├── dashboard/
+│   │   └── Dashboard.tsx      # Analytics dashboard component
+│   ├── Header.tsx             # Top navigation bar
+│   ├── NewsFeed.tsx           # Bottom section with news/social proof
+│   └── QuizFlow.tsx           # Main quiz component with multi-step flow
+├── lib/
+│   ├── analytics.ts           # Analytics tracking service
+│   └── analyticsData.ts       # Dashboard data processing
+├── App.tsx                    # Main app with routing
+├── index.tsx                  # Entry point
+├── index.html                 # HTML template
+├── vite.config.ts             # Vite configuration
+├── vercel.json                # Vercel deployment configuration
+├── tsconfig.json              # TypeScript configuration
+└── package.json               # Dependencies
 ```
 
 ## Features
@@ -33,14 +43,47 @@ This is a React-based advertorial/quiz flow application for a weight loss produc
 - Loading animations with progress bar
 - Responsive mobile-first design
 - Spanish language interface
+- **Analytics Dashboard** with:
+  - Session tracking (start, complete, abandon)
+  - Answer tracking per question
+  - Time spent per step
+  - Funnel visualization
+  - Answer distribution charts
+  - Date range filters
+  - Password protection
 
-## Recent Changes (November 29, 2025)
-- ✅ Configured for Replit environment
-- ✅ Changed dev server port from 3000 to 5000
-- ✅ Removed GEMINI_API_KEY references (security - not needed for this app)
-- ✅ Fixed importmap conflicts by removing external CDN imports
-- ✅ Added proper module loading for Vite
-- ✅ Configured deployment as static site (builds to `dist/`)
+## Analytics Dashboard
+
+### Access
+Navigate to `/dashboard` or `/analytics` to access the dashboard.
+
+**Default Password**: `admin123`
+
+### Metrics Available
+- Total sessions
+- Completion rate
+- Abandonment rate by step
+- Average completion time
+- Answer distribution per question
+- Conversion funnel visualization
+- Time series data (sessions per day)
+- Recent events log
+
+### How It Works
+1. **Tracking**: The quiz automatically tracks all user interactions
+2. **Storage**: Events are stored in localStorage (development) and sent to Vercel API (production)
+3. **Dashboard**: Visualizes all collected data with charts and tables
+
+## Recent Changes (November 30, 2025)
+- ✅ Added complete analytics tracking system
+- ✅ Created professional dashboard with charts
+- ✅ Implemented Vercel serverless API for events
+- ✅ Added password protection for dashboard
+- ✅ Tracking: quiz start, step views, answers, completions, abandonments
+- ✅ Time tracking per step
+- ✅ Funnel visualization
+- ✅ Answer distribution charts
+- ✅ Date range filters (24h, 7d, 30d, 90d, all time)
 
 ## Development
 
@@ -62,11 +105,18 @@ Output will be in the `dist/` directory.
 npm run preview
 ```
 
-## Deployment
-This project is configured for static deployment:
-- **Build Command**: `npm run build`
-- **Output Directory**: `dist`
-- **Deployment Type**: Static
+## Deployment (GitHub + Vercel)
+
+### Configuration
+1. Connect your GitHub repository to Vercel
+2. Build command: `npm run build`
+3. Output directory: `dist`
+4. The `vercel.json` file is already configured for:
+   - API routes (`/api/*`)
+   - SPA routing
+
+### Environment Variables (Optional)
+- `DASHBOARD_PASSWORD`: Custom password for dashboard (default: quiz2024)
 
 ## Quiz Flow Steps
 1. Introduction page with call-to-action
@@ -85,11 +135,10 @@ This project is configured for static deployment:
 15. Water intake selection
 16. Loading/analysis screen
 17. Results page with BMI visualization
-18. Sales pitch page
+18. Sales/Video page
 
 ## Notes
-- This is a marketing/advertorial application (not a genuine health assessment tool)
-- Uses placeholder images from picsum.photos
-- Tailwind CSS is loaded via CDN (consider installing as dependency for production)
-- No backend required - purely client-side application
-- No API keys or external services needed
+- Analytics data persists in localStorage for development
+- In production (Vercel), data is also sent to serverless API
+- Dashboard requires password authentication
+- Tailwind CSS is loaded via CDN (consider installing as dependency for production optimization)

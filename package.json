@@ -9,10 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vercel/node": "^5.5.13",
+    "date-fns": "^4.1.0",
     "lucide-react": "^0.554.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "terser": "^5.44.1"
+    "recharts": "^3.5.1",
+    "terser": "^5.44.1",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

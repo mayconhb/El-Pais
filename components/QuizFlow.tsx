@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, AlertTriangle, Check, X } from 'lucide-react';
+import analytics from '../lib/analytics';
 import gomitaImage from '@assets/baixados_1764452903199.webp';
 import protocoloImage from '@assets/Inserir um título (2)_1764453061315.png';
 import gomitaTestimonial from '@assets/Gomita_1764453233335.webp';
@@ -46,6 +47,8 @@ export const QuizFlow = () => {
   const [peso, setPeso] = useState(70); // Weight in kg
   const [altura, setAltura] = useState(165); // Height in cm
   const [carouselIndex, setCarouselIndex] = useState(0);
+  const hasTrackedStart = useRef(false);
+  const previousStep = useRef(0);
 
   // Calculate IMC
   const calcularIMC = () => {
@@ -64,6 +67,41 @@ export const QuizFlow = () => {
   // Auto-scroll to top on step change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [step]);
+
+  // Track quiz start
+  useEffect(() => {
+    if (!hasTrackedStart.current) {
+      analytics.trackQuizStart();
+      hasTrackedStart.current = true;
+    }
+  }, []);
+
+  // Track step views only (completion is tracked in handleNext)
+  useEffect(() => {
+    if (step !== previousStep.current) {
+      analytics.trackStepView(step);
+      previousStep.current = step;
+    }
+  }, [step]);
+
+  // Track quiz completion
+  useEffect(() => {
+    if (step === 18) {
+      analytics.trackQuizComplete({ name, peso, altura, imc: calcularIMC() });
+    }
+  }, [step, name, peso, altura]);
+
+  // Track page unload for abandon detection
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (step > 0 && step < 18) {
+        analytics.trackAbandon(step);
+      }
+    };
+    
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [step]);
 
   // Reset slider value when entering slider steps
@@ -155,6 +193,7 @@ export const QuizFlow = () => {
   }, []);
 
   const handleNext = () => {
+    analytics.trackStepComplete(step);
     setStep((prev) => prev + 1);
   };
 
@@ -200,6 +239,11 @@ export const QuizFlow = () => {
     </div>
   );
 
+  const handleButtonClick = (answer: string, answerIndex: number) => {
+    analytics.trackAnswer(step, answer, answerIndex);
+    handleNext();
+  };
+
   const renderButtons = (title: string, options: string[], subtitle?: string) => (
     <div className="space-y-6 animate-fade-in">
       <h2 className="font-serif text-2xl font-bold text-news-black leading-tight">
@@ -211,7 +255,7 @@ export const QuizFlow = () => {
         {options.map((opt, idx) => (
           <button
             key={idx}
-            onClick={handleNext}
+            onClick={() => handleButtonClick(opt, idx)}
             className="w-full text-left bg-white border border-gray-200 hover:border-news-yellow hover:bg-yellow-50 p-4 rounded-md shadow-sm transition-all font-medium text-gray-800 flex items-center justify-between group"
           >
             {opt}
@@ -234,6 +278,7 @@ export const QuizFlow = () => {
 
     const handleContinue = () => {
       if (onSave) onSave(currentValue);
+      analytics.trackSliderValue(step, currentValue, unit);
       handleNext();
     };
 
@@ -306,6 +351,11 @@ export const QuizFlow = () => {
     );
   };
 
+  const handleNameSubmit = () => {
+    analytics.trackAnswer(step, name, 0);
+    handleNext();
+  };
+
   const renderInput = () => (
     <div className="space-y-6 animate-fade-in">
       <h2 className="font-serif text-2xl font-bold text-news-black leading-tight">
@@ -322,7 +372,7 @@ export const QuizFlow = () => {
       />
 
       <button 
-        onClick={handleNext}
+        onClick={handleNameSubmit}
         disabled={name.length < 2}
         className="w-full bg-news-yellow hover:bg-[#ebd040] disabled:opacity-50 disabled:cursor-not-allowed text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all animate-pulse-cta"
       >
