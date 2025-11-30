@@ -3,9 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "engines": {
-    "node": "20.x"
-  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -13,7 +10,6 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.86.0",
-    "@vercel/node": "^5.5.13",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.554.0",
     "react": "^19.2.0",

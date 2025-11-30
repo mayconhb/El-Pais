@@ -1,0 +1,60 @@
+02:49:34.459 Running build in Washington, D.C., USA (East) – iad1
+02:49:34.459 Build machine configuration: 2 cores, 8 GB
+02:49:34.598 Cloning github.com/mayconhb/El-Pais (Branch: main, Commit: 990bbeb)
+02:49:35.242 Cloning completed: 644.000ms
+02:49:35.351 Skipping build cache since Node.js version changed from "24.x" to "20.x"
+02:49:35.636 Warning: Due to "engines": { "node": "20.x" } in your `package.json` file, the Node.js Version defined in your Project Settings ("24.x") will not apply, Node.js Version "20.x" will be used instead. Learn More: http://vercel.link/node-version
+02:49:35.637 Running "vercel build"
+02:49:36.029 Vercel CLI 48.12.0
+02:49:36.622 > Installing Builder: @vercel/node@3.0.0
+02:49:46.697 Warning: Due to "engines": { "node": "20.x" } in your `package.json` file, the Node.js Version defined in your Project Settings ("24.x") will not apply, Node.js Version "20.x" will be used instead. Learn More: http://vercel.link/node-version
+02:49:46.716 Installing dependencies...
+02:49:52.877 
+02:49:52.878 added 246 packages in 6s
+02:49:52.879 
+02:49:52.879 23 packages are looking for funding
+02:49:52.880   run `npm fund` for details
+02:49:52.897 Running "npm run build"
+02:49:53.019 
+02:49:53.019 > protocolo-gelatina-bariátrica---advertorial@0.0.0 build
+02:49:53.020 > vite build
+02:49:53.020 
+02:49:53.292 [36mvite v6.4.1 [32mbuilding for production...[36m[39m
+02:49:53.360 transforming...
+02:49:59.631 [32m✓[39m 2742 modules transformed.
+02:50:00.289 rendering chunks...
+02:50:07.212 computing gzip size...
+02:50:07.241 [2mdist/[22m[32mindex.html                                                                    [39m[1m[2m  4.15 kB[22m[1m[22m[2m │ gzip:   1.70 kB[22m
+02:50:07.241 [2mdist/[22m[2massets/[22m[32mimages (1)_1764470674545-BBlnOiu5.jpg                                  [39m[1m[2m  5.52 kB[22m[1m[22m
+02:50:07.242 [2mdist/[22m[2massets/[22m[32mimages (2)_1764470774467-CP-0l-NJ.jpg                                  [39m[1m[2m  6.00 kB[22m[1m[22m
+02:50:07.242 [2mdist/[22m[2massets/[22m[32mimages_1764470674545-Ba3GrkSB.jpg                                      [39m[1m[2m  6.46 kB[22m[1m[22m
+02:50:07.243 [2mdist/[22m[2massets/[22m[32mbaixados_1764470596369-Bonf0Xcu.jpg                                    [39m[1m[2m  6.86 kB[22m[1m[22m
+02:50:07.243 [2mdist/[22m[2massets/[22m[32mbaixados (2)_1764470596368-C45u_8qZ.jpg                                [39m[1m[2m  7.33 kB[22m[1m[22m
+02:50:07.243 [2mdist/[22m[2massets/[22m[32mbaixados (1)_1764470596369-DnRiPb-T.jpg                                [39m[1m[2m  7.69 kB[22m[1m[22m
+02:50:07.243 [2mdist/[22m[2massets/[22m[32mInserir um título (2)_1764453061315-DHJ6EBFG.png                       [39m[1m[2m 37.66 kB[22m[1m[22m
+02:50:07.243 [2mdist/[22m[2massets/[22m[32mGomita_1764453233335-CoiXYDCD.webp                                     [39m[1m[2m 42.87 kB[22m[1m[22m
+02:50:07.243 [2mdist/[22m[2massets/[22m[32mdfg_1764453736974-B6O0m3Ej.webp                                        [39m[1m[2m 45.43 kB[22m[1m[22m
+02:50:07.245 [2mdist/[22m[2massets/[22m[32mf4_1764453347817-BVIl_u84.webp                                         [39m[1m[2m 52.31 kB[22m[1m[22m
+02:50:07.245 [2mdist/[22m[2massets/[22m[32mFernanda_1764453233336-DcF9MapL.webp                                   [39m[1m[2m 57.63 kB[22m[1m[22m
+02:50:07.245 [2mdist/[22m[2massets/[22m[32m50-year-old-woman-weight-600nw-2519627017_1764453653741-Xh0eI0FZ.webp  [39m[1m[2m 58.02 kB[22m[1m[22m
+02:50:07.245 [2mdist/[22m[2massets/[22m[32mlg-qwnL0-slide-1nereide-16kg_1764453375116-DsSnCocZ.webp               [39m[1m[2m 61.89 kB[22m[1m[22m
+02:50:07.245 [2mdist/[22m[2massets/[22m[32mlg-Wlmuz-slide-2-adriana-17kg_1764453347817-h5zwNVdg.jpg               [39m[1m[2m 68.24 kB[22m[1m[22m
+02:50:07.245 [2mdist/[22m[2massets/[22m[32mMariana_1764453233336-fJ86N45H.webp                                    [39m[1m[2m 70.12 kB[22m[1m[22m
+02:50:07.245 [2mdist/[22m[2massets/[22m[32mPatricia barca_1764452735065-gJoH8r3G.webp                             [39m[1m[2m144.13 kB[22m[1m[22m
+02:50:07.245 [2mdist/[22m[2massets/[22m[32mMaria_1764452735066-i5AzAwvG.webp                                      [39m[1m[2m148.52 kB[22m[1m[22m
+02:50:07.245 [2mdist/[22m[2massets/[22m[32mJovem mexicana_1764452735066-CyLQSaXf.webp                             [39m[1m[2m152.30 kB[22m[1m[22m
+02:50:07.246 [2mdist/[22m[2massets/[22m[32mmiddle_aged_woman_fa_da927933-Bn312m8t.jpg                             [39m[1m[2m155.42 kB[22m[1m[22m
+02:50:07.246 [2mdist/[22m[2massets/[22m[32mlatina_woman_face_po_721577a4-DF60o74e.jpg                             [39m[1m[2m207.70 kB[22m[1m[22m
+02:50:07.246 [2mdist/[22m[2massets/[22m[32mlatina_woman_face_po_b062712e-C9CM5_ai.jpg                             [39m[1m[2m256.81 kB[22m[1m[22m
+02:50:07.246 [2mdist/[22m[2massets/[22m[32mlatina_woman_face_po_43c11193-DMLvJ4gN.jpg                             [39m[1m[2m333.96 kB[22m[1m[22m
+02:50:07.246 [2mdist/[22m[2massets/[22m[36mvendor-CWfPfJx5.js                                                     [39m[1m[2m 11.67 kB[22m[1m[22m[2m │ gzip:   4.09 kB[22m
+02:50:07.246 [2mdist/[22m[2massets/[22m[36mindex-xRyRgVnw.js                                                      [39m[1m[33m821.05 kB[39m[22m[2m │ gzip: 232.89 kB[22m
+02:50:07.246 [33m
+02:50:07.246 (!) Some chunks are larger than 500 kB after minification. Consider:
+02:50:07.246 - Using dynamic import() to code-split the application
+02:50:07.246 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+02:50:07.246 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+02:50:07.248 [32m✓ built in 13.93s[39m
+02:50:07.332 Warning: Due to "engines": { "node": "20.x" } in your `package.json` file, the Node.js Version defined in your Project Settings ("24.x") will not apply. Learn More: http://vercel.link/node-version
+02:50:07.346 Error: Found invalid Node.js Version: "20.x". Please set "engines": { "node": "18.x" } in your `package.json` file to use Node.js 18.
+02:50:07.347 Learn More: http://vercel.link/node-version
