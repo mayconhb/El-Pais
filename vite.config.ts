@@ -15,5 +15,27 @@ export default defineConfig({
       '@': path.resolve(__dirname, '.'),
       '@assets': path.resolve(__dirname, 'attached_assets'),
     }
-  }
+  },
+  build: {
+    target: 'esnext',
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+        },
+      },
+    },
+    cssMinify: true,
+    assetsInlineLimit: 4096,
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom'],
+  },
 });
