@@ -1,5 +1,6 @@
 import React from 'react';
 import { Menu, User } from 'lucide-react';
+import logoImage from '@assets/el-pais_1764448317569.png';
 
 export const Header = () => {
   return (
@@ -12,7 +13,7 @@ export const Header = () => {
           </button>
           
           <img 
-            src="/attached_assets/el-pais_1764448317569.png" 
+            src={logoImage} 
             alt="EL PAÍS" 
             className="h-6 select-none pointer-events-none"
           />
