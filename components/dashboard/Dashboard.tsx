@@ -34,10 +34,10 @@ export const Dashboard: React.FC = () => {
 
   const dateRanges: Record<string, DateRange> = {
     '24h': { start: subDays(new Date(), 1), end: new Date(), label: 'Últimas 24 horas' },
-    '7d': { start: subDays(new Date(), 7), end: new Date(), label: 'Últimos 7 días' },
-    '30d': { start: subDays(new Date(), 30), end: new Date(), label: 'Últimos 30 días' },
-    '90d': { start: subDays(new Date(), 90), end: new Date(), label: 'Últimos 90 días' },
-    'all': { start: new Date(2020, 0, 1), end: new Date(), label: 'Todo el tiempo' }
+    '7d': { start: subDays(new Date(), 7), end: new Date(), label: 'Últimos 7 dias' },
+    '30d': { start: subDays(new Date(), 30), end: new Date(), label: 'Últimos 30 dias' },
+    '90d': { start: subDays(new Date(), 90), end: new Date(), label: 'Últimos 90 dias' },
+    'all': { start: new Date(2020, 0, 1), end: new Date(), label: 'Todo o período' }
   };
 
   const handleLogin = async () => {
@@ -50,7 +50,7 @@ export const Dashboard: React.FC = () => {
       setIsAuthenticated(true);
       loadEvents();
     } else {
-      setError('Contraseña incorrecta');
+      setError('Senha incorreta');
     }
     
     setLoading(false);
@@ -107,7 +107,7 @@ export const Dashboard: React.FC = () => {
               <BarChart3 className="w-8 h-8 text-white" />
             </div>
             <h1 className="text-2xl font-bold text-white mb-2">Quiz Analytics</h1>
-            <p className="text-gray-400">Ingresa la contraseña para acceder</p>
+            <p className="text-gray-400">Digite a senha para acessar</p>
           </div>
 
           <div className="space-y-4">
@@ -118,7 +118,7 @@ export const Dashboard: React.FC = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
-                placeholder="Contraseña"
+                placeholder="Senha"
                 className="w-full bg-gray-700/50 border border-gray-600 rounded-xl py-3 pl-11 pr-11 text-white placeholder-gray-500 focus:outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/20"
               />
               <button
@@ -138,12 +138,12 @@ export const Dashboard: React.FC = () => {
               disabled={loading || !password}
               className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 disabled:opacity-50 disabled:cursor-not-allowed text-black font-bold py-3 rounded-xl transition-all duration-200 shadow-lg shadow-yellow-500/25"
             >
-              {loading ? 'Verificando...' : 'Acceder al Dashboard'}
+              {loading ? 'Verificando...' : 'Acessar o Dashboard'}
             </button>
           </div>
 
           <p className="text-gray-500 text-xs text-center mt-6">
-            Contraseña por defecto: admin123
+            Senha padrão: admin123
           </p>
         </div>
       </div>
@@ -207,9 +207,9 @@ export const Dashboard: React.FC = () => {
                     : 'bg-gray-700/50 hover:bg-gray-700 text-gray-300'
                 }`}
               >
-                {tab === 'overview' && 'Resumen'}
-                {tab === 'funnel' && 'Embudo'}
-                {tab === 'answers' && 'Respuestas'}
+                {tab === 'overview' && 'Resumo'}
+                {tab === 'funnel' && 'Funil'}
+                {tab === 'answers' && 'Respostas'}
                 {tab === 'events' && 'Eventos'}
               </button>
             ))}
@@ -222,13 +222,13 @@ export const Dashboard: React.FC = () => {
           <>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <StatCard
-                title="Sesiones Totales"
+                title="Sessões Totais"
                 value={dashboardData.totalSessions}
                 icon={<Users className="w-5 h-5" />}
                 color="blue"
               />
               <StatCard
-                title="Completados"
+                title="Concluídos"
                 value={dashboardData.completedSessions}
                 subtitle={`${dashboardData.completionRate.toFixed(1)}%`}
                 icon={<CheckCircle className="w-5 h-5" />}
@@ -241,7 +241,7 @@ export const Dashboard: React.FC = () => {
                 color="red"
               />
               <StatCard
-                title="Tiempo Promedio"
+                title="Tempo Médio"
                 value={formatTime(dashboardData.avgCompletionTime)}
                 icon={<Clock className="w-5 h-5" />}
                 color="purple"
@@ -253,7 +253,7 @@ export const Dashboard: React.FC = () => {
               <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700 rounded-2xl p-6">
                 <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                   <Activity className="w-5 h-5 text-yellow-500" />
-                  Sesiones por Día
+                  Sessões por Dia
                 </h3>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
@@ -276,8 +276,8 @@ export const Dashboard: React.FC = () => {
                         labelStyle={{ color: '#F7D844' }}
                       />
                       <Legend />
-                      <Area type="monotone" dataKey="sessions" name="Sesiones" stroke="#F7D844" fillOpacity={1} fill="url(#colorSessions)" />
-                      <Area type="monotone" dataKey="completions" name="Completados" stroke="#4ECDC4" fillOpacity={1} fill="url(#colorCompletions)" />
+                      <Area type="monotone" dataKey="sessions" name="Sessões" stroke="#F7D844" fillOpacity={1} fill="url(#colorSessions)" />
+                      <Area type="monotone" dataKey="completions" name="Concluídos" stroke="#4ECDC4" fillOpacity={1} fill="url(#colorCompletions)" />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
@@ -286,16 +286,16 @@ export const Dashboard: React.FC = () => {
               <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700 rounded-2xl p-6">
                 <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                   <PieChartIcon className="w-5 h-5 text-yellow-500" />
-                  Estado de Sesiones
+                  Status das Sessões
                 </h3>
                 <div className="h-64 flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
                         data={[
-                          { name: 'Completados', value: dashboardData.completedSessions, color: '#4ECDC4' },
+                          { name: 'Concluídos', value: dashboardData.completedSessions, color: '#4ECDC4' },
                           { name: 'Abandonados', value: dashboardData.abandonedSessions, color: '#FF6B6B' },
-                          { name: 'En Progreso', value: Math.max(0, dashboardData.totalSessions - dashboardData.completedSessions - dashboardData.abandonedSessions), color: '#F7D844' }
+                          { name: 'Em Andamento', value: Math.max(0, dashboardData.totalSessions - dashboardData.completedSessions - dashboardData.abandonedSessions), color: '#F7D844' }
                         ]}
                         cx="50%"
                         cy="50%"
@@ -305,9 +305,9 @@ export const Dashboard: React.FC = () => {
                         dataKey="value"
                       >
                         {[
-                          { name: 'Completados', value: dashboardData.completedSessions, color: '#4ECDC4' },
+                          { name: 'Concluídos', value: dashboardData.completedSessions, color: '#4ECDC4' },
                           { name: 'Abandonados', value: dashboardData.abandonedSessions, color: '#FF6B6B' },
-                          { name: 'En Progreso', value: Math.max(0, dashboardData.totalSessions - dashboardData.completedSessions - dashboardData.abandonedSessions), color: '#F7D844' }
+                          { name: 'Em Andamento', value: Math.max(0, dashboardData.totalSessions - dashboardData.completedSessions - dashboardData.abandonedSessions), color: '#F7D844' }
                         ].map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={entry.color} />
                         ))}
@@ -325,7 +325,7 @@ export const Dashboard: React.FC = () => {
             <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700 rounded-2xl p-6">
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                 <AlertTriangle className="w-5 h-5 text-yellow-500" />
-                Tasa de Abandono por Paso
+                Taxa de Abandono por Etapa
               </h3>
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
@@ -335,7 +335,7 @@ export const Dashboard: React.FC = () => {
                     <YAxis dataKey="stepName" type="category" stroke="#9CA3AF" tick={{ fontSize: 11 }} width={120} />
                     <Tooltip
                       contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #374151', borderRadius: '8px' }}
-                      formatter={(value: number) => [`${value.toFixed(1)}%`, 'Tasa de Abandono']}
+                      formatter={(value: number) => [`${value.toFixed(1)}%`, 'Taxa de Abandono']}
                     />
                     <Bar dataKey="abandonRate" fill="#FF6B6B" radius={[0, 4, 4, 0]} />
                   </BarChart>
@@ -349,7 +349,7 @@ export const Dashboard: React.FC = () => {
           <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700 rounded-2xl p-6">
             <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
               <Target className="w-5 h-5 text-yellow-500" />
-              Embudo de Conversión
+              Funil de Conversão
             </h3>
             <div className="space-y-3">
               {dashboardData.funnel.filter(f => f.step <= 18).map((step, index) => {
@@ -365,7 +365,7 @@ export const Dashboard: React.FC = () => {
                       <div className="flex-1">
                         <div className="flex justify-between text-sm mb-1">
                           <span className="font-medium">{step.stepName}</span>
-                          <span className="text-gray-400">{step.users} usuarios</span>
+                          <span className="text-gray-400">{step.users} usuários</span>
                         </div>
                         <div className="h-8 bg-gray-700 rounded-lg overflow-hidden relative">
                           <div
@@ -404,7 +404,7 @@ export const Dashboard: React.FC = () => {
               return (
                 <div key={step} className="bg-gray-800/50 backdrop-blur-xl border border-gray-700 rounded-2xl p-6">
                   <h3 className="text-lg font-semibold mb-4">
-                    Paso {step}: {stepStats?.stepName}
+                    Etapa {step}: {stepStats?.stepName}
                   </h3>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-3">
@@ -458,7 +458,7 @@ export const Dashboard: React.FC = () => {
             {Object.keys(dashboardData.answerDistribution).length === 0 && (
               <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700 rounded-2xl p-12 text-center">
                 <PieChartIcon className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-                <p className="text-gray-400">No hay datos de respuestas disponibles aún</p>
+                <p className="text-gray-400">Ainda não há dados de respostas disponíveis</p>
               </div>
             )}
           </div>
@@ -469,7 +469,7 @@ export const Dashboard: React.FC = () => {
             <div className="p-4 border-b border-gray-700">
               <h3 className="text-lg font-semibold flex items-center gap-2">
                 <Activity className="w-5 h-5 text-yellow-500" />
-                Eventos Recientes
+                Eventos Recentes
               </h3>
             </div>
             <div className="overflow-x-auto">
@@ -478,10 +478,10 @@ export const Dashboard: React.FC = () => {
                   <tr>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">Hora</th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">Tipo</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">Paso</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">Respuesta</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">Tiempo</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">Sesión</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">Etapa</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">Resposta</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">Tempo</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">Sessão</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-700">
@@ -513,7 +513,7 @@ export const Dashboard: React.FC = () => {
               {dashboardData.recentEvents.length === 0 && (
                 <div className="p-12 text-center">
                   <Activity className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-                  <p className="text-gray-400">No hay eventos registrados aún</p>
+                  <p className="text-gray-400">Ainda não há eventos registrados</p>
                 </div>
               )}
             </div>
@@ -577,10 +577,10 @@ const EventTypeBadge: React.FC<{ type: string }> = ({ type }) => {
   };
 
   const labels: Record<string, string> = {
-    quiz_start: 'Inicio',
-    step_view: 'Vista',
-    step_complete: 'Completado',
-    answer_selected: 'Respuesta',
+    quiz_start: 'Início',
+    step_view: 'Visualização',
+    step_complete: 'Concluído',
+    answer_selected: 'Resposta',
     quiz_complete: 'Finalizado',
     quiz_abandon: 'Abandono',
   };
