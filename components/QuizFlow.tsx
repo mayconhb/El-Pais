@@ -784,19 +784,16 @@ export const QuizFlow = () => {
         </div>
       </div>
 
-      {/* CTA Button - Initially hidden, appears when VTurb pitch is shown */}
+      {/* CTA Button - Initially hidden, appears after watching threshold */}
       {showCTAButton && (
         <div className="mt-4 animate-fade-in">
           <button
             onClick={handleCTAClick}
-            className="w-full bg-green-500 hover:bg-green-600 text-white font-bold text-lg py-4 px-6 rounded-lg shadow-lg transition-all transform hover:scale-[1.02] animate-pulse-cta flex items-center justify-center gap-2"
+            className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all animate-pulse-cta-strong flex items-center justify-center gap-2"
           >
-            <span>QUIERO MI PROTOCOLO AHORA</span>
+            <span>ACCEDER A MI PROTOCOLO PERSONALIZADO AHORA</span>
             <ArrowRight className="w-5 h-5" />
           </button>
-          <p className="text-center text-xs text-gray-500 mt-2">
-            Oferta por tiempo limitado - Acceso inmediato
-          </p>
         </div>
       )}
 
