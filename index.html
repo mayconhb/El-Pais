@@ -28,6 +28,38 @@
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src="https://escala.purelifenews.com/cechksinwxgg.js?"+i;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','6sinyrou=DgNFMDokXj8hKTpDLVAnTRFaSllfTxcFWhcNBQsFGg0CCR0AHUcQBAo%3D');</script>
     <!-- End Google Tag Manager -->
 
+    <!-- Bloqueia a reescrita de links da UTMify (mas mantém o rastreamento funcionando) -->
+    <script>
+      window.__UTMIFY_DISABLE_REWRITE__ = true;
+    </script>
+
+    <!-- Evita que a UTMify altere URLs, sem impedir que ela rastreie -->
+    <script>
+    (function() {
+        if (!window.__UTMIFY_DISABLE_REWRITE__) return;
+
+        const originalPushState = history.pushState;
+        history.pushState = function() {
+            if (window.__UTMIFY_DISABLE_REWRITE__) return;
+            return originalPushState.apply(this, arguments);
+        };
+
+        const originalReplaceState = history.replaceState;
+        history.replaceState = function() {
+            if (window.__UTMIFY_DISABLE_REWRITE__) return;
+            return originalReplaceState.apply(this, arguments);
+        };
+    })();
+    </script>
+
+    <!-- UTMify — continua funcionando normalmente (menos reescrita) -->
+    <script
+      src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+      data-utmify-prevent-subids
+      async
+      defer
+    ></script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
