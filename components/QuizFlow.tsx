@@ -12,14 +12,14 @@ import rosanaImage from '@assets/50-year-old-woman-weight-600nw-2519627017_17644
 import beforeAfterImage from '@assets/dfg_1764453736974.webp';
 import profilePhoto1 from '@assets/stock_images/latina_woman_face_po_de1b4c6b.jpg';
 import profilePhoto2 from '@assets/stock_images/latina_woman_face_po_b062712e.jpg';
-import profilePhoto3 from '@assets/stock_images/latina_woman_face_po_1970336a.jpg';
+import profilePhoto3 from '@assets/stock_images/adult_woman_30s_smil_0b215fc6.jpg';
 import profilePhoto4 from '@assets/stock_images/latina_woman_face_po_721577a4.jpg';
 import profilePhoto5 from '@assets/stock_images/latina_woman_face_po_43c11193.jpg';
 import profilePhoto6 from '@assets/stock_images/middle_aged_woman_fa_da927933.jpg';
 import profilePhoto7 from '@assets/stock_images/middle_aged_woman_fa_5fa29374.jpg';
 import profilePhoto8 from '@assets/stock_images/middle_aged_woman_fa_c100c455.jpg';
 import profilePhoto9 from '@assets/stock_images/middle_aged_woman_fa_82bbc0ca.jpg';
-import profilePhoto10 from '@assets/stock_images/hispanic_woman_smili_9926fc06.jpg';
+import profilePhoto10 from '@assets/stock_images/adult_woman_30s_smil_b4c869e0.jpg';
 
 // --- Types ---
 type StepType = 'intro' | 'button-select' | 'slider' | 'input' | 'loading' | 'result' | 'sales';
