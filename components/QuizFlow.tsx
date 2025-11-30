@@ -50,7 +50,6 @@ export const QuizFlow = () => {
   const [showCTAButton, setShowCTAButton] = useState(false); // CTA button visibility
   const hasTrackedStart = useRef(false);
   const previousStep = useRef(0);
-  const pitchTimeRef = useRef<number | null>(null); // Store pitch start time
   const ctaTrackedRef = useRef(false); // Prevent duplicate tracking
 
   // Calculate IMC
@@ -155,13 +154,21 @@ export const QuizFlow = () => {
     }
   }, [step]);
 
-  // Detect VTurb pitch button via postMessage and show CTA when pitch time is reached
+  // Track actual video playback time (ignoring pauses) and show CTA after threshold
+  const isPlayingRef = useRef(false);
+  const lastTimestampRef = useRef(0);
+  const accumulatedSecondsRef = useRef(0);
+  const CTA_THRESHOLD_SECONDS = 10;
+  
   useEffect(() => {
     if (step !== 18) return;
     
-    console.log('[Pitch Detector] Starting pitch detection for video page');
-    let ctaShown = false;
-    let pitchStartTime: number | null = null;
+    console.log('[Video Tracker] Starting playback tracking - CTA appears after', CTA_THRESHOLD_SECONDS, 'seconds watched');
+    
+    // Reset tracking state when entering video page
+    isPlayingRef.current = false;
+    lastTimestampRef.current = 0;
+    accumulatedSecondsRef.current = 0;
     
     const handleSmartPlayerMessage = (event: MessageEvent) => {
       try {
@@ -178,56 +185,55 @@ export const QuizFlow = () => {
         
         if (!data || typeof data !== 'object') return;
         
-        // Get event name from various possible fields
-        const eventName = data.event || data.type || data.eventName || '';
+        // Get event name - SmartPlayer uses 'type' field
+        const eventName = data.type || data.event || data.eventName || '';
         
-        // Log all SmartPlayer events for debugging
-        if (eventName) {
-          console.log('[Pitch Detector] Event received:', eventName, data);
+        // Handle play event - video started or resumed
+        if (eventName === 'videoPlay') {
+          isPlayingRef.current = true;
+          console.log('[Video Tracker] PLAY - now tracking time. Accumulated so far:', accumulatedSecondsRef.current.toFixed(1), 's');
         }
         
-        // Capture pitch configuration when callactionConnected event fires
-        // This event CONFIGURES the pitch but does NOT mean it's visible yet
-        if (eventName === 'callactionConnected' && data.data) {
-          const pitchData = data.data;
-          // Try multiple possible locations for the start time
-          pitchStartTime = pitchData.start ?? pitchData.range?.start ?? pitchData.startTime ?? pitchData.time ?? null;
-          pitchTimeRef.current = pitchStartTime;
-          console.log('[Pitch Detector] Pitch CONFIGURED (not visible yet) - Will appear at:', pitchStartTime, 'seconds');
-          console.log('[Pitch Detector] Full pitch config data:', JSON.stringify(pitchData));
+        // Handle pause event - video paused
+        if (eventName === 'videoPause') {
+          isPlayingRef.current = false;
+          console.log('[Video Tracker] PAUSE - stopped tracking. Total watched:', accumulatedSecondsRef.current.toFixed(1), 's');
         }
         
-        // Monitor video time updates - this is when we detect the pitch should become visible
-        if ((eventName === 'videoTimeUpdate' || eventName === 'smartplayer.videoTimeUpdate') && data.data) {
-          const currentTime = data.data.currentTime ?? data.data.time ?? data.data.currentVideoTime ?? 0;
+        // Handle ended event - video finished
+        if (eventName === 'videoEnded') {
+          isPlayingRef.current = false;
+          console.log('[Video Tracker] ENDED - Total watched:', accumulatedSecondsRef.current.toFixed(1), 's');
+        }
+        
+        // Track time updates - SmartPlayer sends time in payload.time
+        if (eventName === 'videoTimeUpdate') {
+          // Get time from payload (SmartPlayer format) or data
+          const payload = data.payload || data.data || {};
+          const currentTime = payload.time ?? payload.currentTime ?? 0;
           
-          // Only show CTA when video reaches pitch start time AND we have a valid pitch time
-          if (pitchStartTime !== null && currentTime >= pitchStartTime && !ctaShown) {
-            console.log('[Pitch Detector] Video reached pitch time (' + currentTime + 's >= ' + pitchStartTime + 's) - Showing CTA button NOW');
-            ctaShown = true;
+          // Only accumulate time if video is playing and time moved forward
+          if (isPlayingRef.current && currentTime > lastTimestampRef.current) {
+            const delta = currentTime - lastTimestampRef.current;
+            
+            // Only add reasonable deltas (ignore big jumps from seeking forward)
+            if (delta > 0 && delta < 2) {
+              accumulatedSecondsRef.current += delta;
+            }
+          }
+          
+          // Update last timestamp
+          lastTimestampRef.current = currentTime;
+          
+          // Show CTA button once threshold is reached
+          if (accumulatedSecondsRef.current >= CTA_THRESHOLD_SECONDS && !showCTAButton) {
+            console.log('[Video Tracker] THRESHOLD REACHED! Watched', accumulatedSecondsRef.current.toFixed(1), 's - SHOWING CTA BUTTON');
             setShowCTAButton(true);
           }
         }
         
-        // Direct detection: when the pitch/CTA is explicitly shown by SmartPlayer
-        // These are the events that indicate the button is ACTUALLY visible on the video
-        const showEvents = [
-          'callactionShow', 
-          'smartplayer.callaction.show',
-          'ctaShow', 
-          'pitchShow',
-          'smartplayer.pitch.show',
-          'smartplayer.cta.show'
-        ];
-        
-        if (showEvents.includes(eventName) && !ctaShown) {
-          console.log('[Pitch Detector] Direct show event detected:', eventName, '- Showing CTA button NOW');
-          ctaShown = true;
-          setShowCTAButton(true);
-        }
-        
       } catch (e) {
-        console.log('[Pitch Detector] Error processing message:', e);
+        console.log('[Video Tracker] Error:', e);
       }
     };
     
@@ -236,7 +242,7 @@ export const QuizFlow = () => {
     return () => {
       window.removeEventListener('message', handleSmartPlayerMessage);
     };
-  }, [step]);
+  }, [step, showCTAButton]);
 
   // Preload all images in background after initial page load
   useEffect(() => {

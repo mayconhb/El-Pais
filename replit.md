@@ -99,14 +99,16 @@ Navigate to `/dashboard` or `/analytics` to access the dashboard.
 ## VTurb/Meta Ads Integration
 
 ### How It Works
-The application uses a custom CTA button that appears when the VTurb video reaches the pitch moment. When clicked, it sends an `initiate_checkout` event to the dataLayer for Google Tag Manager and Meta Ads.
+The application tracks actual video playback time (ignoring pauses) and shows a custom CTA button after 10 seconds of watched content. When clicked, it sends an `initiate_checkout` event to the dataLayer for Google Tag Manager and Meta Ads.
 
 ### Implementation Details (QuizFlow.tsx)
-1. **PostMessage Listener**: Listens for SmartPlayer events via postMessage from the VTurb iframe
-2. **Pitch Detection**: Captures `callactionConnected` event to get pitch start time, then monitors `videoTimeUpdate` to detect when video reaches that time
-3. **Custom CTA Button**: A green "QUIERO MI PROTOCOLO AHORA" button appears below the video when the pitch is shown
-4. **InitiateCheckout Event**: When the button is clicked, pushes the event to dataLayer and opens checkout link
-5. **Duplicate Prevention**: Uses `ctaTrackedRef` to ensure the event only fires once per session
+1. **Playback Time Tracking**: Monitors SmartPlayer events to track real playback time
+2. **Play/Pause Detection**: Uses `videoPlay` and `videoPause` events to know when video is actually playing
+3. **Time Accumulation**: Calculates delta between time updates, only when video is playing
+4. **Threshold Trigger**: Shows CTA button after user watches 10 seconds of actual content
+5. **Custom CTA Button**: Green "QUIERO MI PROTOCOLO AHORA" button appears below the video
+6. **InitiateCheckout Event**: When button is clicked, pushes event to dataLayer and opens checkout
+7. **Duplicate Prevention**: Uses `ctaTrackedRef` to ensure the event only fires once per session
 
 ### DataLayer Event Format
 ```javascript
@@ -122,19 +124,16 @@ The application uses a custom CTA button that appears when the VTurb video reach
 In Google Tag Manager, create a trigger for the custom event `initiate_checkout` and map it to the Meta Pixel `InitiateCheckout` standard event.
 
 ### Debug Logs
-The implementation includes console logs prefixed with `[Pitch Detector]` for debugging:
-- `[Pitch Detector] Starting pitch detection for video page`
-- `[Pitch Detector] Event received:` - logs all SmartPlayer events with full data
-- `[Pitch Detector] Pitch CONFIGURED (not visible yet) - Will appear at: X seconds`
-- `[Pitch Detector] Video reached pitch time (Xs >= Xs) - Showing CTA button NOW`
-- `[Pitch Detector] Direct show event detected:` - when pitch is explicitly shown
+The implementation includes console logs prefixed with `[Video Tracker]` for debugging:
+- `[Video Tracker] Starting playback tracking - CTA appears after X seconds watched`
+- `[Video Tracker] PLAY - now tracking time. Accumulated so far: Xs`
+- `[Video Tracker] PAUSE - stopped tracking. Total watched: Xs`
+- `[Video Tracker] ENDED - Total watched: Xs`
+- `[Video Tracker] THRESHOLD REACHED! Watched Xs - SHOWING CTA BUTTON`
 - `[CTA Button] Button clicked - pushing InitiateCheckout to dataLayer`
 
-### Supported SmartPlayer Events
-The detector listens for these events:
-- **Configuration events**: `callactionConnected` - captures pitch start time
-- **Time monitoring**: `videoTimeUpdate`, `smartplayer.videoTimeUpdate`
-- **Direct show events**: `callactionShow`, `smartplayer.callaction.show`, `ctaShow`, `pitchShow`, `smartplayer.pitch.show`, `smartplayer.cta.show`
+### Configuration
+- **CTA_THRESHOLD_SECONDS**: Currently set to 10 seconds (can be adjusted in QuizFlow.tsx)
 
 ## Development
 
