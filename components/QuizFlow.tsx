@@ -118,7 +118,7 @@ export const QuizFlow = () => {
 
       <button 
         onClick={handleNext}
-        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-base py-3 px-6 rounded shadow-md transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2"
+        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-base py-3 px-6 rounded shadow-md transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2 animate-pulse-cta"
       >
         Iniciar mi prueba GRATIS ahora
       </button>
@@ -235,7 +235,7 @@ export const QuizFlow = () => {
 
         <button 
           onClick={handleContinue}
-          className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
+          className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all animate-pulse-cta"
         >
           Continuar
         </button>
@@ -261,7 +261,7 @@ export const QuizFlow = () => {
       <button 
         onClick={handleNext}
         disabled={name.length < 2}
-        className="w-full bg-news-yellow hover:bg-[#ebd040] disabled:opacity-50 disabled:cursor-not-allowed text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
+        className="w-full bg-news-yellow hover:bg-[#ebd040] disabled:opacity-50 disabled:cursor-not-allowed text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all animate-pulse-cta"
       >
         Continuar
       </button>
@@ -284,7 +284,7 @@ export const QuizFlow = () => {
 
       <button 
         onClick={handleNext}
-        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
+        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all animate-pulse-cta"
       >
         Continuar
       </button>
@@ -309,7 +309,7 @@ export const QuizFlow = () => {
 
       <button 
         onClick={handleNext}
-        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
+        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all animate-pulse-cta"
       >
         Continuar
       </button>
@@ -339,7 +339,7 @@ export const QuizFlow = () => {
 
       <button 
         onClick={handleNext}
-        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
+        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all animate-pulse-cta"
       >
         Continuar
       </button>
@@ -376,7 +376,7 @@ export const QuizFlow = () => {
 
       <button 
         onClick={handleNext}
-        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
+        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all animate-pulse-cta"
       >
         Continuar
       </button>
@@ -528,7 +528,7 @@ export const QuizFlow = () => {
 
       <button 
         onClick={handleNext}
-        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
+        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all animate-pulse-cta"
       >
         Continuar
       </button>
@@ -642,7 +642,7 @@ export const QuizFlow = () => {
 
       <button 
         onClick={handleNext}
-        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
+        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all animate-pulse-cta"
       >
         Continuar
       </button>
@@ -843,7 +843,7 @@ export const QuizFlow = () => {
 
       <button 
         onClick={handleNext}
-        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all"
+        className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all animate-pulse-cta"
       >
         Continuar
       </button>
