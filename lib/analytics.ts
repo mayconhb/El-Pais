@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { saveEventToSupabase, QuizEventDB } from './supabase';
 
 export interface QuizEvent {
   id: string;
@@ -29,11 +30,9 @@ class QuizAnalytics {
   private sessionId: string;
   private stepStartTime: number = 0;
   private currentStep: number = 0;
-  private apiEndpoint: string;
 
   constructor() {
     this.sessionId = this.getOrCreateSession();
-    this.apiEndpoint = '/api/analytics';
   }
 
   private getOrCreateSession(): string {
@@ -75,28 +74,22 @@ class QuizAnalytics {
   private async sendEvent(event: QuizEvent): Promise<void> {
     this.saveEventLocally(event);
     
-    const isProduction = typeof window !== 'undefined' && 
-      !window.location.hostname.includes('localhost') && 
-      !window.location.hostname.includes('127.0.0.1') &&
-      !window.location.port;
-
-    if (isProduction) {
-      try {
-        const response = await fetch(this.apiEndpoint, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(event),
-        });
-        
-        if (!response.ok) {
-          console.debug('Analytics API not available, using local storage');
-        }
-      } catch (error) {
-        console.debug('Analytics API not available, using local storage');
-      }
-    }
+    const dbEvent: QuizEventDB = {
+      id: event.id,
+      session_id: event.sessionId,
+      event_type: event.eventType,
+      step: event.step,
+      step_name: event.stepName,
+      answer: event.answer,
+      answer_index: event.answerIndex,
+      timestamp: event.timestamp,
+      time_spent_on_step: event.timeSpentOnStep,
+      metadata: event.metadata,
+    };
+    
+    saveEventToSupabase(dbEvent).catch(err => {
+      console.debug('Failed to save to Supabase, data stored locally:', err);
+    });
   }
 
   private saveEventLocally(event: QuizEvent): void {
