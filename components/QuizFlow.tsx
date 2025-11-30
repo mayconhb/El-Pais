@@ -295,15 +295,21 @@ export const QuizFlow = () => {
     ctaTrackedRef.current = true;
     
     console.log('[CTA Button] Button clicked - pushing InitiateCheckout to dataLayer');
+    console.log('[CTA Button] Window dataLayer exists:', !!(window as any).dataLayer);
     
     // Push InitiateCheckout event to dataLayer for GTM/Meta Ads
     (window as any).dataLayer = (window as any).dataLayer || [];
-    (window as any).dataLayer.push({
+    
+    const eventData = {
       'event': 'initiate_checkout',
       'event_category': 'ecommerce',
       'event_label': 'cta_button_click',
       'cta_source': 'custom_cta_button'
-    });
+    };
+    
+    console.log('[CTA Button] Pushing event to dataLayer:', eventData);
+    (window as any).dataLayer.push(eventData);
+    console.log('[CTA Button] DataLayer content:', (window as any).dataLayer);
     
     // Redirect to checkout page (same tab)
     window.location.href = 'https://pay.hotmart.com/I103092154N?off=8pqi3d4c&checkoutMode=10';
