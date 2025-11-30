@@ -289,13 +289,15 @@ export const QuizFlow = () => {
     setStep((prev) => prev + 1);
   };
 
-  // Handle CTA button click - triggers InitiateCheckout event
+  // Handle CTA link click - triggers InitiateCheckout event for dataLayer
+  // Note: No redirect needed as the <a> tag href handles navigation automatically
+  // This allows GTM to detect the link click to pay.hotmart.com and send parameters
   const handleCTAClick = () => {
     if (ctaTrackedRef.current) return;
     ctaTrackedRef.current = true;
     
-    console.log('[CTA Button] Button clicked - pushing InitiateCheckout to dataLayer');
-    console.log('[CTA Button] Window dataLayer exists:', !!(window as any).dataLayer);
+    console.log('[CTA Link] Link clicked - pushing InitiateCheckout to dataLayer');
+    console.log('[CTA Link] Window dataLayer exists:', !!(window as any).dataLayer);
     
     // Push InitiateCheckout event to dataLayer for GTM/Meta Ads
     (window as any).dataLayer = (window as any).dataLayer || [];
@@ -303,16 +305,16 @@ export const QuizFlow = () => {
     const eventData = {
       'event': 'initiate_checkout',
       'event_category': 'ecommerce',
-      'event_label': 'cta_button_click',
-      'cta_source': 'custom_cta_button'
+      'event_label': 'cta_link_click',
+      'cta_source': 'custom_cta_link'
     };
     
-    console.log('[CTA Button] Pushing event to dataLayer:', eventData);
+    console.log('[CTA Link] Pushing event to dataLayer:', eventData);
     (window as any).dataLayer.push(eventData);
-    console.log('[CTA Button] DataLayer content:', (window as any).dataLayer);
+    console.log('[CTA Link] DataLayer content:', (window as any).dataLayer);
     
-    // Redirect to checkout page (same tab)
-    window.location.href = 'https://pay.hotmart.com/I103092154N?off=8pqi3d4c&checkoutMode=10';
+    // No redirect needed - the <a> tag href handles navigation automatically
+    // GTM will detect this as a link click to pay.hotmart.com and apply URL parameters
   };
 
   // --- Step Content Renderers ---
@@ -791,15 +793,17 @@ export const QuizFlow = () => {
       </div>
 
       {/* CTA Button - Initially hidden, appears after watching threshold */}
+      {/* Using <a> tag instead of <button> so GTM can detect link clicks to pay.hotmart.com */}
       {showCTAButton && (
         <div className="mt-4 animate-fade-in">
-          <button
+          <a
+            href="https://pay.hotmart.com/I103092154N?off=8pqi3d4c&checkoutMode=10"
             onClick={handleCTAClick}
             className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all animate-pulse-cta-strong flex items-center justify-center gap-2"
           >
             <span>ACCEDER A MI PROTOCOLO PERSONALIZADO AHORA</span>
             <ArrowRight className="w-5 h-5" />
-          </button>
+          </a>
         </div>
       )}
 

@@ -105,32 +105,42 @@ The application tracks actual video playback time (ignoring pauses) and shows a 
 1. **Playback Time Tracking**: Monitors SmartPlayer events to track real playback time
 2. **Play/Pause Detection**: Uses `videoPlay` and `videoPause` events to know when video is actually playing
 3. **Time Accumulation**: Calculates delta between time updates, only when video is playing
-4. **Threshold Trigger**: Shows CTA button after user watches 10 seconds of actual content
-5. **Custom CTA Button**: Green "QUIERO MI PROTOCOLO AHORA" button appears below the video
-6. **InitiateCheckout Event**: When button is clicked, pushes event to dataLayer and opens checkout
-7. **Duplicate Prevention**: Uses `ctaTrackedRef` to ensure the event only fires once per session
+4. **Threshold Trigger**: Shows CTA button after user watches 8 minutes and 10 seconds of actual content
+5. **CTA Link**: Yellow "ACCEDER A MI PROTOCOLO PERSONALIZADO AHORA" link appears below the video
+6. **GTM Link Click Detection**: Uses `<a>` tag (not `<button>`) so GTM can detect link clicks to pay.hotmart.com
+7. **InitiateCheckout Event**: When link is clicked, pushes event to dataLayer for additional tracking
+8. **Duplicate Prevention**: Uses `ctaTrackedRef` to ensure the event only fires once per session
+
+### IMPORTANT: GTM Link Click Detection
+The GTM script is configured to detect clicks on links (`<a>` tags) that point to `pay.hotmart.com`. 
+The CTA must use an `<a>` element (not `<button>`) with `href="https://pay.hotmart.com/..."` for GTM to:
+- Automatically detect the link click event (`gtm.linkClick`)
+- Apply UTM parameters and tracking cookies to the checkout URL
+- Fire the `begin_checkout` and `InitiateCheckout` tags
 
 ### DataLayer Event Format
 ```javascript
 {
   'event': 'initiate_checkout',
   'event_category': 'ecommerce',
-  'event_label': 'cta_button_click',
-  'cta_source': 'custom_cta_button'
+  'event_label': 'cta_link_click',
+  'cta_source': 'custom_cta_link'
 }
 ```
 
 ### GTM Configuration Required
-In Google Tag Manager, create a trigger for the custom event `initiate_checkout` and map it to the Meta Pixel `InitiateCheckout` standard event.
+The GTM container automatically detects link clicks to `pay.hotmart.com` and fires:
+- Google Analytics `begin_checkout` event
+- Meta Pixel `InitiateCheckout` standard event
 
 ### Debug Logs
-The implementation includes console logs prefixed with `[Video Tracker]` for debugging:
+The implementation includes console logs prefixed with `[Video Tracker]` and `[CTA Link]` for debugging:
 - `[Video Tracker] Starting playback tracking - CTA appears after X seconds watched`
 - `[Video Tracker] PLAY - now tracking time. Accumulated so far: Xs`
 - `[Video Tracker] PAUSE - stopped tracking. Total watched: Xs`
 - `[Video Tracker] ENDED - Total watched: Xs`
 - `[Video Tracker] THRESHOLD REACHED! Watched Xs - SHOWING CTA BUTTON`
-- `[CTA Button] Button clicked - pushing InitiateCheckout to dataLayer`
+- `[CTA Link] Link clicked - pushing InitiateCheckout to dataLayer`
 
 ### Configuration
 - **CTA_THRESHOLD_SECONDS**: Currently set to 490 seconds (8 minutes and 10 seconds)
