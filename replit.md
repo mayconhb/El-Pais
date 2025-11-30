@@ -133,7 +133,7 @@ The implementation includes console logs prefixed with `[Video Tracker]` for deb
 - `[CTA Button] Button clicked - pushing InitiateCheckout to dataLayer`
 
 ### Configuration
-- **CTA_THRESHOLD_SECONDS**: Currently set to 10 seconds (can be adjusted in QuizFlow.tsx)
+- **CTA_THRESHOLD_SECONDS**: Currently set to 490 seconds (8 minutes and 10 seconds)
 
 ## Development
 

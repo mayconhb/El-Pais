@@ -158,7 +158,7 @@ export const QuizFlow = () => {
   const isPlayingRef = useRef(false);
   const lastTimestampRef = useRef(0);
   const accumulatedSecondsRef = useRef(0);
-  const CTA_THRESHOLD_SECONDS = 10;
+  const CTA_THRESHOLD_SECONDS = 490; // 8 minutes and 10 seconds
   
   useEffect(() => {
     if (step !== 18) return;
