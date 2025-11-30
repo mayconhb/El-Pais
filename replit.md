@@ -124,10 +124,17 @@ In Google Tag Manager, create a trigger for the custom event `initiate_checkout`
 ### Debug Logs
 The implementation includes console logs prefixed with `[Pitch Detector]` for debugging:
 - `[Pitch Detector] Starting pitch detection for video page`
-- `[Pitch Detector] SmartPlayer event:` - logs all received events
-- `[Pitch Detector] Pitch configured to appear at: X seconds`
-- `[Pitch Detector] Video reached pitch time! Showing CTA button`
+- `[Pitch Detector] Event received:` - logs all SmartPlayer events with full data
+- `[Pitch Detector] Pitch CONFIGURED (not visible yet) - Will appear at: X seconds`
+- `[Pitch Detector] Video reached pitch time (Xs >= Xs) - Showing CTA button NOW`
+- `[Pitch Detector] Direct show event detected:` - when pitch is explicitly shown
 - `[CTA Button] Button clicked - pushing InitiateCheckout to dataLayer`
+
+### Supported SmartPlayer Events
+The detector listens for these events:
+- **Configuration events**: `callactionConnected` - captures pitch start time
+- **Time monitoring**: `videoTimeUpdate`, `smartplayer.videoTimeUpdate`
+- **Direct show events**: `callactionShow`, `smartplayer.callaction.show`, `ctaShow`, `pitchShow`, `smartplayer.pitch.show`, `smartplayer.cta.show`
 
 ## Development
 
