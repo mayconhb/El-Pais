@@ -25,11 +25,13 @@
     
     <!-- Vturb CTA Tracking - Captura cliques no botão do player -->
     <script>
+      console.log('[VTurb Tracking] Script initialized');
       window.dataLayer = window.dataLayer || [];
       
       (function() {
         var ctaTracked = false;
         var listenerAttached = false;
+        console.log('[VTurb Tracking] Setting up MutationObserver and listeners...');
         
         function pushInitiateCheckout(source) {
           if (ctaTracked) return;
