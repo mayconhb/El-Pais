@@ -114,6 +114,46 @@ export const QuizFlow = () => {
     }
   }, [step]);
 
+  // Preload all images in background after initial page load
+  useEffect(() => {
+    const imagesToPreload = [
+      protocoloImage,
+      gomitaTestimonial,
+      fernandaTestimonial,
+      marianaTestimonial,
+      carouselImage1,
+      carouselImage2,
+      carouselImage3,
+      rosanaImage,
+      beforeAfterImage,
+      profilePhoto1,
+      profilePhoto2,
+      profilePhoto3,
+      profilePhoto4,
+      profilePhoto5,
+      profilePhoto6,
+      profilePhoto7,
+      profilePhoto8,
+      profilePhoto9,
+      profilePhoto10,
+    ];
+
+    // Wait for initial page to be fully loaded, then preload images
+    const preloadImages = () => {
+      imagesToPreload.forEach((src) => {
+        const img = new Image();
+        img.src = src;
+      });
+    };
+
+    // Use requestIdleCallback if available, otherwise setTimeout
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(preloadImages);
+    } else {
+      setTimeout(preloadImages, 100);
+    }
+  }, []);
+
   const handleNext = () => {
     setStep((prev) => prev + 1);
   };
@@ -318,7 +358,7 @@ export const QuizFlow = () => {
         </h3>
         
         <div className="w-full overflow-hidden rounded-lg">
-          <img src={protocoloImage} loading="lazy" decoding="async" className="w-full h-auto object-contain" alt="Cómo funciona el Protocolo de Gelatina Reductora" />
+          <img src={protocoloImage} decoding="async" className="w-full h-auto object-contain" alt="Cómo funciona el Protocolo de Gelatina Reductora" />
         </div>
       </div>
 
@@ -347,7 +387,7 @@ export const QuizFlow = () => {
 
       {/* Testimonial 1 - Gomita */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
-        <img src={gomitaTestimonial} loading="lazy" decoding="async" className="w-full h-auto object-contain" alt="Transformación de Gomita" />
+        <img src={gomitaTestimonial} decoding="async" className="w-full h-auto object-contain" alt="Transformación de Gomita" />
         <div className="p-4 space-y-3">
           <p className="font-serif italic text-gray-700 text-sm leading-relaxed border-l-4 border-news-yellow pl-3">
             "Ya había intentado de todo para adelgazar, pero nada funcionaba realmente. Después de empezar a usar la fórmula de la Gelatina Reductora en mi día a día, perdí 8 kilos en solo 17 días — sin cambiar nada en mi alimentación. Ahora me siento más ligera, más bonita y con una confianza que no sentía desde hacía años."
@@ -369,7 +409,7 @@ export const QuizFlow = () => {
 
       {/* Testimonial 2 - Fernanda */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
-        <img src={fernandaTestimonial} loading="lazy" decoding="async" className="w-full h-auto object-cover" alt="Transformación de Fernanda" />
+        <img src={fernandaTestimonial} decoding="async" className="w-full h-auto object-cover" alt="Transformación de Fernanda" />
         <div className="p-4 space-y-3">
           <p className="font-serif italic text-gray-700 text-sm leading-relaxed border-l-4 border-news-yellow pl-3">
             "Ya había intentado de todo para adelgazar, pero nada funcionaba. Después de incluir la fórmula de la Gelatina Reductora en mi rutina, perdí 11 kg en solo 3 semanas sin cambiar nada en mi alimentación. Ahora me siento más segura y llena de energía. ¡Este Protocolo cambió mi vida!"
@@ -384,7 +424,7 @@ export const QuizFlow = () => {
 
       {/* Testimonial 3 - Mariana */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
-        <img src={marianaTestimonial} loading="lazy" decoding="async" className="w-full h-auto object-cover" alt="Transformación de Mariana" />
+        <img src={marianaTestimonial} decoding="async" className="w-full h-auto object-cover" alt="Transformación de Mariana" />
         <div className="p-4 space-y-3">
           <p className="font-serif italic text-gray-700 text-sm leading-relaxed border-l-4 border-news-yellow pl-3">
             "Siempre luché con mi peso y me sentía cansada todo el tiempo. Desde que empecé con la fórmula de la Sal Rosa, logré bajar 15 kilos en 2 semanas. No tuve que hacer dietas extremas ni pasar hambre. Hoy tengo más energía, mi ropa me queda mejor y me siento orgullosa de mi misma."
@@ -545,7 +585,7 @@ export const QuizFlow = () => {
         <p className="text-sm text-gray-600 mb-4">Mira la transformación de <span className="text-news-yellow font-semibold">Rosana Rosalez</span>.</p>
         
         <div className="w-full overflow-hidden rounded-lg mb-6">
-          <img src={rosanaImage} loading="lazy" decoding="async" className="w-full h-auto object-cover" alt="Transformación de Rosana Rosalez" />
+          <img src={rosanaImage} decoding="async" className="w-full h-auto object-cover" alt="Transformación de Rosana Rosalez" />
         </div>
       </div>
 
@@ -659,7 +699,7 @@ export const QuizFlow = () => {
         <p className="text-sm text-gray-600 mb-4">Mira la transformación de <span className="text-news-yellow font-semibold">Rosana Rosalez</span>.</p>
         
         <div className="w-full overflow-hidden rounded-lg mb-6">
-          <img src={rosanaImage} loading="lazy" decoding="async" className="w-full h-auto object-cover" alt="Transformación de Rosana Rosalez" />
+          <img src={rosanaImage} decoding="async" className="w-full h-auto object-cover" alt="Transformación de Rosana Rosalez" />
         </div>
       </div>
 
@@ -703,7 +743,7 @@ export const QuizFlow = () => {
         <div className="space-y-4">
           {/* Comment 1 */}
           <div className="flex gap-3">
-            <img src={profilePhoto1} alt="Mariana" loading="lazy" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
+            <img src={profilePhoto1} alt="Mariana" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Mariana Gutiérrez</p>
               <p className="text-xs text-gray-600 mt-1">Este protocolo lo cambió todo para mí. En pocas semanas vi cómo mi abdomen desinflamaba y la ropa volvía a quedarme.</p>
@@ -713,7 +753,7 @@ export const QuizFlow = () => {
 
           {/* Comment 2 */}
           <div className="flex gap-3">
-            <img src={profilePhoto2} alt="Camila" loading="lazy" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
+            <img src={profilePhoto2} alt="Camila" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Camila Rodríguez</p>
               <p className="text-xs text-gray-600 mt-1">Intenté de todo, pero nada funcionaba... hasta conocer este protocolo. Hoy estoy 14 kg más liviana y con la autoestima por las nubes.</p>
@@ -723,7 +763,7 @@ export const QuizFlow = () => {
 
           {/* Comment 3 */}
           <div className="flex gap-3">
-            <img src={profilePhoto3} alt="Sofía" loading="lazy" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
+            <img src={profilePhoto3} alt="Sofía" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Sofía Morales</p>
               <p className="text-xs text-gray-600 mt-1">Es increíble cómo algo tan simple puede transformar tanto. Ya son 3 meses siguiéndolo y me siento otra persona.</p>
@@ -733,7 +773,7 @@ export const QuizFlow = () => {
 
           {/* Comment 4 */}
           <div className="flex gap-3">
-            <img src={profilePhoto4} alt="Valeria" loading="lazy" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
+            <img src={profilePhoto4} alt="Valeria" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Valeria Castillo</p>
               <p className="text-xs text-gray-600 mt-1">Había perdido las esperanzas, pero este protocolo que devolvió la confianza y la energía. Nunca imaginé que funcionaría tan bien.</p>
@@ -743,7 +783,7 @@ export const QuizFlow = () => {
 
           {/* Comment 5 */}
           <div className="flex gap-3">
-            <img src={profilePhoto5} alt="Fernanda" loading="lazy" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
+            <img src={profilePhoto5} alt="Fernanda" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Fernanda López</p>
               <p className="text-xs text-gray-600 mt-1">Mi vida cambió por completo. La balanza finalmente empezó a bajar y no se detuvo más.</p>
@@ -753,7 +793,7 @@ export const QuizFlow = () => {
 
           {/* Comment 6 */}
           <div className="flex gap-3">
-            <img src={profilePhoto6} alt="Carolina" loading="lazy" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
+            <img src={profilePhoto6} alt="Carolina" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Carolina Ramírez</p>
               <p className="text-xs text-gray-600 mt-1">Nunca voy a olvidar la sensación de ver mi cuerpo cambiar día tras día gracias a este protocolo.</p>
@@ -763,7 +803,7 @@ export const QuizFlow = () => {
 
           {/* Comment 7 */}
           <div className="flex gap-3">
-            <img src={profilePhoto7} alt="Lucía" loading="lazy" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
+            <img src={profilePhoto7} alt="Lucía" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Lucía Fernández</p>
               <p className="text-xs text-gray-600 mt-1">En solo 10 días ya vi resultados que no logré en años de gimnasio y dietas.</p>
@@ -773,7 +813,7 @@ export const QuizFlow = () => {
 
           {/* Comment 8 */}
           <div className="flex gap-3">
-            <img src={profilePhoto8} alt="Gabriela" loading="lazy" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
+            <img src={profilePhoto8} alt="Gabriela" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Gabriela Torres</p>
               <p className="text-xs text-gray-600 mt-1">El protocolo fue como un renacimiento para mí. Me siento más joven, más ligera y feliz con mi cuerpo.</p>
@@ -783,7 +823,7 @@ export const QuizFlow = () => {
 
           {/* Comment 9 */}
           <div className="flex gap-3">
-            <img src={profilePhoto9} alt="Isabella" loading="lazy" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
+            <img src={profilePhoto9} alt="Isabella" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Isabella Vargas</p>
               <p className="text-xs text-gray-600 mt-1">Hoy, después de 18 kg menos, solo tengo una palabra: gratitud por este protocolo.</p>
@@ -793,7 +833,7 @@ export const QuizFlow = () => {
 
           {/* Comment 10 */}
           <div className="flex gap-3">
-            <img src={profilePhoto10} alt="Patricia" loading="lazy" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
+            <img src={profilePhoto10} alt="Patricia" decoding="async" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Patricia Martínez</p>
               <p className="text-xs text-gray-600 mt-1">Hoy, después de 18 kg menos, solo tengo una palabra: gratitud por este protocolo.</p>
@@ -822,7 +862,7 @@ export const QuizFlow = () => {
 
       {/* Before/After Image */}
       <div className="w-full overflow-hidden rounded-lg">
-        <img src={beforeAfterImage} loading="lazy" decoding="async" className="w-full h-auto object-cover" alt="Antes y Después" />
+        <img src={beforeAfterImage} decoding="async" className="w-full h-auto object-cover" alt="Antes y Después" />
       </div>
 
       {/* Comparison Table */}
