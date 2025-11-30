@@ -10,6 +10,16 @@ import carouselImage2 from '@assets/f4_1764453347817.webp';
 import carouselImage3 from '@assets/lg-qwnL0-slide-1nereide-16kg_1764453375116.webp';
 import rosanaImage from '@assets/50-year-old-woman-weight-600nw-2519627017_1764453653741.webp';
 import beforeAfterImage from '@assets/dfg_1764453736974.webp';
+import profilePhoto1 from '@assets/stock_images/latina_woman_face_po_de1b4c6b.jpg';
+import profilePhoto2 from '@assets/stock_images/latina_woman_face_po_b062712e.jpg';
+import profilePhoto3 from '@assets/stock_images/latina_woman_face_po_1970336a.jpg';
+import profilePhoto4 from '@assets/stock_images/latina_woman_face_po_721577a4.jpg';
+import profilePhoto5 from '@assets/stock_images/latina_woman_face_po_43c11193.jpg';
+import profilePhoto6 from '@assets/stock_images/middle_aged_woman_fa_da927933.jpg';
+import profilePhoto7 from '@assets/stock_images/middle_aged_woman_fa_5fa29374.jpg';
+import profilePhoto8 from '@assets/stock_images/middle_aged_woman_fa_c100c455.jpg';
+import profilePhoto9 from '@assets/stock_images/middle_aged_woman_fa_82bbc0ca.jpg';
+import profilePhoto10 from '@assets/stock_images/hispanic_woman_smili_9926fc06.jpg';
 
 // --- Types ---
 type StepType = 'intro' | 'button-select' | 'slider' | 'input' | 'loading' | 'result' | 'sales';
@@ -692,7 +702,7 @@ export const QuizFlow = () => {
         <div className="space-y-4">
           {/* Comment 1 */}
           <div className="flex gap-3">
-            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <img src={profilePhoto1} alt="Mariana" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Mariana Gutiérrez</p>
               <p className="text-xs text-gray-600 mt-1">Este protocolo lo cambió todo para mí. En pocas semanas vi cómo mi abdomen desinflamaba y la ropa volvía a quedarme.</p>
@@ -702,7 +712,7 @@ export const QuizFlow = () => {
 
           {/* Comment 2 */}
           <div className="flex gap-3">
-            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <img src={profilePhoto2} alt="Camila" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Camila Rodríguez</p>
               <p className="text-xs text-gray-600 mt-1">Intenté de todo, pero nada funcionaba... hasta conocer este protocolo. Hoy estoy 14 kg más liviana y con la autoestima por las nubes.</p>
@@ -712,7 +722,7 @@ export const QuizFlow = () => {
 
           {/* Comment 3 */}
           <div className="flex gap-3">
-            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <img src={profilePhoto3} alt="Sofía" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Sofía Morales</p>
               <p className="text-xs text-gray-600 mt-1">Es increíble cómo algo tan simple puede transformar tanto. Ya son 3 meses siguiéndolo y me siento otra persona.</p>
@@ -722,7 +732,7 @@ export const QuizFlow = () => {
 
           {/* Comment 4 */}
           <div className="flex gap-3">
-            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <img src={profilePhoto4} alt="Valeria" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Valeria Castillo</p>
               <p className="text-xs text-gray-600 mt-1">Había perdido las esperanzas, pero este protocolo que devolvió la confianza y la energía. Nunca imaginé que funcionaría tan bien.</p>
@@ -732,7 +742,7 @@ export const QuizFlow = () => {
 
           {/* Comment 5 */}
           <div className="flex gap-3">
-            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <img src={profilePhoto5} alt="Fernanda" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Fernanda López</p>
               <p className="text-xs text-gray-600 mt-1">Mi vida cambió por completo. La balanza finalmente empezó a bajar y no se detuvo más.</p>
@@ -742,7 +752,7 @@ export const QuizFlow = () => {
 
           {/* Comment 6 */}
           <div className="flex gap-3">
-            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <img src={profilePhoto6} alt="Carolina" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Carolina Ramírez</p>
               <p className="text-xs text-gray-600 mt-1">Nunca voy a olvidar la sensación de ver mi cuerpo cambiar día tras día gracias a este protocolo.</p>
@@ -752,7 +762,7 @@ export const QuizFlow = () => {
 
           {/* Comment 7 */}
           <div className="flex gap-3">
-            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <img src={profilePhoto7} alt="Lucía" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Lucía Fernández</p>
               <p className="text-xs text-gray-600 mt-1">En solo 10 días ya vi resultados que no logré en años de gimnasio y dietas.</p>
@@ -762,7 +772,7 @@ export const QuizFlow = () => {
 
           {/* Comment 8 */}
           <div className="flex gap-3">
-            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <img src={profilePhoto8} alt="Gabriela" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Gabriela Torres</p>
               <p className="text-xs text-gray-600 mt-1">El protocolo fue como un renacimiento para mí. Me siento más joven, más ligera y feliz con mi cuerpo.</p>
@@ -772,7 +782,7 @@ export const QuizFlow = () => {
 
           {/* Comment 9 */}
           <div className="flex gap-3">
-            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <img src={profilePhoto9} alt="Isabella" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Isabella Vargas</p>
               <p className="text-xs text-gray-600 mt-1">Hoy, después de 18 kg menos, solo tengo una palabra: gratitud por este protocolo.</p>
@@ -782,7 +792,7 @@ export const QuizFlow = () => {
 
           {/* Comment 10 */}
           <div className="flex gap-3">
-            <div className="w-8 h-8 bg-gray-200 rounded-full shrink-0"></div>
+            <img src={profilePhoto10} alt="Patricia" className="w-8 h-8 rounded-full shrink-0 object-cover" />
             <div className="flex-1">
               <p className="font-bold text-sm">Patricia Martínez</p>
               <p className="text-xs text-gray-600 mt-1">Hoy, después de 18 kg menos, solo tengo una palabra: gratitud por este protocolo.</p>
