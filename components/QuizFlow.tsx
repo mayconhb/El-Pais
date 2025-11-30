@@ -19,7 +19,7 @@ import profilePhoto6 from '@assets/stock_images/middle_aged_woman_fa_da927933.jp
 import profilePhoto7 from '@assets/baixados_1764470596369.jpg';
 import profilePhoto8 from '@assets/images (1)_1764470674545.jpg';
 import profilePhoto9 from '@assets/images_1764470674545.jpg';
-import profilePhoto10 from '@assets/stock_images/adult_woman_30s_smil_b4c869e0.jpg';
+import profilePhoto10 from '@assets/images (2)_1764470774467.jpg';
 
 // --- Types ---
 type StepType = 'intro' | 'button-select' | 'slider' | 'input' | 'loading' | 'result' | 'sales';
