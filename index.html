@@ -23,15 +23,14 @@
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src="https://escala.purelifenews.com/cechksinwxgg.js?"+i;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','6sinyrou=DgNFMDokXj8hKTpDLVAnTRFaSllfTxcFWhcNBQsFGg0CCR0AHUcQBAo%3D');</script>
     <!-- End Google Tag Manager -->
     
-    <!-- Vturb CTA Tracking - Captura cliques no botão do player -->
+    <!-- Vturb CTA Tracking - Captura cliques no botão do player (VTurb v4.5.0+) -->
     <script>
-      console.log('[VTurb Tracking] Script initialized');
+      console.log('[VTurb Tracking] Script initialized - v2.0 for VTurb 4.5.0+');
       window.dataLayer = window.dataLayer || [];
       
       (function() {
         var ctaTracked = false;
         var listenerAttached = false;
-        console.log('[VTurb Tracking] Setting up MutationObserver and listeners...');
         
         function pushInitiateCheckout(source) {
           if (ctaTracked) return;
@@ -46,49 +45,61 @@
           console.log('[VTurb Tracking] InitiateCheckout pushed to dataLayer from:', source);
         }
         
-        function attachSmartPlayerListeners() {
+        function attachVTurbListeners(player) {
           if (listenerAttached) return;
+          listenerAttached = true;
           
-          var smartplayer = window.smartplayer;
-          if (!smartplayer || !smartplayer.instances || smartplayer.instances.length === 0) {
-            return false;
-          }
+          console.log('[VTurb Tracking] Attaching event listeners to vturb-smartplayer element...');
           
-          var player = smartplayer.instances[0];
-          console.log('[VTurb Tracking] SmartPlayer instance found, attaching CTA listeners...');
+          var playerEvents = [
+            'player:cta-click',
+            'player:cta_click', 
+            'cta:click',
+            'cta-click',
+            'cta_click',
+            'ctaclick',
+            'button:click',
+            'smartplayer:cta'
+          ];
           
-          if (player && typeof player.on === 'function') {
-            listenerAttached = true;
+          playerEvents.forEach(function(eventName) {
+            player.addEventListener(eventName, function(e) {
+              console.log('[VTurb Tracking] Event "' + eventName + '" detected:', e);
+              pushInitiateCheckout('vturb_' + eventName);
+            });
+          });
+          
+          console.log('[VTurb Tracking] Event listeners attached successfully');
+        }
+        
+        function findAndAttachToPlayer() {
+          var player = document.querySelector('vturb-smartplayer');
+          if (player) {
+            console.log('[VTurb Tracking] Found vturb-smartplayer element');
+            attachVTurbListeners(player);
             
-            var ctaEvents = ['cta_click', 'ctaclick', 'ctaClick', 'cta-click', 'smartplayer_cta'];
-            ctaEvents.forEach(function(eventName) {
-              try {
-                player.on(eventName, function(eventData) {
-                  console.log('[VTurb Tracking] CTA click detected via "' + eventName + '":', eventData);
-                  pushInitiateCheckout('smartplayer_' + eventName);
-                });
-              } catch (e) {}
+            player.addEventListener('player:ready', function() {
+              console.log('[VTurb Tracking] Player ready event received');
             });
             
-            console.log('[VTurb Tracking] CTA listeners attached successfully');
             return true;
           }
           return false;
         }
         
-        function pollForSmartPlayer() {
+        function pollForPlayer() {
           var attempts = 0;
           var maxAttempts = 120;
           
           var poll = function() {
-            if (attachSmartPlayerListeners()) {
+            if (findAndAttachToPlayer()) {
               return;
             }
             attempts++;
             if (attempts < maxAttempts) {
               setTimeout(poll, 500);
             } else {
-              console.log('[VTurb Tracking] Max attempts reached, smartplayer not found');
+              console.log('[VTurb Tracking] Max attempts reached, player not found');
             }
           };
           
@@ -96,20 +107,29 @@
         }
         
         function startTracking() {
-          console.log('[VTurb Tracking] VTurb iframe detected, starting smartplayer polling...');
-          pollForSmartPlayer();
+          console.log('[VTurb Tracking] VTurb element detected, starting player polling...');
+          pollForPlayer();
         }
         
         var observer = new MutationObserver(function(mutations) {
           mutations.forEach(function(mutation) {
             mutation.addedNodes.forEach(function(node) {
               if (node.nodeType === 1) {
+                if (node.tagName && node.tagName.toLowerCase() === 'vturb-smartplayer') {
+                  startTracking();
+                }
                 if (node.tagName === 'IFRAME' && node.src && node.src.includes('converteai.net')) {
                   startTracking();
                 }
-                var iframes = node.querySelectorAll ? node.querySelectorAll('iframe[src*="converteai.net"]') : [];
-                if (iframes.length > 0) {
-                  startTracking();
+                if (node.querySelectorAll) {
+                  var vturbElements = node.querySelectorAll('vturb-smartplayer');
+                  if (vturbElements.length > 0) {
+                    startTracking();
+                  }
+                  var iframes = node.querySelectorAll('iframe[src*="converteai.net"]');
+                  if (iframes.length > 0) {
+                    startTracking();
+                  }
                 }
               }
             });
@@ -118,10 +138,26 @@
         
         observer.observe(document.documentElement, { childList: true, subtree: true });
         
-        var existingIframe = document.querySelector('iframe[src*="converteai.net"]');
-        if (existingIframe) {
+        if (document.querySelector('vturb-smartplayer') || document.querySelector('iframe[src*="converteai.net"]')) {
           startTracking();
         }
+        
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+          while (target && target !== document.body) {
+            if (target.classList && (
+              target.classList.contains('smartplayer-click-event') ||
+              target.classList.contains('vturb-cta') ||
+              target.classList.contains('smartplayer-cta') ||
+              (target.id && target.id.includes('smartplayer-click-event'))
+            )) {
+              console.log('[VTurb Tracking] CTA click detected via class/ID:', target);
+              pushInitiateCheckout('dom_click_class');
+              return;
+            }
+            target = target.parentElement;
+          }
+        }, true);
         
         window.addEventListener('message', function(event) {
           try {
@@ -131,7 +167,7 @@
               try {
                 data = JSON.parse(data);
               } catch (e) {
-                if (data.toLowerCase().includes('cta')) {
+                if (data.toLowerCase().includes('cta') || data.toLowerCase().includes('button')) {
                   console.log('[VTurb Tracking] CTA string message detected:', data);
                   pushInitiateCheckout('postmessage_string');
                 }
@@ -141,25 +177,22 @@
             
             if (!data || typeof data !== 'object') return;
             
+            var dataStr = JSON.stringify(data).toLowerCase();
             var isCTAEvent = 
-              data.event === 'cta_click' || 
-              data.event === 'cta-click' ||
-              data.event === 'ctaclick' ||
-              data.event === 'ctaClicked' ||
-              data.type === 'cta_click' ||
-              data.type === 'smartplayer_cta' ||
-              (data.detail && data.detail.event && data.detail.event.includes('cta')) ||
-              (data.name && data.name.toLowerCase().includes('cta')) ||
-              (data.action && data.action.toLowerCase().includes('cta'));
+              dataStr.includes('cta') ||
+              dataStr.includes('button_click') ||
+              dataStr.includes('checkout') ||
+              data.event === 'player:cta-click' ||
+              data.type === 'cta';
             
             if (isCTAEvent) {
               console.log('[VTurb Tracking] CTA event detected via postMessage:', data);
               pushInitiateCheckout('postmessage');
             }
-          } catch (e) {
-            console.log('[VTurb Tracking] Error processing message:', e);
-          }
+          } catch (e) {}
         });
+        
+        console.log('[VTurb Tracking] Setup complete - watching for VTurb elements');
       })();
     </script>
     <!-- End Vturb CTA Tracking -->
