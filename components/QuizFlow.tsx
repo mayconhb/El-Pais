@@ -305,8 +305,8 @@ export const QuizFlow = () => {
       'cta_source': 'custom_cta_button'
     });
     
-    // Redirect to checkout page
-    window.open('https://go.hotmart.com/B98362449P?ap=0093', '_blank');
+    // Redirect to checkout page (same tab)
+    window.location.href = 'https://pay.hotmart.com/I103092154N?off=8pqi3d4c&checkoutMode=10';
   };
 
   // --- Step Content Renderers ---
