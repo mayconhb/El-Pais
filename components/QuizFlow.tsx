@@ -22,6 +22,7 @@ import profilePhoto8 from '@assets/images (1)_1764470674545.jpg';
 import profilePhoto9 from '@assets/images_1764470674545.jpg';
 import profilePhoto10 from '@assets/images (2)_1764470774467.jpg';
 
+
 // --- Types ---
 type StepType = 'intro' | 'button-select' | 'slider' | 'input' | 'loading' | 'result' | 'sales';
 
@@ -141,15 +142,24 @@ export const QuizFlow = () => {
     }
   }, [step]);
 
-  // Load Vturb SDK when reaching video page
+  // Load Wistia SDK when reaching video page
   useEffect(() => {
     if (step === 18) {
-      const existingScript = document.querySelector('script[src*="converteai.net"]');
-      if (!existingScript) {
-        const script = document.createElement('script');
-        script.src = 'https://scripts.converteai.net/lib/js/smartplayer-wc/v4/sdk.js';
-        script.async = true;
-        document.head.appendChild(script);
+      const existingPlayerScript = document.querySelector('script[src*="fast.wistia.com/player.js"]');
+      if (!existingPlayerScript) {
+        const playerScript = document.createElement('script');
+        playerScript.src = 'https://fast.wistia.com/player.js';
+        playerScript.async = true;
+        document.head.appendChild(playerScript);
+      }
+      
+      const existingEmbedScript = document.querySelector('script[src*="fast.wistia.com/embed/8xc87ip699.js"]');
+      if (!existingEmbedScript) {
+        const embedScript = document.createElement('script');
+        embedScript.src = 'https://fast.wistia.com/embed/8xc87ip699.js';
+        embedScript.async = true;
+        embedScript.type = 'module';
+        document.head.appendChild(embedScript);
       }
     }
   }, [step]);
@@ -158,89 +168,88 @@ export const QuizFlow = () => {
   const isPlayingRef = useRef(false);
   const lastTimestampRef = useRef(0);
   const accumulatedSecondsRef = useRef(0);
+  const wistiaBindedRef = useRef(false);
   const CTA_THRESHOLD_SECONDS = 490; // 8 minutes and 10 seconds
   
   useEffect(() => {
     if (step !== 18) return;
     
-    console.log('[Video Tracker] Starting playback tracking - CTA appears after', CTA_THRESHOLD_SECONDS, 'seconds watched');
+    console.log('[Video Tracker] Starting Wistia playback tracking - CTA appears after', CTA_THRESHOLD_SECONDS, 'seconds watched');
     
     // Reset tracking state when entering video page
     isPlayingRef.current = false;
     lastTimestampRef.current = 0;
     accumulatedSecondsRef.current = 0;
+    wistiaBindedRef.current = false;
     
-    const handleSmartPlayerMessage = (event: MessageEvent) => {
-      try {
-        let data = event.data;
-        
-        // Parse JSON string if needed
-        if (typeof data === 'string') {
-          try {
-            data = JSON.parse(data);
-          } catch {
-            return;
-          }
-        }
-        
-        if (!data || typeof data !== 'object') return;
-        
-        // Get event name - SmartPlayer uses 'type' field
-        const eventName = data.type || data.event || data.eventName || '';
-        
-        // Handle play event - video started or resumed
-        if (eventName === 'videoPlay') {
-          isPlayingRef.current = true;
-          console.log('[Video Tracker] PLAY - now tracking time. Accumulated so far:', accumulatedSecondsRef.current.toFixed(1), 's');
-        }
-        
-        // Handle pause event - video paused
-        if (eventName === 'videoPause') {
-          isPlayingRef.current = false;
-          console.log('[Video Tracker] PAUSE - stopped tracking. Total watched:', accumulatedSecondsRef.current.toFixed(1), 's');
-        }
-        
-        // Handle ended event - video finished
-        if (eventName === 'videoEnded') {
-          isPlayingRef.current = false;
-          console.log('[Video Tracker] ENDED - Total watched:', accumulatedSecondsRef.current.toFixed(1), 's');
-        }
-        
-        // Track time updates - SmartPlayer sends time in payload.time
-        if (eventName === 'videoTimeUpdate') {
-          // Get time from payload (SmartPlayer format) or data
-          const payload = data.payload || data.data || {};
-          const currentTime = payload.time ?? payload.currentTime ?? 0;
+    // Wistia API binding function
+    const bindWistiaPlayer = () => {
+      if (wistiaBindedRef.current) return;
+      
+      // Initialize Wistia queue if not exists
+      (window as any)._wq = (window as any)._wq || [];
+      
+      (window as any)._wq.push({
+        id: '8xc87ip699',
+        onReady: (video: any) => {
+          if (wistiaBindedRef.current) return;
+          wistiaBindedRef.current = true;
           
-          // Only accumulate time if video is playing and time moved forward
-          if (isPlayingRef.current && currentTime > lastTimestampRef.current) {
-            const delta = currentTime - lastTimestampRef.current;
+          console.log('[Video Tracker] Wistia player ready');
+          
+          // Handle play event
+          video.bind('play', () => {
+            isPlayingRef.current = true;
+            console.log('[Video Tracker] PLAY - now tracking time. Accumulated so far:', accumulatedSecondsRef.current.toFixed(1), 's');
+          });
+          
+          // Handle pause event
+          video.bind('pause', () => {
+            isPlayingRef.current = false;
+            console.log('[Video Tracker] PAUSE - stopped tracking. Total watched:', accumulatedSecondsRef.current.toFixed(1), 's');
+          });
+          
+          // Handle end event
+          video.bind('end', () => {
+            isPlayingRef.current = false;
+            console.log('[Video Tracker] ENDED - Total watched:', accumulatedSecondsRef.current.toFixed(1), 's');
+          });
+          
+          // Handle time updates
+          video.bind('secondchange', (currentSecond: number) => {
+            const currentTime = currentSecond;
             
-            // Only add reasonable deltas (ignore big jumps from seeking forward)
-            if (delta > 0 && delta < 2) {
-              accumulatedSecondsRef.current += delta;
+            // Only accumulate time if video is playing and time moved forward
+            if (isPlayingRef.current && currentTime > lastTimestampRef.current) {
+              const delta = currentTime - lastTimestampRef.current;
+              
+              // Only add reasonable deltas (ignore big jumps from seeking forward)
+              if (delta > 0 && delta < 2) {
+                accumulatedSecondsRef.current += delta;
+              }
             }
-          }
-          
-          // Update last timestamp
-          lastTimestampRef.current = currentTime;
-          
-          // Show CTA button once threshold is reached
-          if (accumulatedSecondsRef.current >= CTA_THRESHOLD_SECONDS && !showCTAButton) {
-            console.log('[Video Tracker] THRESHOLD REACHED! Watched', accumulatedSecondsRef.current.toFixed(1), 's - SHOWING CTA BUTTON');
-            setShowCTAButton(true);
-          }
+            
+            // Update last timestamp
+            lastTimestampRef.current = currentTime;
+            
+            // Show CTA button once threshold is reached
+            if (accumulatedSecondsRef.current >= CTA_THRESHOLD_SECONDS && !showCTAButton) {
+              console.log('[Video Tracker] THRESHOLD REACHED! Watched', accumulatedSecondsRef.current.toFixed(1), 's - SHOWING CTA BUTTON');
+              setShowCTAButton(true);
+            }
+          });
         }
-        
-      } catch (e) {
-        console.log('[Video Tracker] Error:', e);
-      }
+      });
     };
     
-    window.addEventListener('message', handleSmartPlayerMessage);
+    // Try to bind immediately and also with a delay (in case Wistia loads after)
+    bindWistiaPlayer();
+    const retryTimeout = setTimeout(bindWistiaPlayer, 1000);
+    const retryTimeout2 = setTimeout(bindWistiaPlayer, 2000);
     
     return () => {
-      window.removeEventListener('message', handleSmartPlayerMessage);
+      clearTimeout(retryTimeout);
+      clearTimeout(retryTimeout2);
     };
   }, [step, showCTAButton]);
 
@@ -775,21 +784,22 @@ export const QuizFlow = () => {
         MIRA EL VIDEO A CONTINUACIÓN Y DESCUBRE CÓMO ACCEDER A TU PROTOCOLO DE GELATINA REDUCTORA.
       </h2>
 
-      {/* Vturb Video Player - Otimizado para carregamento rápido */}
+      {/* Wistia Video Player */}
       <div className="relative w-full rounded-lg overflow-hidden">
-        <div id="ifr_692ba6b3da6a2d3096000097_wrapper" style={{ margin: '0 auto', width: '100%', maxWidth: '400px' }}>
-          <div style={{ position: 'relative', paddingTop: '152.59259259259258%' }} id="ifr_692ba6b3da6a2d3096000097_aspect">
-            <iframe 
-              frameBorder="0" 
-              allowFullScreen 
-              loading="eager"
-              src={`https://scripts.converteai.net/17470c13-1093-48a3-966c-62777cb9eaca/players/692ba6b3da6a2d3096000097/v4/embed.html?vl=${encodeURIComponent(window.location.href)}`}
-              id="ifr_692ba6b3da6a2d3096000097" 
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} 
-              referrerPolicy="origin"
-            />
-          </div>
-        </div>
+        <div 
+          style={{ margin: '0 auto', width: '100%', maxWidth: '400px' }}
+          dangerouslySetInnerHTML={{ __html: `
+            <style>
+              wistia-player[media-id='8xc87ip699']:not(:defined) {
+                background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/8xc87ip699/swatch');
+                display: block;
+                filter: blur(5px);
+                padding-top: 152.5%;
+              }
+            </style>
+            <wistia-player media-id="8xc87ip699" seo="false" aspect="0.6557377049180327"></wistia-player>
+          `}}
+        />
       </div>
 
       {/* CTA Button - Initially hidden, appears after watching threshold */}

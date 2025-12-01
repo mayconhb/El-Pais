@@ -95,21 +95,28 @@ Navigate to `/dashboard` or `/analytics` to access the dashboard.
 - ✅ **Supabase Integration**: Analytics data now persists in Supabase PostgreSQL database
 - ✅ Dashboard shows data source indicator (Local, Supabase, or Mixed)
 - ✅ **VTurb CTA Tracking for Meta Ads**: Fixed InitiateCheckout event tracking
+- ✅ **Wistia Video Player**: Migrated from VTurb to Wistia for video hosting
 
-## VTurb/Meta Ads Integration
+## Wistia/Meta Ads Integration
 
 ### How It Works
-The application tracks actual video playback time (ignoring pauses) and shows a custom CTA button after 10 seconds of watched content. When clicked, it sends an `initiate_checkout` event to the dataLayer for Google Tag Manager and Meta Ads.
+The application tracks actual video playback time (ignoring pauses) and shows a custom CTA button after 8 minutes and 10 seconds of watched content. When clicked, it sends an `initiate_checkout` event to the dataLayer for Google Tag Manager and Meta Ads.
+
+### Video Player
+- **Platform**: Wistia
+- **Media ID**: 8xc87ip699
+- **Scripts**: `fast.wistia.com/player.js` and `fast.wistia.com/embed/8xc87ip699.js`
 
 ### Implementation Details (QuizFlow.tsx)
-1. **Playback Time Tracking**: Monitors SmartPlayer events to track real playback time
-2. **Play/Pause Detection**: Uses `videoPlay` and `videoPause` events to know when video is actually playing
-3. **Time Accumulation**: Calculates delta between time updates, only when video is playing
-4. **Threshold Trigger**: Shows CTA button after user watches 8 minutes and 10 seconds of actual content
-5. **CTA Link**: Yellow "ACCEDER A MI PROTOCOLO PERSONALIZADO AHORA" link appears below the video
-6. **GTM Link Click Detection**: Uses `<a>` tag (not `<button>`) so GTM can detect link clicks to pay.hotmart.com
-7. **InitiateCheckout Event**: When link is clicked, pushes event to dataLayer for additional tracking
-8. **Duplicate Prevention**: Uses `ctaTrackedRef` to ensure the event only fires once per session
+1. **Wistia API**: Uses Wistia's JavaScript API via `window._wq` queue
+2. **Play/Pause Detection**: Uses Wistia's `play` and `pause` events
+3. **Time Tracking**: Uses Wistia's `secondchange` event to track watched time
+4. **Time Accumulation**: Calculates delta between time updates, only when video is playing
+5. **Threshold Trigger**: Shows CTA button after user watches 8 minutes and 10 seconds of actual content
+6. **CTA Link**: Yellow "ACCEDER A MI PROTOCOLO PERSONALIZADO AHORA" link appears below the video
+7. **GTM Link Click Detection**: Uses `<a>` tag (not `<button>`) so GTM can detect link clicks to pay.hotmart.com
+8. **InitiateCheckout Event**: When link is clicked, pushes event to dataLayer for additional tracking
+9. **Duplicate Prevention**: Uses `ctaTrackedRef` to ensure the event only fires once per session
 
 ### IMPORTANT: GTM Link Click Detection
 The GTM script is configured to detect clicks on links (`<a>` tags) that point to `pay.hotmart.com`. 
@@ -135,7 +142,8 @@ The GTM container automatically detects link clicks to `pay.hotmart.com` and fir
 
 ### Debug Logs
 The implementation includes console logs prefixed with `[Video Tracker]` and `[CTA Link]` for debugging:
-- `[Video Tracker] Starting playback tracking - CTA appears after X seconds watched`
+- `[Video Tracker] Starting Wistia playback tracking - CTA appears after X seconds watched`
+- `[Video Tracker] Wistia player ready`
 - `[Video Tracker] PLAY - now tracking time. Accumulated so far: Xs`
 - `[Video Tracker] PAUSE - stopped tracking. Total watched: Xs`
 - `[Video Tracker] ENDED - Total watched: Xs`
