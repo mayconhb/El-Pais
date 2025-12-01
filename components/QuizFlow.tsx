@@ -169,7 +169,7 @@ export const QuizFlow = () => {
   const lastTimestampRef = useRef(0);
   const accumulatedSecondsRef = useRef(0);
   const wistiaBindedRef = useRef(false);
-  const CTA_THRESHOLD_SECONDS = 490; // 8 minutes and 10 seconds
+  const CTA_THRESHOLD_SECONDS = 10; // TEST: 10 seconds for testing (change back to 490 for production)
   
   useEffect(() => {
     if (step !== 18) return;
@@ -182,74 +182,95 @@ export const QuizFlow = () => {
     accumulatedSecondsRef.current = 0;
     wistiaBindedRef.current = false;
     
-    // Wistia API binding function
+    // Event handlers for Wistia web component
+    const handlePlay = () => {
+      isPlayingRef.current = true;
+      console.log('[Video Tracker] PLAY - now tracking time. Accumulated so far:', accumulatedSecondsRef.current.toFixed(1), 's');
+    };
+    
+    const handlePause = () => {
+      isPlayingRef.current = false;
+      console.log('[Video Tracker] PAUSE - stopped tracking. Total watched:', accumulatedSecondsRef.current.toFixed(1), 's');
+    };
+    
+    const handleEnd = () => {
+      isPlayingRef.current = false;
+      console.log('[Video Tracker] ENDED - Total watched:', accumulatedSecondsRef.current.toFixed(1), 's');
+    };
+    
+    const handleTimeUpdate = (event: any) => {
+      const currentTime = event.detail?.currentTime ?? event.target?.currentTime ?? 0;
+      
+      // Only accumulate time if video is playing and time moved forward
+      if (isPlayingRef.current && currentTime > lastTimestampRef.current) {
+        const delta = currentTime - lastTimestampRef.current;
+        
+        // Only add reasonable deltas (ignore big jumps from seeking forward)
+        if (delta > 0 && delta < 2) {
+          accumulatedSecondsRef.current += delta;
+        }
+      }
+      
+      // Update last timestamp
+      lastTimestampRef.current = currentTime;
+      
+      // Show CTA button once threshold is reached
+      if (accumulatedSecondsRef.current >= CTA_THRESHOLD_SECONDS && !showCTAButton) {
+        console.log('[Video Tracker] THRESHOLD REACHED! Watched', accumulatedSecondsRef.current.toFixed(1), 's - SHOWING CTA BUTTON');
+        setShowCTAButton(true);
+      }
+    };
+    
+    let playerElement: HTMLElement | null = null;
+    let pollingInterval: NodeJS.Timeout | null = null;
+    
+    // Wistia web component binding using native DOM events
     const bindWistiaPlayer = () => {
       if (wistiaBindedRef.current) return;
       
-      // Initialize Wistia queue if not exists
-      (window as any)._wq = (window as any)._wq || [];
+      // Find the wistia-player element
+      playerElement = document.querySelector('wistia-player[media-id="8xc87ip699"]');
       
-      (window as any)._wq.push({
-        id: '8xc87ip699',
-        onReady: (video: any) => {
-          if (wistiaBindedRef.current) return;
-          wistiaBindedRef.current = true;
-          
-          console.log('[Video Tracker] Wistia player ready');
-          
-          // Handle play event
-          video.bind('play', () => {
-            isPlayingRef.current = true;
-            console.log('[Video Tracker] PLAY - now tracking time. Accumulated so far:', accumulatedSecondsRef.current.toFixed(1), 's');
-          });
-          
-          // Handle pause event
-          video.bind('pause', () => {
-            isPlayingRef.current = false;
-            console.log('[Video Tracker] PAUSE - stopped tracking. Total watched:', accumulatedSecondsRef.current.toFixed(1), 's');
-          });
-          
-          // Handle end event
-          video.bind('end', () => {
-            isPlayingRef.current = false;
-            console.log('[Video Tracker] ENDED - Total watched:', accumulatedSecondsRef.current.toFixed(1), 's');
-          });
-          
-          // Handle time updates
-          video.bind('secondchange', (currentSecond: number) => {
-            const currentTime = currentSecond;
-            
-            // Only accumulate time if video is playing and time moved forward
-            if (isPlayingRef.current && currentTime > lastTimestampRef.current) {
-              const delta = currentTime - lastTimestampRef.current;
-              
-              // Only add reasonable deltas (ignore big jumps from seeking forward)
-              if (delta > 0 && delta < 2) {
-                accumulatedSecondsRef.current += delta;
-              }
-            }
-            
-            // Update last timestamp
-            lastTimestampRef.current = currentTime;
-            
-            // Show CTA button once threshold is reached
-            if (accumulatedSecondsRef.current >= CTA_THRESHOLD_SECONDS && !showCTAButton) {
-              console.log('[Video Tracker] THRESHOLD REACHED! Watched', accumulatedSecondsRef.current.toFixed(1), 's - SHOWING CTA BUTTON');
-              setShowCTAButton(true);
-            }
-          });
+      if (playerElement) {
+        wistiaBindedRef.current = true;
+        console.log('[Video Tracker] Wistia player found - binding events');
+        
+        // Use native DOM addEventListener for web component events
+        playerElement.addEventListener('play', handlePlay);
+        playerElement.addEventListener('pause', handlePause);
+        playerElement.addEventListener('end', handleEnd);
+        playerElement.addEventListener('time-update', handleTimeUpdate);
+        
+        console.log('[Video Tracker] Events bound successfully');
+        
+        // Stop polling once bound
+        if (pollingInterval) {
+          clearInterval(pollingInterval);
+          pollingInterval = null;
         }
-      });
+      } else {
+        console.log('[Video Tracker] Waiting for Wistia player element...');
+      }
     };
     
-    // Try to bind immediately and also with a delay (in case Wistia loads after)
+    // Poll every 500ms until player is found (more reliable than fixed timeouts)
+    pollingInterval = setInterval(bindWistiaPlayer, 500);
+    
+    // Also try immediately
     bindWistiaPlayer();
-    const retryTimeout = setTimeout(bindWistiaPlayer, 1000);
-    const retryTimeout2 = setTimeout(bindWistiaPlayer, 2000);
     
     return () => {
-      clearTimeout(retryTimeout);
-      clearTimeout(retryTimeout2);
+      if (pollingInterval) {
+        clearInterval(pollingInterval);
+      }
+      
+      // Clean up event listeners
+      if (playerElement) {
+        playerElement.removeEventListener('play', handlePlay);
+        playerElement.removeEventListener('pause', handlePause);
+        playerElement.removeEventListener('end', handleEnd);
+        playerElement.removeEventListener('time-update', handleTimeUpdate);
+      }
     };
   }, [step, showCTAButton]);
 
