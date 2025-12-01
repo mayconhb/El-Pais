@@ -28,8 +28,7 @@ This is a React-based advertorial/quiz flow application for a weight loss produc
 ├── lib/
 │   ├── analytics.ts           # Analytics tracking service
 │   ├── analyticsData.ts       # Dashboard data processing
-│   ├── supabase.ts            # Supabase client and functions
-│   └── trackingParams.ts      # URL parameter capture and checkout URL builder
+│   └── supabase.ts            # Supabase client and functions
 ├── App.tsx                    # Main app with routing
 ├── index.tsx                  # Entry point
 ├── index.html                 # HTML template
@@ -84,11 +83,9 @@ Navigate to `/dashboard` or `/analytics` to access the dashboard.
 - **Setup**: Run the SQL in `supabase_setup.sql` in your Supabase SQL Editor to create the required table
 
 ## Recent Changes (December 01, 2025)
-- ✅ **Tracking Parameter Propagation**: Fixed xcod and UTM parameters not being passed to checkout URL
-  - Created `lib/trackingParams.ts` utility for capturing URL parameters
-  - Parameters captured: xcod, utm_*, src, sck, ref, fbclid, gclid, ttclid, msclkid
-  - Stored in sessionStorage for persistence during quiz navigation
-  - CTA now uses dynamic URL with all captured parameters
+- ✅ **Reverted Tracking Parameter Implementation**: Removed custom trackingParams.ts to allow GTM to handle parameter propagation natively
+  - GTM is responsible for passing xcod, utm_*, sck parameters to checkout URL
+  - CTA uses static Hotmart URL; GTM rewrites it with tracking parameters on click
 
 ## Previous Changes (November 30, 2025)
 - ✅ Added complete analytics tracking system

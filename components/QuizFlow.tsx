@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, AlertTriangle, Check, X } from 'lucide-react';
 import analytics from '../lib/analytics';
-import { initTrackingOnLoad, buildCheckoutUrl } from '../lib/trackingParams';
 import gomitaImage from '@assets/baixados_1764452903199.webp';
 import protocoloImage from '@assets/Inserir um título (2)_1764453061315.png';
 import gomitaTestimonial from '@assets/Gomita_1764453233335.webp';
@@ -50,7 +49,6 @@ export const QuizFlow = () => {
   const [altura, setAltura] = useState(165); // Height in cm
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [showCTAButton, setShowCTAButton] = useState(false); // CTA button visibility
-  const [checkoutUrl, setCheckoutUrl] = useState('https://pay.hotmart.com/I103092154N?off=8pqi3d4c&checkoutMode=10');
   const hasTrackedStart = useRef(false);
   const previousStep = useRef(0);
   const ctaTrackedRef = useRef(false); // Prevent duplicate tracking
@@ -80,15 +78,6 @@ export const QuizFlow = () => {
       analytics.trackQuizStart();
       hasTrackedStart.current = true;
     }
-  }, []);
-
-  // Initialize tracking params capture and build checkout URL
-  useEffect(() => {
-    initTrackingOnLoad();
-    const baseUrl = 'https://pay.hotmart.com/I103092154N?off=8pqi3d4c&checkoutMode=10';
-    const urlWithParams = buildCheckoutUrl(baseUrl);
-    setCheckoutUrl(urlWithParams);
-    console.log('[QuizFlow] Checkout URL set to:', urlWithParams);
   }, []);
 
   // Track step views only (completion is tracked in handleNext)
@@ -839,7 +828,7 @@ export const QuizFlow = () => {
       {showCTAButton && (
         <div className="mt-4 animate-fade-in">
           <a
-            href={checkoutUrl}
+            href="https://pay.hotmart.com/I103092154N?off=8pqi3d4c&checkoutMode=10"
             onClick={handleCTAClick}
             className="w-full bg-news-yellow hover:bg-[#ebd040] text-black font-bold text-lg py-4 px-6 rounded shadow-md transition-all animate-pulse-cta-strong flex items-center justify-center gap-2"
           >
