@@ -4,9 +4,8 @@
 This is a static HTML/CSS/JS advertorial/quiz flow application for a weight loss product called "Protocolo Gelatina Reductora". The app features an interactive quiz that collects user information and presents a sales pitch for the product.
 
 ## Technology Stack
-- **Frontend**: Static HTML5, CSS3, Vanilla JavaScript
-- **Styling**: Custom CSS (converted from Tailwind)
-- **Server**: Node.js HTTP server (static file server)
+- **Frontend**: Static HTML5, CSS3, Vanilla JavaScript (no frameworks)
+- **Styling**: Custom CSS with performance optimizations
 - **Fonts**: Merriweather (serif), Inter (sans-serif) via Google Fonts
 - **Video**: Wistia player integration
 
@@ -15,68 +14,58 @@ This is a static HTML/CSS/JS advertorial/quiz flow application for a weight loss
 .
 ├── index.html                 # Main HTML page with quiz container
 ├── assets/
-│   ├── style.css              # All CSS styles
-│   ├── script.js              # Quiz logic and interactions
-│   └── images/                # All images and media files
-├── server.js                  # Static file server (Node.js)
-├── index-react.html           # Original React HTML (backup)
-├── api/                       # Vercel serverless functions (legacy)
-├── components/                # React components (legacy)
-├── lib/                       # React library files (legacy)
-└── package.json               # Dependencies
+│   ├── style.css              # All CSS styles (optimized)
+│   ├── script.js              # Quiz logic and smart preloading
+│   └── images/                # All images (24 files)
+└── replit.md                  # Project documentation
 ```
 
 ## Features
-- Interactive multi-step quiz flow
+- Interactive multi-step quiz flow (19 steps)
 - Testimonials from verified customers
 - Dynamic BMI visualization
 - Loading animations with progress bar
 - Responsive mobile-first design
 - Spanish language interface
-- **Analytics Dashboard** with:
-  - Session tracking (start, complete, abandon)
-  - Answer tracking per question
-  - Time spent per step
-  - Funnel visualization
-  - Answer distribution charts
-  - Date range filters
-  - Password protection
+- **Ultra-fast page loading** with smart preloading system
 
-## Analytics Dashboard
+## Performance Optimizations (December 02, 2025)
 
-### Access
-Navigate to `/dashboard` or `/analytics` to access the dashboard.
+### HTML Head Optimizations
+- **DNS Prefetch**: Pre-resolves DNS for fonts, analytics, and Wistia
+- **Preconnect**: Early connection to Google Fonts and analytics
+- **Preload**: Critical CSS and hero images loaded with high priority
+- **All quiz images preloaded**: Prevents visible loading during navigation
 
-**Default Password**: `admin123`
+### Smart JavaScript Preloading System
+- **Step-based image preloading**: Preloads images for next 3 steps
+- **Aggressive background preload**: All images loaded after 2 seconds
+- **Wistia video preloading**: SDK loaded at step 14 (ready by step 18)
+- **Checkout preconnect**: Hotmart connections established at step 16+
 
-### Metrics Available
-- Total sessions
-- Completion rate
-- Abandonment rate by step
-- Average completion time
-- Answer distribution per question
-- Conversion funnel visualization
-- Time series data (sessions per day)
-- Recent events log
+### CSS Performance
+- **aspect-ratio**: Prevents layout shift on image load
+- **background-color placeholders**: Shows placeholder color while images load
+- **will-change hints**: Optimizes animations and transitions
+- **contain property**: Improves rendering performance
 
-### How It Works
-1. **Tracking**: The quiz automatically tracks all user interactions
-2. **Storage**: Events are stored in localStorage AND sent to Supabase for persistent storage
-3. **Dashboard**: Visualizes all collected data with charts and tables from both local and Supabase sources
-
-### Supabase Configuration
-- **Project URL**: https://swnwftcfvlmdviknfdou.supabase.co
-- **Table**: `quiz_events`
-- **Setup**: Run the SQL in `supabase_setup.sql` in your Supabase SQL Editor to create the required table
+### Checkout Speed
+- Dynamic preconnect to Hotmart domains (pay.hotmart.com, sec.hotmart.com, etc.)
+- Page prefetch for checkout URL
+- UTM/xcod parameter injection on link click
 
 ## Recent Changes (December 02, 2025)
-- ✅ **Converted to Static Pages**: Transformed the entire React application to static HTML/CSS/JS
-  - Created index.html with the complete page structure
-  - Created assets/style.css with all styles converted from Tailwind
-  - Created assets/script.js with all quiz logic (19 steps)
-  - Copied all images to assets/images/
-  - Created simple Node.js static server (server.js)
-  - All functionality preserved: quiz navigation, sliders, IMC calculation, video page, CTA tracking
+- ✅ **Performance Optimization**: Implemented ultra-fast loading system
+  - Smart image preloading for upcoming quiz steps
+  - Wistia video SDK preloading starting at step 14
+  - Dynamic Hotmart checkout preconnect at step 16+
+  - CSS aspect-ratio and background placeholders
+  - All images preloaded in background after 2 seconds
+- ✅ **Project Cleanup**: Removed all unnecessary files
+  - Removed React components, TypeScript files, and Node.js server
+  - Removed unused images (kept only 24 used images)
+  - Pure static site: just HTML, CSS, and JavaScript
+- ✅ **Added tracking script**: UTM/xcod parameter injection for checkout links
 
 ## Previous Changes (December 01, 2025)
 - ✅ **Reverted Tracking Parameter Implementation**: Removed custom trackingParams.ts to allow GTM to handle parameter propagation natively
