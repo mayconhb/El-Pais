@@ -36,7 +36,7 @@ const icons = {
 const images = {
   logo: 'assets/images/el-pais_1764448317569.png',
   gomita: 'assets/images/baixados_1764452903199.webp',
-  protocolo: 'assets/images/Inserir um título (2)_1764453061315.png',
+  protocolo: 'assets/images/protocolo_1764453061315.png',
   gomitaTestimonial: 'assets/images/Gomita_1764453233335.webp',
   fernandaTestimonial: 'assets/images/Fernanda_1764453233336.webp',
   marianaTestimonial: 'assets/images/Mariana_1764453233336.webp',
@@ -45,19 +45,19 @@ const images = {
   carousel3: 'assets/images/lg-qwnL0-slide-1nereide-16kg_1764453375116.webp',
   rosana: 'assets/images/50-year-old-woman-weight-600nw-2519627017_1764453653741.webp',
   beforeAfter: 'assets/images/dfg_1764453736974.webp',
-  profilePhoto1: 'assets/images/baixados (2)_1764470596368.jpg',
+  profilePhoto1: 'assets/images/baixados-2_1764470596368.jpg',
   profilePhoto2: 'assets/images/latina_woman_face_po_b062712e.jpg',
-  profilePhoto3: 'assets/images/baixados (1)_1764470596369.jpg',
+  profilePhoto3: 'assets/images/baixados-1_1764470596369.jpg',
   profilePhoto4: 'assets/images/latina_woman_face_po_721577a4.jpg',
   profilePhoto5: 'assets/images/latina_woman_face_po_43c11193.jpg',
   profilePhoto6: 'assets/images/middle_aged_woman_fa_da927933.jpg',
   profilePhoto7: 'assets/images/baixados_1764470596369.jpg',
-  profilePhoto8: 'assets/images/images (1)_1764470674545.jpg',
+  profilePhoto8: 'assets/images/images-1_1764470674545.jpg',
   profilePhoto9: 'assets/images/images_1764470674545.jpg',
-  profilePhoto10: 'assets/images/images (2)_1764470774467.jpg',
-  patriciaBarca: 'assets/images/Patricia barca_1764452735065.webp',
+  profilePhoto10: 'assets/images/images-2_1764470774467.jpg',
+  patriciaBarca: 'assets/images/patricia-barca_1764452735065.webp',
   maria: 'assets/images/Maria_1764452735066.webp',
-  jovemMexicana: 'assets/images/Jovem mexicana_1764452735066.webp'
+  jovemMexicana: 'assets/images/jovem-mexicana_1764452735066.webp'
 };
 
 const carouselImages = [images.carousel1, images.carousel2, images.carousel3];
