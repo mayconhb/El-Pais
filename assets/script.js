@@ -210,7 +210,7 @@ function renderIntro() {
       </p>
       
       <div style="width: 100%; overflow: hidden; border-radius: 0.375rem;">
-        <img src="${images.gomita}" class="quiz-image" alt="Transformación de Gomita" />
+        <img src="${images.gomita}" class="quiz-image" alt="Transformación de Gomita" width="512" height="384" fetchpriority="high" />
       </div>
 
       <div class="highlight-box">
@@ -390,7 +390,7 @@ function renderProtocolIntro() {
         </h3>
         
         <div style="width: 100%; overflow: hidden; border-radius: 0.5rem;">
-          <img src="${images.protocolo}" style="width: 100%; height: auto; object-fit: contain;" alt="Cómo funciona el Protocolo de Gelatina Reductora" />
+          <img src="${images.protocolo}" style="width: 100%; height: auto; object-fit: contain;" alt="Cómo funciona el Protocolo de Gelatina Reductora" width="512" height="384" />
         </div>
       </div>
 
@@ -417,7 +417,7 @@ function renderTestimonials() {
       </h2>
 
       <div class="testimonial-card">
-        <img src="${images.gomitaTestimonial}" class="testimonial-image" alt="Transformación de Gomita" />
+        <img src="${images.gomitaTestimonial}" class="testimonial-image" alt="Transformación de Gomita" width="400" height="400" />
         <div class="testimonial-content">
           <p class="testimonial-quote">
             "Ya había intentado de todo para adelgazar, pero nada funcionaba realmente. Después de empezar a usar la fórmula de la Gelatina Reductora en mi día a día, perdí 8 kilos en solo 17 días — sin cambiar nada en mi alimentación. Ahora me siento más ligera, más bonita y con una confianza que no sentía desde hacía años."
@@ -435,7 +435,7 @@ function renderTestimonials() {
       </button>
 
       <div class="testimonial-card">
-        <img src="${images.fernandaTestimonial}" class="testimonial-image" alt="Transformación de Fernanda" />
+        <img src="${images.fernandaTestimonial}" class="testimonial-image" alt="Transformación de Fernanda" width="400" height="400" />
         <div class="testimonial-content">
           <p class="testimonial-quote">
             "Ya había intentado de todo para adelgazar, pero nada funcionaba. Después de incluir la fórmula de la Gelatina Reductora en mi rutina, perdí 11 kg en solo 3 semanas sin cambiar nada en mi alimentación. Ahora me siento más segura y llena de energía. ¡Este Protocolo cambió mi vida!"
@@ -449,7 +449,7 @@ function renderTestimonials() {
       </div>
 
       <div class="testimonial-card">
-        <img src="${images.marianaTestimonial}" class="testimonial-image" alt="Transformación de Mariana" />
+        <img src="${images.marianaTestimonial}" class="testimonial-image" alt="Transformación de Mariana" width="400" height="400" />
         <div class="testimonial-content">
           <p class="testimonial-quote">
             "Siempre luché con mi peso y me sentía cansada todo el tiempo. Desde que empecé con la fórmula de la Sal Rosa, logré bajar 15 kilos en 2 semanas. No tuve que hacer dietas extremas ni pasar hambre. Hoy tengo más energía, mi ropa me queda mejor y me siento orgullosa de mi misma."
@@ -619,7 +619,7 @@ function renderResult() {
         <p class="text-sm text-gray-600 mb-4">Mira la transformación de <span style="color: var(--news-yellow); font-weight: 600;">Rosana Rosalez</span>.</p>
         
         <div style="width: 100%; overflow: hidden; border-radius: 0.5rem; margin-bottom: 1.5rem;">
-          <img src="${images.rosana}" style="width: 100%; height: auto; object-fit: cover;" alt="Transformación de Rosana Rosalez" />
+          <img src="${images.rosana}" style="width: 100%; height: auto; object-fit: cover;" alt="Transformación de Rosana Rosalez" width="512" height="384" />
         </div>
       </div>
 
@@ -644,7 +644,7 @@ function renderTransformReady() {
       </p>
 
       <div style="width: 100%; overflow: hidden; border-radius: 0.5rem;">
-        <img src="${images.beforeAfter}" style="width: 100%; height: auto; object-fit: cover;" alt="Antes y Después" />
+        <img src="${images.beforeAfter}" style="width: 100%; height: auto; object-fit: cover;" alt="Antes y Después" width="512" height="384" />
       </div>
 
       <div class="comparison-grid">
@@ -751,7 +751,7 @@ function renderVideoPage() {
         <div class="comments-list">
           ${comments.map(c => `
             <div class="comment">
-              <img src="${c.photo}" alt="${c.name}" class="comment-avatar" />
+              <img src="${c.photo}" alt="${c.name}" class="comment-avatar" width="32" height="32" />
               <div class="comment-content">
                 <p class="comment-author">${c.name}</p>
                 <p class="comment-text">${c.text}</p>
@@ -809,7 +809,7 @@ function renderNewsFeed() {
             <h4 class="story-title font-serif">${story.title}</h4>
             <p class="story-excerpt font-serif">${story.excerpt}</p>
             <div class="story-image-container">
-              <img src="${story.image}" alt="Transformation" class="story-image" />
+              <img src="${story.image}" alt="Transformation" class="story-image" width="512" height="288" loading="lazy" />
             </div>
             ${index !== stories.length - 1 ? '<div class="story-divider"></div>' : ''}
           </article>
