@@ -786,7 +786,12 @@ function render() {
       content = renderSlider('¿Cuál es tu peso objetivo?', 40, 120, 'kg', '¡Casi listo! Esto nos ayuda a definir tu meta.', 60, 'objetivo');
       break;
     case 14:
-      content = renderTransformReady();
+      content = renderButtons('¿Cuántos vasos de agua bebes al día?', [
+        'Solo bebo café o té',
+        '1–2 vasos al día',
+        '2–6 vasos al día',
+        'Más de 6 vasos'
+      ], 'Tu nivel de hidratación también influye en tu pérdida de peso.');
       break;
     case 15:
       content = renderLoading();
@@ -796,10 +801,7 @@ function render() {
       content = renderResult();
       break;
     case 17:
-      content = renderButtons('¿Te gustaría conocer el Protocolo completo que miles de mujeres ya están usando para adelgazar de forma natural?', [
-        '¡Sí! Quiero conocer ahora.',
-        'Prefiero seguir como estoy'
-      ]);
+      content = renderTransformReady();
       break;
     case 18:
       content = renderVideoPage();
