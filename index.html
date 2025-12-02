@@ -100,5 +100,50 @@
 
     <!-- Script -->
     <script src="assets/script.js"></script>
+
+    <script>
+      (function() {
+        // Lista de termos para identificar seus links de pagamento
+        const checkoutTerms = ['pay.hotmart', 'kiwify', 'checkout', 'payment', 'pay'];
+
+        // Ouve o clique do mouse em qualquer lugar da página
+        document.addEventListener('mousedown', function(e) {
+          
+          // Encontra o elemento 'a' (link) mais próximo do clique
+          const target = e.target.closest('a');
+
+          // Se for um link e tiver destino
+          if (target && target.href) {
+            
+            // Verifica se é um dos seus links de checkout
+            const isCheckout = checkoutTerms.some(term => target.href.includes(term));
+
+            if (isCheckout) {
+              const currentParams = window.location.search;
+
+              // Se tiver parâmetros na URL (ex: ?xcod=123)
+              if (currentParams) {
+                
+                // Verifica se já não inseriu para não duplicar
+                if (!target.href.includes('xcod')) {
+                  
+                  // Verifica se usa ? ou &
+                  const separator = target.href.includes('?') ? '&' : '?';
+                  
+                  // Limpa o ? do inicio dos parametros
+                  const paramsClean = currentParams.replace(/^\?/, '');
+
+                  // Atualiza o link
+                  target.href = target.href + separator + paramsClean;
+                  
+                  // Log para teste (pode remover depois)
+                  console.log('Parâmetros injetados (Estático):', target.href);
+                }
+              }
+            }
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
