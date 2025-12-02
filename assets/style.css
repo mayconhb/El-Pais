@@ -13,6 +13,17 @@
   --news-lightgray: #f5f5f5;
 }
 
+/* Performance: Otimização de renderização */
+img {
+  content-visibility: auto;
+  background-color: #f3f4f6;
+}
+
+/* Performance: Prevenir layout shift em imagens */
+img[loading="lazy"] {
+  will-change: opacity;
+}
+
 body {
   font-family: 'Inter', sans-serif;
   background-color: white;
@@ -163,6 +174,8 @@ body {
   height: auto;
   object-fit: cover;
   border-radius: 0.375rem;
+  aspect-ratio: 4 / 3;
+  background-color: #f3f4f6;
 }
 
 /* Yellow Highlight Box */
@@ -429,6 +442,8 @@ body {
   width: 100%;
   height: auto;
   object-fit: cover;
+  aspect-ratio: 1 / 1;
+  background-color: #f3f4f6;
 }
 
 .testimonial-content {
@@ -488,6 +503,8 @@ body {
   height: 100%;
   object-fit: cover;
   transition: opacity 0.5s;
+  background-color: #f3f4f6;
+  will-change: opacity;
 }
 
 .carousel-dots {
@@ -720,6 +737,8 @@ body {
   border-radius: 9999px;
   flex-shrink: 0;
   object-fit: cover;
+  background-color: #e5e7eb;
+  aspect-ratio: 1 / 1;
 }
 
 .comment-content {
@@ -813,6 +832,7 @@ body {
   overflow: hidden;
   border-radius: 0.125rem;
   background-color: #f3f4f6;
+  contain: layout style paint;
 }
 
 .story-image {
@@ -820,6 +840,8 @@ body {
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s;
+  will-change: transform;
+  background-color: #f3f4f6;
 }
 
 .story:hover .story-image {

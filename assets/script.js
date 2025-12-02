@@ -122,7 +122,7 @@ function preloadWistiaSDK() {
   console.log('[Preload] Wistia SDK preloaded');
 }
 
-// Adiciona preconnect dinâmico para checkout
+// Adiciona preconnect dinâmico para checkout (chamado na etapa 16+)
 function preconnectCheckout() {
   if (checkoutPreconnected) return;
   checkoutPreconnected = true;
@@ -135,6 +135,15 @@ function preconnectCheckout() {
     'https://api-sec.hotmart.com'
   ];
   
+  // Adiciona dns-prefetch primeiro (mais rápido)
+  domains.forEach(domain => {
+    const dnsPrefetch = document.createElement('link');
+    dnsPrefetch.rel = 'dns-prefetch';
+    dnsPrefetch.href = domain;
+    document.head.appendChild(dnsPrefetch);
+  });
+  
+  // Depois adiciona preconnect (conexão completa)
   domains.forEach(domain => {
     const link = document.createElement('link');
     link.rel = 'preconnect';
@@ -149,7 +158,7 @@ function preconnectCheckout() {
   checkoutPrefetch.href = 'https://pay.hotmart.com/I103092154N?off=8pqi3d4c&checkoutMode=10';
   document.head.appendChild(checkoutPrefetch);
   
-  console.log('[Preload] Checkout preconnected and prefetched');
+  console.log('[Preload] Checkout preconnected and prefetched at step', step);
 }
 
 // Gerenciador de preload baseado na etapa atual
