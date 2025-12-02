@@ -17,6 +17,11 @@ let accumulatedSeconds = 0;
 let wistiaBindied = false;
 const CTA_THRESHOLD_SECONDS = 490;
 
+// Preload tracking
+let wistiaPreloaded = false;
+let checkoutPreconnected = false;
+const preloadedImages = new Set();
+
 // SVG Icons
 const icons = {
   menu: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>',
@@ -57,6 +62,112 @@ const images = {
 
 const carouselImages = [images.carousel1, images.carousel2, images.carousel3];
 
+// Mapeamento de imagens por etapa para preload inteligente
+const stepImages = {
+  0: [images.gomita],
+  9: [images.protocolo],
+  10: [images.gomitaTestimonial, images.fernandaTestimonial, images.marianaTestimonial],
+  15: [images.carousel1, images.carousel2, images.carousel3],
+  16: [images.rosana],
+  17: [images.beforeAfter],
+  18: [images.profilePhoto1, images.profilePhoto2, images.profilePhoto3, images.profilePhoto4, 
+       images.profilePhoto5, images.profilePhoto6, images.profilePhoto7, images.profilePhoto8,
+       images.profilePhoto9, images.profilePhoto10]
+};
+
+// Função para preload de imagem individual
+function preloadImage(src) {
+  if (preloadedImages.has(src)) return;
+  preloadedImages.add(src);
+  const img = new Image();
+  img.src = src;
+}
+
+// Preload de imagens para as próximas etapas
+function preloadNextStepImages(currentStep) {
+  const stepsToPreload = [currentStep, currentStep + 1, currentStep + 2, currentStep + 3];
+  stepsToPreload.forEach(s => {
+    if (stepImages[s]) {
+      stepImages[s].forEach(preloadImage);
+    }
+  });
+}
+
+// Preload do SDK Wistia (começa na etapa 15 para estar pronto na etapa 18)
+function preloadWistiaSDK() {
+  if (wistiaPreloaded) return;
+  wistiaPreloaded = true;
+  
+  // Preconnect já feito no HTML, aqui fazemos o prefetch do script
+  const playerScript = document.createElement('link');
+  playerScript.rel = 'preload';
+  playerScript.as = 'script';
+  playerScript.href = 'https://fast.wistia.com/player.js';
+  document.head.appendChild(playerScript);
+  
+  // Prefetch do embed específico do vídeo
+  const embedScript = document.createElement('link');
+  embedScript.rel = 'preload';
+  embedScript.as = 'script';
+  embedScript.href = 'https://fast.wistia.com/embed/8xc87ip699.js';
+  document.head.appendChild(embedScript);
+  
+  // Prefetch do swatch (thumbnail do vídeo)
+  const swatch = document.createElement('link');
+  swatch.rel = 'preload';
+  swatch.as = 'image';
+  swatch.href = 'https://fast.wistia.com/embed/medias/8xc87ip699/swatch';
+  document.head.appendChild(swatch);
+  
+  console.log('[Preload] Wistia SDK preloaded');
+}
+
+// Adiciona preconnect dinâmico para checkout
+function preconnectCheckout() {
+  if (checkoutPreconnected) return;
+  checkoutPreconnected = true;
+  
+  const domains = [
+    'https://pay.hotmart.com',
+    'https://hotmart.com',
+    'https://sec.hotmart.com',
+    'https://static-media.hotmart.com',
+    'https://api-sec.hotmart.com'
+  ];
+  
+  domains.forEach(domain => {
+    const link = document.createElement('link');
+    link.rel = 'preconnect';
+    link.href = domain;
+    link.crossOrigin = 'anonymous';
+    document.head.appendChild(link);
+  });
+  
+  // Prefetch da página de checkout
+  const checkoutPrefetch = document.createElement('link');
+  checkoutPrefetch.rel = 'prefetch';
+  checkoutPrefetch.href = 'https://pay.hotmart.com/I103092154N?off=8pqi3d4c&checkoutMode=10';
+  document.head.appendChild(checkoutPrefetch);
+  
+  console.log('[Preload] Checkout preconnected and prefetched');
+}
+
+// Gerenciador de preload baseado na etapa atual
+function handleStepPreloading(currentStep) {
+  // Preload imagens das próximas etapas
+  preloadNextStepImages(currentStep);
+  
+  // A partir da etapa 14, começa a preparar o vídeo
+  if (currentStep >= 14) {
+    preloadWistiaSDK();
+  }
+  
+  // A partir da etapa 16, prepara o checkout
+  if (currentStep >= 16) {
+    preconnectCheckout();
+  }
+}
+
 // Calculate IMC
 function calcularIMC() {
   const alturaMetros = altura / 100;
@@ -73,6 +184,7 @@ function getIMCCategory(imc) {
 // Handle next step
 function handleNext() {
   step++;
+  handleStepPreloading(step);
   render();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -913,5 +1025,12 @@ function setupUTMTracking() {
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
   setupUTMTracking();
+  handleStepPreloading(step);
   render();
+  
+  // Preload agressivo: carrega TODAS as imagens em background após 2 segundos
+  setTimeout(() => {
+    Object.values(images).forEach(preloadImage);
+    console.log('[Preload] All images preloaded in background');
+  }, 2000);
 });
