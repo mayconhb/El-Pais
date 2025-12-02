@@ -15,15 +15,15 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Frontend Dev Server"
+args = "Static Server"
 
 [[workflows.workflow]]
-name = "Frontend Dev Server"
+name = "Static Server"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "npm run dev"
+args = "node server.js"
 waitForPort = 5000
 
 [workflows.workflow.metadata]
@@ -34,7 +34,7 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 33441
+localPort = 40581
 externalPort = 3002
 
 [[ports]]

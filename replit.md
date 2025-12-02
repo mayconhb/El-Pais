@@ -1,41 +1,28 @@
 # Protocolo Gelatina Reductora - Advertorial
 
 ## Overview
-This is a React-based advertorial/quiz flow application for a weight loss product called "Protocolo Gelatina Reductora". The app features an interactive quiz that collects user information and presents a sales pitch for the product. Includes a comprehensive analytics dashboard.
+This is a static HTML/CSS/JS advertorial/quiz flow application for a weight loss product called "Protocolo Gelatina Reductora". The app features an interactive quiz that collects user information and presents a sales pitch for the product.
 
 ## Technology Stack
-- **Frontend Framework**: React 19.2.0
-- **Build Tool**: Vite 6.2.0
-- **Language**: TypeScript 5.8.2
-- **Styling**: Tailwind CSS (via CDN)
-- **Icons**: Lucide React
-- **Charts**: Recharts
-- **Database**: Supabase (PostgreSQL)
-- **Fonts**: Merriweather (serif), Inter (sans-serif)
-- **Deployment**: Vercel with Serverless Functions
+- **Frontend**: Static HTML5, CSS3, Vanilla JavaScript
+- **Styling**: Custom CSS (converted from Tailwind)
+- **Server**: Node.js HTTP server (static file server)
+- **Fonts**: Merriweather (serif), Inter (sans-serif) via Google Fonts
+- **Video**: Wistia player integration
 
 ## Project Structure
 ```
 .
-├── api/
-│   └── analytics.ts           # Vercel serverless function for analytics
-├── components/
-│   ├── dashboard/
-│   │   └── Dashboard.tsx      # Analytics dashboard component
-│   ├── Header.tsx             # Top navigation bar
-│   ├── NewsFeed.tsx           # Bottom section with news/social proof
-│   └── QuizFlow.tsx           # Main quiz component with multi-step flow
-├── lib/
-│   ├── analytics.ts           # Analytics tracking service
-│   ├── analyticsData.ts       # Dashboard data processing
-│   └── supabase.ts            # Supabase client and functions
-├── App.tsx                    # Main app with routing
-├── index.tsx                  # Entry point
-├── index.html                 # HTML template
-├── vite.config.ts             # Vite configuration
-├── vercel.json                # Vercel deployment configuration
-├── tsconfig.json              # TypeScript configuration
-├── supabase_setup.sql         # SQL to create quiz_events table in Supabase
+├── index.html                 # Main HTML page with quiz container
+├── assets/
+│   ├── style.css              # All CSS styles
+│   ├── script.js              # Quiz logic and interactions
+│   └── images/                # All images and media files
+├── server.js                  # Static file server (Node.js)
+├── index-react.html           # Original React HTML (backup)
+├── api/                       # Vercel serverless functions (legacy)
+├── components/                # React components (legacy)
+├── lib/                       # React library files (legacy)
 └── package.json               # Dependencies
 ```
 
@@ -82,7 +69,16 @@ Navigate to `/dashboard` or `/analytics` to access the dashboard.
 - **Table**: `quiz_events`
 - **Setup**: Run the SQL in `supabase_setup.sql` in your Supabase SQL Editor to create the required table
 
-## Recent Changes (December 01, 2025)
+## Recent Changes (December 02, 2025)
+- ✅ **Converted to Static Pages**: Transformed the entire React application to static HTML/CSS/JS
+  - Created index.html with the complete page structure
+  - Created assets/style.css with all styles converted from Tailwind
+  - Created assets/script.js with all quiz logic (19 steps)
+  - Copied all images to assets/images/
+  - Created simple Node.js static server (server.js)
+  - All functionality preserved: quiz navigation, sliders, IMC calculation, video page, CTA tracking
+
+## Previous Changes (December 01, 2025)
 - ✅ **Reverted Tracking Parameter Implementation**: Removed custom trackingParams.ts to allow GTM to handle parameter propagation natively
   - GTM is responsible for passing xcod, utm_*, sck parameters to checkout URL
   - CTA uses static Hotmart URL; GTM rewrites it with tracking parameters on click

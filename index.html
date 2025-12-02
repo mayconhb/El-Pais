@@ -28,72 +28,77 @@
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src="https://escala.purelifenews.com/cechksinwxgg.js?"+i;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','6sinyrou=DgNFMDokXj8hKTpDLVAnTRFaSllfTxcFWhcNBQsFGg0CCR0AHUcQBAo%3D');</script>
     <!-- End Google Tag Manager -->
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              serif: ['Merriweather', 'serif'],
-              sans: ['Inter', 'sans-serif'],
-            },
-            colors: {
-              news: {
-                black: '#121212',
-                yellow: '#F7D844',
-                blue: '#005596',
-                gray: '#4a4a4a',
-                lightgray: '#f5f5f5'
-              }
-            }
-          }
-        }
-      }
-    </script>
-    <style>
-      /* Hide scrollbar for clean horizontal scrolling if needed */
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-      .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
-      
-      /* Pulsing animation for CTA buttons */
-      @keyframes pulse-glow {
-        0%, 100% {
-          transform: scale(1);
-          box-shadow: 0 0 0 0 rgba(247, 216, 68, 0.7);
-        }
-        50% {
-          transform: scale(1.02);
-          box-shadow: 0 0 20px 5px rgba(247, 216, 68, 0.4);
-        }
-      }
-      .animate-pulse-cta {
-        animation: pulse-glow 2s ease-in-out infinite;
-      }
-      
-      /* Stronger pulsing animation for video CTA button */
-      @keyframes pulse-glow-strong {
-        0%, 100% {
-          transform: scale(1);
-          box-shadow: 0 0 0 0 rgba(247, 216, 68, 0.9);
-        }
-        50% {
-          transform: scale(1.05);
-          box-shadow: 0 0 30px 10px rgba(247, 216, 68, 0.6);
-        }
-      }
-      .animate-pulse-cta-strong {
-        animation: pulse-glow-strong 1.2s ease-in-out infinite;
-      }
-    </style>
+    <!-- Estilos -->
+    <link rel="stylesheet" href="assets/style.css">
   </head>
-  <body class="bg-white text-news-black font-sans antialiased">
-    <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
+  <body>
+    <div class="main-container">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-container">
+          <div class="header-left">
+            <button class="menu-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
+            </button>
+            <img src="assets/images/el-pais_1764448317569.png" alt="EL PAÍS" class="logo" />
+          </div>
+          <div class="header-right">
+            <button class="subscribe-btn">Suscríbete</button>
+            <button class="user-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="category-label">
+          <span class="category-text">PÉRDIDA DE PESO</span>
+        </div>
+
+        <!-- Quiz Container -->
+        <div id="quiz-container"></div>
+
+        <!-- Divider -->
+        <div class="divider"></div>
+
+        <!-- News Feed -->
+        <section class="newsfeed">
+          <h3 class="newsfeed-title">MÁS NOTICIAS</h3>
+          
+          <div class="stories-list">
+            <article class="story">
+              <h4 class="story-title font-serif">Después de 10 años de dietas fallidas, exmodelo brasileña pierde 44 kg en 5 meses.</h4>
+              <p class="story-excerpt font-serif">Patricia Barca, de Río de Janeiro, adoptó el método Protocolo Gelatina Reductora y perdió 44 kg en solo 5 meses.</p>
+              <div class="story-image-container">
+                <img src="assets/images/Patricia barca_1764452735065.webp" alt="Transformation" class="story-image" />
+              </div>
+              <div class="story-divider"></div>
+            </article>
+
+            <article class="story">
+              <h4 class="story-title font-serif">Cocinera que almorzaba croquetas y pasteles pierde 27 kg después de empezar a usar la famosa gelatina reductora.</h4>
+              <p class="story-excerpt font-serif">Lo único que me motivaba era comer, afirma María. La colombiana llegó a pesar 108 kg y sufrió de hipertensión.</p>
+              <div class="story-image-container">
+                <img src="assets/images/Maria_1764452735066.webp" alt="Transformation" class="story-image" />
+              </div>
+              <div class="story-divider"></div>
+            </article>
+
+            <article class="story">
+              <h4 class="story-title font-serif">Joven mexicana renuncia a la cirugía bariátrica y pierde 43 kg después de tomar dos veces al día la famosa gelatina adelgazante.</h4>
+              <p class="story-excerpt font-serif">La estudiante llegó a pesar 116 kg y por poco se sometió a una cirugía. Con la vida transformada, hoy motiva a otras.</p>
+              <div class="story-image-container">
+                <img src="assets/images/Jovem mexicana_1764452735066.webp" alt="Transformation" class="story-image" />
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Script -->
+    <script src="assets/script.js"></script>
   </body>
 </html>
