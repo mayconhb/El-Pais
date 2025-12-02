@@ -5,20 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>EL PAÍS: El periódico global</title>
     
-    <!-- DNS Prefetch para recursos externos -->
+    <!-- DNS Prefetch para todos os recursos externos (fallback para navegadores antigos) -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link rel="dns-prefetch" href="https://scripts.converteai.net">
     <link rel="dns-prefetch" href="https://escala.purelifenews.com">
     <link rel="dns-prefetch" href="https://pay.hotmart.com">
+    <link rel="dns-prefetch" href="https://hotmart.com">
+    <link rel="dns-prefetch" href="https://fast.wistia.com">
+    <link rel="dns-prefetch" href="https://embedwistia-a.akamaihd.net">
     
-    <!-- Preconnect para fontes (carregamento mais rápido) -->
+    <!-- Preconnect para fontes (prioridade máxima) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Preconnect para Hotmart checkout (carregamento mais rápido) -->
-    <link rel="preconnect" href="https://pay.hotmart.com">
-    <link rel="preconnect" href="https://hotmart.com">
+    <!-- Preconnect para Analytics -->
+    <link rel="preconnect" href="https://escala.purelifenews.com">
+    
+    <!-- Preconnect para Hotmart checkout (abertura ultrarrápida) -->
+    <link rel="preconnect" href="https://pay.hotmart.com" crossorigin>
+    <link rel="preconnect" href="https://hotmart.com" crossorigin>
+    <link rel="preconnect" href="https://sec.hotmart.com" crossorigin>
+    <link rel="preconnect" href="https://static-media.hotmart.com" crossorigin>
+    
+    <!-- Preconnect para Wistia video (carregamento antecipado) -->
+    <link rel="preconnect" href="https://fast.wistia.com" crossorigin>
+    <link rel="preconnect" href="https://embedwistia-a.akamaihd.net" crossorigin>
+    
+    <!-- Preload CSS crítico (prioridade máxima) -->
+    <link rel="preload" href="assets/style.css" as="style">
+    
+    <!-- Preload imagem hero (primeira tela - LCP) -->
+    <link rel="preload" href="assets/images/baixados_1764452903199.webp" as="image" fetchpriority="high">
+    <link rel="preload" href="assets/images/el-pais_1764448317569.png" as="image">
+    
+    <!-- Preload próximas imagens críticas (carrega em background) -->
+    <link rel="preload" href="assets/images/Inserir um título (2)_1764453061315.png" as="image">
+    <link rel="preload" href="assets/images/Gomita_1764453233335.webp" as="image">
+    <link rel="preload" href="assets/images/Fernanda_1764453233336.webp" as="image">
+    <link rel="preload" href="assets/images/Mariana_1764453233336.webp" as="image">
+    
+    <!-- Preload imagens do carousel (loading screen) -->
+    <link rel="preload" href="assets/images/lg-Wlmuz-slide-2-adriana-17kg_1764453347817.jpg" as="image">
+    <link rel="preload" href="assets/images/f4_1764453347817.webp" as="image">
+    <link rel="preload" href="assets/images/lg-qwnL0-slide-1nereide-16kg_1764453375116.webp" as="image">
+    
+    <!-- Preload imagens de resultado -->
+    <link rel="preload" href="assets/images/50-year-old-woman-weight-600nw-2519627017_1764453653741.webp" as="image">
+    <link rel="preload" href="assets/images/dfg_1764453736974.webp" as="image">
+    
+    <!-- Preload imagens de comentários (página do vídeo) -->
+    <link rel="preload" href="assets/images/baixados (2)_1764470596368.jpg" as="image">
+    <link rel="preload" href="assets/images/latina_woman_face_po_b062712e.jpg" as="image">
+    <link rel="preload" href="assets/images/baixados (1)_1764470596369.jpg" as="image">
+    <link rel="preload" href="assets/images/latina_woman_face_po_721577a4.jpg" as="image">
+    <link rel="preload" href="assets/images/latina_woman_face_po_43c11193.jpg" as="image">
+    <link rel="preload" href="assets/images/middle_aged_woman_fa_da927933.jpg" as="image">
+    <link rel="preload" href="assets/images/baixados_1764470596369.jpg" as="image">
+    <link rel="preload" href="assets/images/images (1)_1764470674545.jpg" as="image">
+    <link rel="preload" href="assets/images/images_1764470674545.jpg" as="image">
+    <link rel="preload" href="assets/images/images (2)_1764470774467.jpg" as="image">
     
     <!-- Fontes otimizadas com display=swap para evitar FOIT -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Merriweather:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -30,6 +75,9 @@
 
     <!-- Estilos -->
     <link rel="stylesheet" href="assets/style.css">
+    
+    <!-- Prefetch Wistia SDK (baixa em background com baixa prioridade) -->
+    <link rel="prefetch" href="https://fast.wistia.com/player.js" as="script">
   </head>
   <body>
     <div class="main-container">
@@ -37,14 +85,14 @@
       <header class="header">
         <div class="header-container">
           <div class="header-left">
-            <button class="menu-btn">
+            <button class="menu-btn" aria-label="Menu">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
             </button>
-            <img src="assets/images/el-pais_1764448317569.png" alt="EL PAÍS" class="logo" />
+            <img src="assets/images/el-pais_1764448317569.png" alt="EL PAÍS" class="logo" width="120" height="22" fetchpriority="high" decoding="async" />
           </div>
           <div class="header-right">
             <button class="subscribe-btn">Suscríbete</button>
-            <button class="user-btn">
+            <button class="user-btn" aria-label="Usuario">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             </button>
           </div>
@@ -72,7 +120,7 @@
               <h4 class="story-title font-serif">Después de 10 años de dietas fallidas, exmodelo brasileña pierde 44 kg en 5 meses.</h4>
               <p class="story-excerpt font-serif">Patricia Barca, de Río de Janeiro, adoptó el método Protocolo Gelatina Reductora y perdió 44 kg en solo 5 meses.</p>
               <div class="story-image-container">
-                <img src="assets/images/Patricia barca_1764452735065.webp" alt="Transformation" class="story-image" />
+                <img src="assets/images/Patricia barca_1764452735065.webp" alt="Transformation" class="story-image" loading="lazy" decoding="async" />
               </div>
               <div class="story-divider"></div>
             </article>
@@ -81,7 +129,7 @@
               <h4 class="story-title font-serif">Cocinera que almorzaba croquetas y pasteles pierde 27 kg después de empezar a usar la famosa gelatina reductora.</h4>
               <p class="story-excerpt font-serif">Lo único que me motivaba era comer, afirma María. La colombiana llegó a pesar 108 kg y sufrió de hipertensión.</p>
               <div class="story-image-container">
-                <img src="assets/images/Maria_1764452735066.webp" alt="Transformation" class="story-image" />
+                <img src="assets/images/Maria_1764452735066.webp" alt="Transformation" class="story-image" loading="lazy" decoding="async" />
               </div>
               <div class="story-divider"></div>
             </article>
@@ -90,7 +138,7 @@
               <h4 class="story-title font-serif">Joven mexicana renuncia a la cirugía bariátrica y pierde 43 kg después de tomar dos veces al día la famosa gelatina adelgazante.</h4>
               <p class="story-excerpt font-serif">La estudiante llegó a pesar 116 kg y por poco se sometió a una cirugía. Con la vida transformada, hoy motiva a otras.</p>
               <div class="story-image-container">
-                <img src="assets/images/Jovem mexicana_1764452735066.webp" alt="Transformation" class="story-image" />
+                <img src="assets/images/Jovem mexicana_1764452735066.webp" alt="Transformation" class="story-image" loading="lazy" decoding="async" />
               </div>
             </article>
           </div>
@@ -98,45 +146,27 @@
       </main>
     </div>
 
-    <!-- Script -->
+    <!-- Script principal -->
     <script src="assets/script.js"></script>
 
     <script>
       (function() {
-        // Lista de termos para identificar seus links de pagamento
         const checkoutTerms = ['pay.hotmart', 'kiwify', 'checkout', 'payment', 'pay'];
 
-        // Ouve o clique do mouse em qualquer lugar da página
         document.addEventListener('mousedown', function(e) {
-          
-          // Encontra o elemento 'a' (link) mais próximo do clique
           const target = e.target.closest('a');
 
-          // Se for um link e tiver destino
           if (target && target.href) {
-            
-            // Verifica se é um dos seus links de checkout
             const isCheckout = checkoutTerms.some(term => target.href.includes(term));
 
             if (isCheckout) {
               const currentParams = window.location.search;
 
-              // Se tiver parâmetros na URL (ex: ?xcod=123)
               if (currentParams) {
-                
-                // Verifica se já não inseriu para não duplicar
                 if (!target.href.includes('xcod')) {
-                  
-                  // Verifica se usa ? ou &
                   const separator = target.href.includes('?') ? '&' : '?';
-                  
-                  // Limpa o ? do inicio dos parametros
                   const paramsClean = currentParams.replace(/^\?/, '');
-
-                  // Atualiza o link
                   target.href = target.href + separator + paramsClean;
-                  
-                  // Log para teste (pode remover depois)
                   console.log('Parâmetros injetados (Estático):', target.href);
                 }
               }
