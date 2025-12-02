@@ -1033,9 +1033,9 @@ function setupUTMTracking() {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
-  setupUTMTracking();
+  // Step 0 já está renderizado no HTML para FCP imediato
+  // Só renderiza se precisar (após navegação)
   handleStepPreloading(step);
-  render();
   
   // Preload agressivo: carrega TODAS as imagens em background após 2 segundos
   setTimeout(() => {
