@@ -1,5 +1,6 @@
 // Quiz Flow State
 let step = 0;
+window.step = step; // Expose globally for checkout tracking
 let loadingProgress = 0;
 let rangeValue = 70;
 let userName = '';
@@ -192,10 +193,29 @@ function getIMCCategory(imc) {
 
 // Handle next step
 function handleNext() {
+  const completedStep = step;
+  
   step++;
+  window.step = step;
   handleStepPreloading(step);
   render();
+  
+  // Track completion of the step that was just completed
+  if (window.QuizAnalytics) {
+    window.QuizAnalytics.trackStepComplete(completedStep);
+    window.QuizAnalytics.trackStepView(step);
+  }
+  
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Handle answer selection with tracking
+function handleAnswerSelect(questionKey, answerValue) {
+  const currentStep = step;
+  if (window.QuizAnalytics) {
+    window.QuizAnalytics.trackAnswer(currentStep, questionKey, answerValue);
+  }
+  handleNext();
 }
 
 // Render functions
@@ -238,9 +258,9 @@ function renderIntro() {
   `;
 }
 
-function renderButtons(title, options, subtitle) {
+function renderButtons(title, options, subtitle, questionKey) {
   const optionsHtml = options.map((opt, idx) => `
-    <button onclick="handleNext()" class="option-button">
+    <button onclick="handleAnswerSelect('${questionKey || 'step_' + step}', '${opt.replace(/'/g, "\\'")}')" class="option-button">
       ${opt}
       <span class="option-arrow">${icons.arrowRight}</span>
     </button>
@@ -327,6 +347,12 @@ function handleSliderChange(event, saveKey) {
 function handleSliderContinue(saveKey) {
   if (saveKey === 'peso') peso = rangeValue;
   if (saveKey === 'altura') altura = rangeValue;
+  
+  // Track slider answer
+  if (window.QuizAnalytics) {
+    window.QuizAnalytics.trackAnswer(step, saveKey, rangeValue.toString());
+  }
+  
   handleNext();
 }
 
@@ -835,7 +861,7 @@ function render() {
         'De 11 a 15 kg',
         'De 16 a 20 kg',
         'Más de 20 kg'
-      ], 'Con base en tu respuesta, veremos si estás apta para eliminar grasa de forma acelerada.');
+      ], 'Con base en tu respuesta, veremos si estás apta para eliminar grasa de forma acelerada.', 'weight_goal');
       break;
     case 2:
       content = renderButtons('¿Cómo clasificarías tu cuerpo hoy?', [
@@ -843,7 +869,7 @@ function render() {
         'Flácido',
         'Sobrepeso',
         'Obeso'
-      ]);
+      ], null, 'body_type');
       break;
     case 3:
       content = renderButtons('¿En qué zona de tu cuerpo te gustaría reducir más grasa?', [
@@ -852,7 +878,7 @@ function render() {
         'Región del Abdomen (barriga)',
         'Región de los Glúteos',
         'Región de los Brazos'
-      ]);
+      ], null, 'target_area');
       break;
     case 4:
       content = renderInput();
@@ -862,14 +888,14 @@ function render() {
         'No, porque me siento con sobrepeso',
         'Sí, pero sé que puedo mejorar mi salud',
         'No, me gustaría bajar de peso para mejorar mi bienestar'
-      ]);
+      ], null, 'appearance_satisfaction');
       break;
     case 6:
       content = renderButtons('¿Qué es lo que más te impide bajar de peso?', [
         'Falta de tiempo – Rutina agitada',
         'Autocontrol – Dificultad para resistir las tentaciones',
         'Finanzas – Considerar que lo saludable es caro'
-      ]);
+      ], null, 'obstacles');
       break;
     case 7:
       content = renderButtons('¿Cómo afecta tu peso a tu vida?', [
@@ -877,7 +903,7 @@ function render() {
         'Mi pareja ya no me mira con deseo como antes',
         'Evito reuniones sociales porque no me siento bien',
         'Ninguna de las opciones'
-      ]);
+      ], null, 'daily_impact');
       break;
     case 8:
       content = renderButtons('¿Cuáles de estos beneficios te gustaría tener?', [
@@ -886,7 +912,7 @@ function render() {
         'Tener más energía y disposición durante el día',
         'Aumentar la autoestima y la confianza',
         'Reducir el estrés y la ansiedad'
-      ], 'Personalizaremos tu protocolo para maximizar los resultados.');
+      ], 'Personalizaremos tu protocolo para maximizar los resultados.', 'desired_benefits');
       break;
     case 9:
       content = renderProtocolIntro();
@@ -912,7 +938,7 @@ function render() {
         '1–2 vasos al día',
         '2–6 vasos al día',
         'Más de 6 vasos'
-      ], 'Tu nivel de hidratación también influye en tu pérdida de peso.');
+      ], 'Tu nivel de hidratación también influye en tu pérdida de peso.', 'water_intake');
       break;
     case 15:
       content = renderLoading();

@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Analytics Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-500: #6b7280;
+      --gray-700: #374151;
+      --gray-900: #111827;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--gray-100);
+      color: var(--gray-900);
+      min-height: 100vh;
+    }
+    
+    .login-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+    
+    .login-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    
+    .login-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--gray-700);
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--gray-300);
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      width: 100%;
+    }
+    
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+    
+    .error-message {
+      color: var(--danger);
+      font-size: 0.875rem;
+      text-align: center;
+      margin-top: 1rem;
+    }
+    
+    /* Dashboard Styles */
+    .dashboard {
+      display: none;
+      min-height: 100vh;
+    }
+    
+    .dashboard.active {
+      display: block;
+    }
+    
+    .header {
+      background: white;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .header-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .range-select {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--gray-300);
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      background: white;
+      cursor: pointer;
+    }
+    
+    .btn-refresh {
+      background: var(--gray-100);
+      color: var(--gray-700);
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+    
+    .btn-refresh:hover {
+      background: var(--gray-200);
+    }
+    
+    .btn-logout {
+      background: transparent;
+      color: var(--gray-500);
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+    
+    .btn-logout:hover {
+      color: var(--danger);
+    }
+    
+    .main-content {
+      padding: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    /* Metric Cards */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .metric-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .metric-label {
+      font-size: 0.875rem;
+      color: var(--gray-500);
+      margin-bottom: 0.5rem;
+    }
+    
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+    
+    .metric-value.success { color: var(--success); }
+    .metric-value.warning { color: var(--warning); }
+    .metric-value.danger { color: var(--danger); }
+    
+    .metric-change {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      margin-top: 0.25rem;
+    }
+    
+    /* Charts Grid */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    @media (min-width: 1024px) {
+      .charts-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      
+      .chart-full {
+        grid-column: 1 / -1;
+      }
+    }
+    
+    .chart-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .chart-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .chart-container {
+      position: relative;
+      height: 300px;
+    }
+    
+    .chart-container.tall {
+      height: 400px;
+    }
+    
+    /* Funnel Table */
+    .funnel-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+    
+    .funnel-table th,
+    .funnel-table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    
+    .funnel-table th {
+      font-weight: 600;
+      color: var(--gray-500);
+      background: var(--gray-50);
+    }
+    
+    .funnel-table tr:hover {
+      background: var(--gray-50);
+    }
+    
+    .step-bar {
+      height: 8px;
+      background: var(--gray-200);
+      border-radius: 4px;
+      overflow: hidden;
+      min-width: 100px;
+    }
+    
+    .step-bar-fill {
+      height: 100%;
+      background: var(--primary);
+      transition: width 0.3s;
+    }
+    
+    .abandon-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .abandon-low { background: #d1fae5; color: #065f46; }
+    .abandon-medium { background: #fef3c7; color: #92400e; }
+    .abandon-high { background: #fee2e2; color: #991b1b; }
+    
+    /* Answer Cards */
+    .answers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    
+    .answer-card {
+      background: var(--gray-50);
+      padding: 1rem;
+      border-radius: 0.5rem;
+    }
+    
+    .answer-question {
+      font-weight: 600;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      color: var(--gray-700);
+    }
+    
+    .answer-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    
+    .answer-option:last-child {
+      border-bottom: none;
+    }
+    
+    .answer-text {
+      font-size: 0.8rem;
+      color: var(--gray-700);
+      max-width: 60%;
+      word-break: break-word;
+    }
+    
+    .answer-stats {
+      text-align: right;
+    }
+    
+    .answer-count {
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+    
+    .answer-percent {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+    }
+    
+    /* Loading State */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem;
+    }
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--gray-200);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 640px) {
+      .header {
+        padding: 1rem;
+      }
+      
+      .main-content {
+        padding: 1rem;
+      }
+      
+      .metric-value {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Screen -->
+  <div id="login-screen" class="login-container">
+    <div class="login-box">
+      <h1 class="login-title">Quiz Analytics Dashboard</h1>
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="password">Senha</label>
+          <input type="password" id="password" class="form-input" placeholder="Digite a senha" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Entrar</button>
+        <p id="login-error" class="error-message" style="display: none;"></p>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Dashboard -->
+  <div id="dashboard" class="dashboard">
+    <header class="header">
+      <h1 class="header-title">Quiz Analytics Dashboard</h1>
+      <div class="header-controls">
+        <select id="range-select" class="range-select">
+          <option value="24h">Ultimas 24 horas</option>
+          <option value="7d">Ultimos 7 dias</option>
+          <option value="30d" selected>Ultimos 30 dias</option>
+          <option value="90d">Ultimos 90 dias</option>
+          <option value="all">Todo o periodo</option>
+        </select>
+        <button id="btn-refresh" class="btn btn-refresh">Atualizar</button>
+        <button id="btn-logout" class="btn btn-logout">Sair</button>
+      </div>
+    </header>
+    
+    <main class="main-content">
+      <!-- Loading State -->
+      <div id="loading" class="loading">
+        <div class="spinner"></div>
+      </div>
+      
+      <!-- Dashboard Content -->
+      <div id="dashboard-content" style="display: none;">
+        <!-- Metrics Cards -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-label">Total de Sessoes</div>
+            <div id="metric-sessions" class="metric-value">-</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Checkouts</div>
+            <div id="metric-checkouts" class="metric-value success">-</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Taxa de Conversao</div>
+            <div id="metric-conversion" class="metric-value">-</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Conclusao do Quiz</div>
+            <div id="metric-completion" class="metric-value">-</div>
+          </div>
+        </div>
+        
+        <!-- Charts -->
+        <div class="charts-grid">
+          <!-- Funnel Chart -->
+          <div class="chart-card chart-full">
+            <h3 class="chart-title">Funil de Conversao por Etapa</h3>
+            <div class="chart-container tall">
+              <canvas id="funnel-chart"></canvas>
+            </div>
+          </div>
+          
+          <!-- Funnel Table -->
+          <div class="chart-card chart-full">
+            <h3 class="chart-title">Detalhes de Abandono por Etapa</h3>
+            <div style="overflow-x: auto;">
+              <table class="funnel-table">
+                <thead>
+                  <tr>
+                    <th>Etapa</th>
+                    <th>Nome</th>
+                    <th>Visualizacoes</th>
+                    <th>Abandonos</th>
+                    <th>Taxa de Abandono</th>
+                    <th>Progresso</th>
+                  </tr>
+                </thead>
+                <tbody id="funnel-table-body">
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <!-- Abandonment Rate Chart -->
+          <div class="chart-card">
+            <h3 class="chart-title">Taxa de Abandono por Etapa</h3>
+            <div class="chart-container">
+              <canvas id="abandonment-chart"></canvas>
+            </div>
+          </div>
+          
+          <!-- Conversion Pie Chart -->
+          <div class="chart-card">
+            <h3 class="chart-title">Distribuicao de Conversao</h3>
+            <div class="chart-container">
+              <canvas id="conversion-chart"></canvas>
+            </div>
+          </div>
+          
+          <!-- Answer Distributions -->
+          <div class="chart-card chart-full">
+            <h3 class="chart-title">Respostas Mais Escolhidas por Pergunta</h3>
+            <div id="answers-container" class="answers-grid">
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <script>
+    // State
+    let authToken = localStorage.getItem('dashboard_auth');
+    let currentRange = '30d';
+    let charts = {};
+    
+    // DOM Elements
+    const loginScreen = document.getElementById('login-screen');
+    const dashboard = document.getElementById('dashboard');
+    const loginForm = document.getElementById('login-form');
+    const loginError = document.getElementById('login-error');
+    const loading = document.getElementById('loading');
+    const dashboardContent = document.getElementById('dashboard-content');
+    const rangeSelect = document.getElementById('range-select');
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      if (authToken) {
+        showDashboard();
+      }
+      
+      // Event listeners
+      loginForm.addEventListener('submit', handleLogin);
+      rangeSelect.addEventListener('change', handleRangeChange);
+      document.getElementById('btn-refresh').addEventListener('click', loadAnalytics);
+      document.getElementById('btn-logout').addEventListener('click', handleLogout);
+    });
+    
+    async function handleLogin(e) {
+      e.preventDefault();
+      const password = document.getElementById('password').value;
+      
+      try {
+        const response = await fetch('/api/analytics?range=24h', {
+          headers: { 'Authorization': `Bearer ${password}` }
+        });
+        
+        if (response.ok) {
+          authToken = password;
+          localStorage.setItem('dashboard_auth', password);
+          loginError.style.display = 'none';
+          showDashboard();
+        } else {
+          loginError.textContent = 'Senha incorreta';
+          loginError.style.display = 'block';
+        }
+      } catch (error) {
+        loginError.textContent = 'Erro ao conectar. Verifique a configuracao.';
+        loginError.style.display = 'block';
+      }
+    }
+    
+    function handleLogout() {
+      authToken = null;
+      localStorage.removeItem('dashboard_auth');
+      loginScreen.style.display = 'flex';
+      dashboard.classList.remove('active');
+    }
+    
+    function showDashboard() {
+      loginScreen.style.display = 'none';
+      dashboard.classList.add('active');
+      loadAnalytics();
+    }
+    
+    function handleRangeChange(e) {
+      currentRange = e.target.value;
+      loadAnalytics();
+    }
+    
+    async function loadAnalytics() {
+      loading.style.display = 'flex';
+      dashboardContent.style.display = 'none';
+      
+      try {
+        const response = await fetch(`/api/analytics?range=${currentRange}`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        
+        if (!response.ok) {
+          if (response.status === 401) {
+            handleLogout();
+            return;
+          }
+          throw new Error('Failed to load analytics');
+        }
+        
+        const data = await response.json();
+        renderDashboard(data);
+        
+        loading.style.display = 'none';
+        dashboardContent.style.display = 'block';
+      } catch (error) {
+        console.error('Error loading analytics:', error);
+        loading.innerHTML = '<p style="color: var(--danger);">Erro ao carregar dados. Verifique as configuracoes do Supabase.</p>';
+      }
+    }
+    
+    function renderDashboard(data) {
+      // Update metrics
+      const conversion = data.conversion || {};
+      document.getElementById('metric-sessions').textContent = formatNumber(conversion.total_sessions || 0);
+      document.getElementById('metric-checkouts').textContent = formatNumber(conversion.total_checkouts || 0);
+      document.getElementById('metric-conversion').textContent = `${conversion.conversion_rate || 0}%`;
+      document.getElementById('metric-completion').textContent = `${conversion.quiz_completion_rate || 0}%`;
+      
+      // Color coding for conversion rate
+      const convRate = parseFloat(conversion.conversion_rate) || 0;
+      const convEl = document.getElementById('metric-conversion');
+      convEl.className = 'metric-value ' + (convRate >= 5 ? 'success' : convRate >= 2 ? 'warning' : 'danger');
+      
+      // Render funnel chart
+      renderFunnelChart(data.funnel || []);
+      
+      // Render funnel table
+      renderFunnelTable(data.funnel || []);
+      
+      // Render abandonment chart
+      renderAbandonmentChart(data.funnel || []);
+      
+      // Render conversion pie chart
+      renderConversionChart(conversion);
+      
+      // Render answers
+      renderAnswers(data.answers || []);
+    }
+    
+    function renderFunnelChart(funnel) {
+      const ctx = document.getElementById('funnel-chart').getContext('2d');
+      
+      if (charts.funnel) {
+        charts.funnel.destroy();
+      }
+      
+      const labels = funnel.map(f => `${f.step_index}: ${truncate(f.step_name, 15)}`);
+      const views = funnel.map(f => parseInt(f.total_views) || 0);
+      const abandons = funnel.map(f => parseInt(f.total_abandons) || 0);
+      
+      charts.funnel = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Visualizacoes',
+              data: views,
+              backgroundColor: 'rgba(37, 99, 235, 0.8)',
+              borderRadius: 4
+            },
+            {
+              label: 'Abandonos',
+              data: abandons,
+              backgroundColor: 'rgba(239, 68, 68, 0.8)',
+              borderRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              ticks: {
+                maxRotation: 45,
+                minRotation: 45,
+                font: { size: 10 }
+              }
+            },
+            y: {
+              beginAtZero: true
+            }
+          },
+          plugins: {
+            legend: {
+              position: 'top'
+            }
+          }
+        }
+      });
+    }
+    
+    function renderFunnelTable(funnel) {
+      const tbody = document.getElementById('funnel-table-body');
+      const maxViews = Math.max(...funnel.map(f => parseInt(f.total_views) || 1));
+      
+      tbody.innerHTML = funnel.map(f => {
+        const views = parseInt(f.total_views) || 0;
+        const abandons = parseInt(f.total_abandons) || 0;
+        const rate = parseFloat(f.abandonment_rate) || 0;
+        const progress = (views / maxViews) * 100;
+        
+        let badgeClass = 'abandon-low';
+        if (rate >= 30) badgeClass = 'abandon-high';
+        else if (rate >= 15) badgeClass = 'abandon-medium';
+        
+        return `
+          <tr>
+            <td><strong>${f.step_index}</strong></td>
+            <td>${f.step_name}</td>
+            <td>${formatNumber(views)}</td>
+            <td>${formatNumber(abandons)}</td>
+            <td><span class="abandon-badge ${badgeClass}">${rate}%</span></td>
+            <td>
+              <div class="step-bar">
+                <div class="step-bar-fill" style="width: ${progress}%"></div>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+    
+    function renderAbandonmentChart(funnel) {
+      const ctx = document.getElementById('abandonment-chart').getContext('2d');
+      
+      if (charts.abandonment) {
+        charts.abandonment.destroy();
+      }
+      
+      const labels = funnel.map(f => f.step_index.toString());
+      const rates = funnel.map(f => parseFloat(f.abandonment_rate) || 0);
+      
+      const colors = rates.map(r => {
+        if (r >= 30) return 'rgba(239, 68, 68, 0.8)';
+        if (r >= 15) return 'rgba(245, 158, 11, 0.8)';
+        return 'rgba(16, 185, 129, 0.8)';
+      });
+      
+      charts.abandonment = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Taxa de Abandono (%)',
+            data: rates,
+            backgroundColor: colors,
+            borderRadius: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            }
+          }
+        }
+      });
+    }
+    
+    function renderConversionChart(conversion) {
+      const ctx = document.getElementById('conversion-chart').getContext('2d');
+      
+      if (charts.conversion) {
+        charts.conversion.destroy();
+      }
+      
+      const total = parseInt(conversion.total_sessions) || 0;
+      const checkouts = parseInt(conversion.total_checkouts) || 0;
+      const abandoned = total - checkouts;
+      
+      charts.conversion = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Converteram', 'Nao Converteram'],
+          datasets: [{
+            data: [checkouts, Math.max(0, abandoned)],
+            backgroundColor: [
+              'rgba(16, 185, 129, 0.8)',
+              'rgba(229, 231, 235, 0.8)'
+            ],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      });
+    }
+    
+    function renderAnswers(answers) {
+      const container = document.getElementById('answers-container');
+      
+      // Group by question
+      const grouped = {};
+      answers.forEach(a => {
+        if (!grouped[a.question_key]) {
+          grouped[a.question_key] = [];
+        }
+        grouped[a.question_key].push(a);
+      });
+      
+      // Sort each question's answers by count
+      Object.keys(grouped).forEach(key => {
+        grouped[key].sort((a, b) => b.answer_count - a.answer_count);
+      });
+      
+      // Render cards
+      container.innerHTML = Object.entries(grouped).map(([question, options]) => {
+        const optionsHtml = options.slice(0, 5).map(opt => `
+          <div class="answer-option">
+            <span class="answer-text">${truncate(opt.answer_value, 30)}</span>
+            <div class="answer-stats">
+              <div class="answer-count">${formatNumber(opt.answer_count)}</div>
+              <div class="answer-percent">${opt.percentage}%</div>
+            </div>
+          </div>
+        `).join('');
+        
+        return `
+          <div class="answer-card">
+            <div class="answer-question">${formatQuestionKey(question)}</div>
+            ${optionsHtml}
+          </div>
+        `;
+      }).join('');
+      
+      if (Object.keys(grouped).length === 0) {
+        container.innerHTML = '<p style="color: var(--gray-500); padding: 2rem; text-align: center;">Nenhuma resposta registrada ainda.</p>';
+      }
+    }
+    
+    // Helpers
+    function formatNumber(num) {
+      return new Intl.NumberFormat('pt-BR').format(num);
+    }
+    
+    function truncate(str, length) {
+      if (!str) return '';
+      return str.length > length ? str.substring(0, length) + '...' : str;
+    }
+    
+    function formatQuestionKey(key) {
+      const names = {
+        'weight_goal': 'Objetivo de Peso',
+        'body_type': 'Tipo de Corpo',
+        'target_area': 'Area Alvo',
+        'appearance_satisfaction': 'Satisfacao com Aparencia',
+        'obstacles': 'Obstaculos',
+        'daily_impact': 'Impacto na Vida',
+        'desired_benefits': 'Beneficios Desejados',
+        'water_intake': 'Consumo de Agua',
+        'altura': 'Altura',
+        'peso': 'Peso Atual',
+        'peso_objetivo': 'Peso Objetivo'
+      };
+      return names[key] || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    }
+  </script>
+</body>
+</html>

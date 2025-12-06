@@ -1,0 +1,16 @@
+{
+  "name": "quiz-gelatina-reductora",
+  "version": "1.0.0",
+  "description": "Quiz Advertorial with Analytics Dashboard",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

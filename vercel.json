@@ -1,10 +1,18 @@
 {
   "version": 2,
   "buildCommand": "",
-  "installCommand": "",
+  "installCommand": "npm install",
   "outputDirectory": ".",
   "framework": null,
+  "functions": {
+    "api/*.js": {
+      "runtime": "@vercel/node@3.0.0"
+    }
+  },
   "rewrites": [
+    { "source": "/api/track-event", "destination": "/api/track-event.js" },
+    { "source": "/api/analytics", "destination": "/api/analytics.js" },
+    { "source": "/dashboard", "destination": "/dashboard/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

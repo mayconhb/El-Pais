@@ -8,6 +8,8 @@ This is a static HTML/CSS/JS advertorial/quiz flow application for a weight loss
 - **Styling**: Custom CSS with performance optimizations
 - **Fonts**: Merriweather (serif), Inter (sans-serif) via Google Fonts
 - **Video**: Wistia player integration
+- **Analytics**: Custom tracking system with Supabase database
+- **Hosting**: Vercel with serverless API functions
 
 ## Project Structure
 ```
@@ -16,7 +18,17 @@ This is a static HTML/CSS/JS advertorial/quiz flow application for a weight loss
 ├── assets/
 │   ├── style.css              # All CSS styles (optimized)
 │   ├── script.js              # Quiz logic and smart preloading
+│   ├── analytics.js           # Client-side analytics tracking
 │   └── images/                # All images (24 files)
+├── api/
+│   ├── track-event.js         # Vercel serverless API for tracking events
+│   └── analytics.js           # Vercel serverless API for dashboard data
+├── dashboard/
+│   └── index.html             # Analytics dashboard page
+├── supabase/
+│   └── schema.sql             # Database schema for Supabase
+├── package.json               # Dependencies (@supabase/supabase-js)
+├── vercel.json                # Vercel deployment configuration
 └── replit.md                  # Project documentation
 ```
 
@@ -28,6 +40,7 @@ This is a static HTML/CSS/JS advertorial/quiz flow application for a weight loss
 - Responsive mobile-first design
 - Spanish language interface
 - **Ultra-fast page loading** with smart preloading system
+- **Analytics Dashboard** with funnel visualization, answer distributions, and conversion metrics
 
 ## Performance Optimizations (December 02, 2025)
 
@@ -54,7 +67,45 @@ This is a static HTML/CSS/JS advertorial/quiz flow application for a weight loss
 - Page prefetch for checkout URL
 - UTM/xcod parameter injection on link click
 
-## Recent Changes (December 02, 2025)
+## Analytics Dashboard Setup
+
+### Required Environment Variables (Vercel)
+Set these in your Vercel project settings:
+- `SUPABASE_URL` - Your Supabase project URL
+- `SUPABASE_SERVICE_ROLE_KEY` - Supabase service role key (keep secret!)
+- `DASHBOARD_PASSWORD` - Password to access the analytics dashboard
+
+### Database Setup (Supabase)
+1. Go to your Supabase project SQL Editor
+2. Copy and run the contents of `supabase/schema.sql`
+3. This creates the tables: sessions, step_events, answers, checkouts
+4. Also creates RPC functions for analytics aggregation
+
+### Accessing the Dashboard
+1. Navigate to `/dashboard` on your deployed site
+2. Enter your DASHBOARD_PASSWORD
+3. View funnel analytics, answer distributions, and conversion metrics
+
+## Recent Changes (December 06, 2025)
+- **Analytics Dashboard System**: Complete analytics tracking and dashboard
+  - Client-side tracking (assets/analytics.js) for sessions, steps, answers, and checkouts
+  - Vercel serverless API endpoints (/api/track-event, /api/analytics)
+  - Supabase database schema with sessions, step_events, answers, checkouts tables
+  - Dashboard page (/dashboard) with:
+    - Funnel visualization showing views and abandonment per step
+    - Abandonment rate table with detailed metrics for all 19 steps
+    - Answer distribution charts for each quiz question
+    - Conversion rate metrics (sessions vs checkouts)
+    - Time range filters (24h, 7d, 30d, 90d, all)
+    - Password-protected access
+  - Tracking features:
+    - Session tracking with UTM parameters, device type, referrer
+    - Step view and completion tracking
+    - Answer selection tracking by question
+    - Checkout click tracking
+    - Abandonment detection on page unload
+
+## Previous Changes (December 02, 2025)
 - ✅ **Performance Optimization**: Implemented ultra-fast loading system
   - Smart image preloading for upcoming quiz steps
   - Wistia video SDK preloading starting at step 14
