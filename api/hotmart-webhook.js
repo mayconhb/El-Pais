@@ -98,6 +98,25 @@ export default async function handler(req, res) {
     const xcod = trackingParams.xcod || extractParam(srcParam, 'xcod') || '';
     const sck = trackingParams.sck || extractParam(srcParam, 'sck') || '';
     
+    // Convert Hotmart timestamp (milliseconds) to ISO date string
+    const hotmartDate = purchase.approved_date || purchase.order_date || null;
+    let hotmartCreatedAt = null;
+    if (hotmartDate) {
+      // If it's a large number (milliseconds timestamp), convert it
+      if (typeof hotmartDate === 'number' && hotmartDate > 1000000000000) {
+        hotmartCreatedAt = new Date(hotmartDate).toISOString();
+      } else if (typeof hotmartDate === 'number') {
+        // If it's seconds timestamp, convert to milliseconds first
+        hotmartCreatedAt = new Date(hotmartDate * 1000).toISOString();
+      } else if (typeof hotmartDate === 'string') {
+        // If it's already a string, try to parse it
+        const parsed = new Date(hotmartDate);
+        if (!isNaN(parsed.getTime())) {
+          hotmartCreatedAt = parsed.toISOString();
+        }
+      }
+    }
+    
     const saleData = {
       transaction_id: transactionId,
       hotmart_transaction_id: purchase.transaction || null,
@@ -119,7 +138,7 @@ export default async function handler(req, res) {
       xcod: xcod || null,
       sck: sck || null,
       src: srcParam || null,
-      hotmart_created_at: purchase.approved_date || purchase.order_date || null
+      hotmart_created_at: hotmartCreatedAt
     };
     
     console.log('[Hotmart Webhook] Processed sale data:', saleData);
