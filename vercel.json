@@ -1,6 +1,9 @@
 {
   "version": 2,
-  "buildCommand": null,
+  "framework": null,
+  "buildCommand": "",
+  "outputDirectory": ".",
+  "installCommand": "npm install",
   "functions": {
     "api/*.js": {
       "runtime": "@vercel/node@3.2.0"
