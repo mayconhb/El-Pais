@@ -87,6 +87,11 @@ Set these in your Vercel project settings:
 3. View funnel analytics, answer distributions, and conversion metrics
 
 ## Recent Changes (December 06, 2025)
+- **Dashboard Metrics Adjustments**:
+  - Conversion rate now calculated based on sessions (checkouts / sessions)
+  - Quiz completion rate now calculated based on sessions (step 18 views / sessions)
+  - Removed slider answers from answer distributions (peso atual, altura, peso objetivo)
+  - Updated dashboard labels to indicate "Baseado em sessoes"
 - **Improved Date Filters**: Updated dashboard with better date filter options
   - New filter options: Hoje (Today), Ontem (Yesterday), 7 dias, 30 dias, Personalizado
   - Custom date picker with calendar inputs for start and end dates

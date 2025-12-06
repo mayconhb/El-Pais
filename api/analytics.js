@@ -236,16 +236,17 @@ export default async function handler(req, res) {
       
       const totalViews = uniqueStep0Sessions;
       const completedQuiz = uniqueStep18Sessions;
+      const sessions = totalSessions || 0;
       
       conversion = {
-        total_sessions: totalSessions || 0,
+        total_sessions: sessions,
         total_checkouts: totalCheckouts || 0,
         total_views: totalViews,
-        conversion_rate: totalViews > 0 
-          ? ((totalCheckouts / totalViews) * 100).toFixed(2) 
+        conversion_rate: sessions > 0 
+          ? ((totalCheckouts / sessions) * 100).toFixed(2) 
           : 0,
-        quiz_completion_rate: totalViews > 0
-          ? ((completedQuiz / totalViews) * 100).toFixed(2)
+        quiz_completion_rate: sessions > 0
+          ? ((completedQuiz / sessions) * 100).toFixed(2)
           : 0,
         avg_steps_before_abandon: 0
       };
@@ -274,6 +275,10 @@ export default async function handler(req, res) {
       'Video/Ventas'
     ];
     
+    // Filter out slider answers (peso, altura, objetivo) from answer distributions
+    const sliderKeys = ['peso', 'altura', 'objetivo'];
+    const filteredAnswers = answers.filter(a => !sliderKeys.includes(a.question_key));
+    
     return res.status(200).json({
       success: true,
       range,
@@ -283,7 +288,7 @@ export default async function handler(req, res) {
         ...step,
         step_name: stepNames[step.step_index] || `Etapa ${step.step_index}`
       })),
-      answers: answers,
+      answers: filteredAnswers,
       conversion: conversion,
       step_names: stepNames
     });
