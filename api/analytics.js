@@ -148,24 +148,37 @@ export default async function handler(req, res) {
       if (stepEvents) {
         const funnelMap = {};
         for (let i = 0; i <= 18; i++) {
-          funnelMap[i] = { step_index: i, total_views: 0, total_completes: 0, total_abandons: 0 };
+          funnelMap[i] = { 
+            step_index: i, 
+            viewSessions: new Set(),
+            completeSessions: new Set(),
+            abandonSessions: new Set()
+          };
         }
         
         stepEvents.forEach(event => {
           const step = funnelMap[event.step_index];
-          if (step) {
-            if (event.event_type === 'view') step.total_views++;
-            if (event.event_type === 'complete') step.total_completes++;
-            if (event.event_type === 'abandon') step.total_abandons++;
+          if (step && event.session_id) {
+            if (event.event_type === 'view') step.viewSessions.add(event.session_id);
+            if (event.event_type === 'complete') step.completeSessions.add(event.session_id);
+            if (event.event_type === 'abandon') step.abandonSessions.add(event.session_id);
           }
         });
         
-        funnel = Object.values(funnelMap).map(step => ({
-          ...step,
-          abandonment_rate: step.total_views > 0 
-            ? ((step.total_abandons / step.total_views) * 100).toFixed(2)
-            : 0
-        }));
+        funnel = Object.values(funnelMap).map(step => {
+          const total_views = step.viewSessions.size;
+          const total_completes = step.completeSessions.size;
+          const total_abandons = step.abandonSessions.size;
+          return {
+            step_index: step.step_index,
+            total_views,
+            total_completes,
+            total_abandons,
+            abandonment_rate: total_views > 0 
+              ? ((total_abandons / total_views) * 100).toFixed(2)
+              : 0
+          };
+        });
       }
     }
     
