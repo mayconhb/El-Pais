@@ -144,8 +144,14 @@
     console.log('[Analytics] Answer:', questionKey, '=', answerValue);
   }
   
-  // Track checkout click
+  // Track checkout click (with duplicate prevention)
   function trackCheckout(checkoutUrl, sourceStep) {
+    // Prevent duplicate checkout tracking
+    if (checkoutClicked || sessionStorage.getItem(CHECKOUT_CLICKED_KEY) === 'true') {
+      console.log('[Analytics] Checkout already tracked - skipping duplicate');
+      return;
+    }
+    
     checkoutClicked = true;
     sessionStorage.setItem(CHECKOUT_CLICKED_KEY, 'true');
     
