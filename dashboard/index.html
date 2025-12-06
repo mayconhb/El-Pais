@@ -157,6 +157,45 @@
       cursor: pointer;
     }
     
+    .date-picker-container {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .date-picker-container.active {
+      display: flex;
+    }
+    
+    .date-input {
+      padding: 0.5rem;
+      border: 1px solid var(--gray-300);
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      background: white;
+    }
+    
+    .date-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    
+    .date-label {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+    }
+    
+    .btn-apply {
+      background: var(--primary);
+      color: white;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.75rem;
+    }
+    
+    .btn-apply:hover {
+      background: var(--primary-dark);
+    }
+    
     .btn-refresh {
       background: var(--gray-100);
       color: var(--gray-700);
@@ -392,6 +431,25 @@
         padding: 1rem;
       }
       
+      .header-controls {
+        width: 100%;
+        justify-content: flex-start;
+      }
+      
+      .date-picker-container {
+        flex-wrap: wrap;
+        width: 100%;
+      }
+      
+      .date-picker-container.active {
+        display: flex;
+      }
+      
+      .date-input {
+        flex: 1;
+        min-width: 120px;
+      }
+      
       .main-content {
         padding: 1rem;
       }
@@ -424,12 +482,19 @@
       <h1 class="header-title">Quiz Analytics Dashboard</h1>
       <div class="header-controls">
         <select id="range-select" class="range-select">
-          <option value="24h">Ultimas 24 horas</option>
-          <option value="7d">Ultimos 7 dias</option>
-          <option value="30d" selected>Ultimos 30 dias</option>
-          <option value="90d">Ultimos 90 dias</option>
-          <option value="all">Todo o periodo</option>
+          <option value="today">Hoje</option>
+          <option value="yesterday">Ontem</option>
+          <option value="7d" selected>Ultimos 7 dias</option>
+          <option value="30d">Ultimos 30 dias</option>
+          <option value="custom">Personalizado</option>
         </select>
+        <div id="date-picker-container" class="date-picker-container">
+          <span class="date-label">De:</span>
+          <input type="date" id="start-date" class="date-input">
+          <span class="date-label">Ate:</span>
+          <input type="date" id="end-date" class="date-input">
+          <button id="btn-apply-dates" class="btn btn-apply">Aplicar</button>
+        </div>
         <button id="btn-refresh" class="btn btn-refresh">Atualizar</button>
         <button id="btn-logout" class="btn btn-logout">Sair</button>
       </div>
@@ -524,7 +589,9 @@
   <script>
     // State
     let authToken = localStorage.getItem('dashboard_auth');
-    let currentRange = '30d';
+    let currentRange = '7d';
+    let customStartDate = null;
+    let customEndDate = null;
     let charts = {};
     
     // DOM Elements
@@ -535,9 +602,19 @@
     const loading = document.getElementById('loading');
     const dashboardContent = document.getElementById('dashboard-content');
     const rangeSelect = document.getElementById('range-select');
+    const datePickerContainer = document.getElementById('date-picker-container');
+    const startDateInput = document.getElementById('start-date');
+    const endDateInput = document.getElementById('end-date');
     
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
+      // Set default dates for custom picker (last 30 days)
+      const today = new Date();
+      const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+      endDateInput.value = formatDateForInput(today);
+      startDateInput.value = formatDateForInput(thirtyDaysAgo);
+      endDateInput.max = formatDateForInput(today);
+      
       if (authToken) {
         showDashboard();
       }
@@ -547,7 +624,12 @@
       rangeSelect.addEventListener('change', handleRangeChange);
       document.getElementById('btn-refresh').addEventListener('click', loadAnalytics);
       document.getElementById('btn-logout').addEventListener('click', handleLogout);
+      document.getElementById('btn-apply-dates').addEventListener('click', handleApplyCustomDates);
     });
+    
+    function formatDateForInput(date) {
+      return date.toISOString().split('T')[0];
+    }
     
     async function handleLogin(e) {
       e.preventDefault();
@@ -588,6 +670,38 @@
     
     function handleRangeChange(e) {
       currentRange = e.target.value;
+      
+      // Show/hide custom date picker
+      if (currentRange === 'custom') {
+        datePickerContainer.classList.add('active');
+        // Don't load analytics yet - wait for user to click Apply
+      } else {
+        datePickerContainer.classList.remove('active');
+        customStartDate = null;
+        customEndDate = null;
+        loadAnalytics();
+      }
+    }
+    
+    function handleApplyCustomDates() {
+      const startVal = startDateInput.value;
+      const endVal = endDateInput.value;
+      
+      if (!startVal || !endVal) {
+        alert('Por favor, selecione as datas de inicio e fim.');
+        return;
+      }
+      
+      const start = new Date(startVal);
+      const end = new Date(endVal);
+      
+      if (start > end) {
+        alert('A data de inicio deve ser anterior a data de fim.');
+        return;
+      }
+      
+      customStartDate = startVal;
+      customEndDate = endVal;
       loadAnalytics();
     }
     
@@ -596,7 +710,14 @@
       dashboardContent.style.display = 'none';
       
       try {
-        const response = await fetch(`/api/analytics?range=${currentRange}`, {
+        let url = `/api/analytics?range=${currentRange}`;
+        
+        // Add custom date parameters if custom range is selected
+        if (currentRange === 'custom' && customStartDate && customEndDate) {
+          url += `&start_date=${customStartDate}&end_date=${customEndDate}`;
+        }
+        
+        const response = await fetch(url, {
           headers: { 'Authorization': `Bearer ${authToken}` }
         });
         

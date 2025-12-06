@@ -87,6 +87,11 @@ Set these in your Vercel project settings:
 3. View funnel analytics, answer distributions, and conversion metrics
 
 ## Recent Changes (December 06, 2025)
+- **Improved Date Filters**: Updated dashboard with better date filter options
+  - New filter options: Hoje (Today), Ontem (Yesterday), 7 dias, 30 dias, Personalizado
+  - Custom date picker with calendar inputs for start and end dates
+  - API updated to support custom date ranges with start_date and end_date parameters
+  - Fixed server.js to correctly serve subdirectory index.html files (dashboard route)
 - **Analytics Dashboard System**: Complete analytics tracking and dashboard
   - Client-side tracking (assets/analytics.js) for sessions, steps, answers, and checkouts
   - Vercel serverless API endpoints (/api/track-event, /api/analytics)
@@ -96,7 +101,7 @@ Set these in your Vercel project settings:
     - Abandonment rate table with detailed metrics for all 19 steps
     - Answer distribution charts for each quiz question
     - Conversion rate metrics (sessions vs checkouts)
-    - Time range filters (24h, 7d, 30d, 90d, all)
+    - Time range filters (Today, Yesterday, 7d, 30d, Custom date range)
     - Password-protected access
   - Tracking features:
     - Session tracking with UTM parameters, device type, referrer

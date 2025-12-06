@@ -40,12 +40,35 @@ export default async function handler(req, res) {
   
   try {
     // Parse date range from query params
-    const { range = '30d' } = req.query;
+    const { range = '7d', start_date, end_date } = req.query;
     
     let startDate;
-    const endDate = new Date();
+    let endDate = new Date();
+    
+    // Helper to get start of day in local timezone
+    const getStartOfDay = (date) => {
+      const d = new Date(date);
+      d.setHours(0, 0, 0, 0);
+      return d;
+    };
+    
+    // Helper to get end of day in local timezone
+    const getEndOfDay = (date) => {
+      const d = new Date(date);
+      d.setHours(23, 59, 59, 999);
+      return d;
+    };
     
     switch (range) {
+      case 'today':
+        startDate = getStartOfDay(new Date());
+        endDate = getEndOfDay(new Date());
+        break;
+      case 'yesterday':
+        const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
+        startDate = getStartOfDay(yesterday);
+        endDate = getEndOfDay(yesterday);
+        break;
       case '24h':
         startDate = new Date(Date.now() - 24 * 60 * 60 * 1000);
         break;
@@ -61,8 +84,18 @@ export default async function handler(req, res) {
       case 'all':
         startDate = new Date('2020-01-01');
         break;
+      case 'custom':
+        // Use provided start_date and end_date
+        if (start_date && end_date) {
+          startDate = getStartOfDay(new Date(start_date));
+          endDate = getEndOfDay(new Date(end_date));
+        } else {
+          // Fallback to last 30 days if no dates provided
+          startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+        }
+        break;
       default:
-        startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+        startDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
     }
     
     // Fetch funnel data using RPC
