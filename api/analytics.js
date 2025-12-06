@@ -132,10 +132,34 @@ export default async function handler(req, res) {
       console.error('Conversion RPC error:', conversionError);
     }
     
+    // Fetch sales metrics using RPC
+    const { data: salesData, error: salesError } = await supabase
+      .rpc('get_sales_metrics', {
+        start_date: startDate.toISOString(),
+        end_date: endDate.toISOString()
+      });
+    
+    if (salesError) {
+      console.error('Sales RPC error:', salesError);
+    }
+    
+    // Fetch sales by source using RPC
+    const { data: salesBySourceData, error: salesBySourceError } = await supabase
+      .rpc('get_sales_by_source', {
+        start_date: startDate.toISOString(),
+        end_date: endDate.toISOString()
+      });
+    
+    if (salesBySourceError) {
+      console.error('Sales by source RPC error:', salesBySourceError);
+    }
+    
     // If RPCs fail, use direct queries as fallback
     let funnel = funnelData || [];
     let answers = answersData || [];
     let conversion = conversionData?.[0] || null;
+    let sales = salesData?.[0] || null;
+    let salesBySource = salesBySourceData || [];
     
     // Fallback: Direct queries if RPCs don't exist
     if (!funnelData || funnelData.length === 0) {
@@ -212,6 +236,71 @@ export default async function handler(req, res) {
             percentage: ((count / total) * 100).toFixed(2)
           };
         });
+      }
+    }
+    
+    // Fallback: Direct query for sales if RPC doesn't exist
+    if (!sales) {
+      const { data: salesRaw } = await supabase
+        .from('sales')
+        .select('status, amount_cents, commission_cents')
+        .gte('created_at', startDate.toISOString())
+        .lte('created_at', endDate.toISOString());
+      
+      if (salesRaw && salesRaw.length > 0) {
+        const totalSales = salesRaw.length;
+        const approvedSales = salesRaw.filter(s => s.status === 'approved' || s.status === 'completed');
+        const refundedSales = salesRaw.filter(s => s.status === 'refunded');
+        const totalRevenue = approvedSales.reduce((sum, s) => sum + (s.amount_cents || 0), 0);
+        const refundedAmount = refundedSales.reduce((sum, s) => sum + (s.amount_cents || 0), 0);
+        const totalCommission = approvedSales.reduce((sum, s) => sum + (s.commission_cents || 0), 0);
+        
+        sales = {
+          total_sales: totalSales,
+          approved_sales: approvedSales.length,
+          refunded_sales: refundedSales.length,
+          total_revenue_cents: totalRevenue,
+          net_revenue_cents: totalRevenue - refundedAmount,
+          total_commission_cents: totalCommission,
+          avg_ticket_cents: approvedSales.length > 0 ? Math.round(totalRevenue / approvedSales.length) : 0,
+          refund_rate: totalSales > 0 ? ((refundedSales.length / totalSales) * 100).toFixed(2) : 0
+        };
+      } else {
+        sales = {
+          total_sales: 0,
+          approved_sales: 0,
+          refunded_sales: 0,
+          total_revenue_cents: 0,
+          net_revenue_cents: 0,
+          total_commission_cents: 0,
+          avg_ticket_cents: 0,
+          refund_rate: 0
+        };
+      }
+    }
+    
+    // Fallback: Direct query for sales by source if RPC doesn't exist
+    if (!salesBySourceData || salesBySourceData.length === 0) {
+      const { data: salesSourceRaw } = await supabase
+        .from('sales')
+        .select('utm_source, status, amount_cents')
+        .gte('created_at', startDate.toISOString())
+        .lte('created_at', endDate.toISOString());
+      
+      if (salesSourceRaw && salesSourceRaw.length > 0) {
+        const sourceMap = {};
+        salesSourceRaw.forEach(s => {
+          const source = s.utm_source || 'direto';
+          if (!sourceMap[source]) {
+            sourceMap[source] = { source, total_sales: 0, total_revenue_cents: 0, approved_sales: 0 };
+          }
+          sourceMap[source].total_sales++;
+          if (s.status === 'approved' || s.status === 'completed') {
+            sourceMap[source].approved_sales++;
+            sourceMap[source].total_revenue_cents += s.amount_cents || 0;
+          }
+        });
+        salesBySource = Object.values(sourceMap).sort((a, b) => b.total_revenue_cents - a.total_revenue_cents);
       }
     }
     
@@ -303,6 +392,8 @@ export default async function handler(req, res) {
       })),
       answers: filteredAnswers,
       conversion: conversion,
+      sales: sales,
+      sales_by_source: salesBySource,
       step_names: stepNames
     });
     

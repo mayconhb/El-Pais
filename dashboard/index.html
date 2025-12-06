@@ -534,6 +534,34 @@
           </div>
         </div>
         
+        <!-- Sales Metrics Cards -->
+        <h2 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: var(--gray-700);">Vendas (Hotmart)</h2>
+        <div class="metrics-grid" style="margin-bottom: 2rem;">
+          <div class="metric-card" style="border-left: 4px solid var(--success);">
+            <div class="metric-label">Vendas Aprovadas</div>
+            <div id="metric-sales-approved" class="metric-value success">-</div>
+          </div>
+          <div class="metric-card" style="border-left: 4px solid var(--primary);">
+            <div class="metric-label">Receita Total</div>
+            <div id="metric-revenue" class="metric-value">-</div>
+            <div class="metric-change">Somente aprovadas</div>
+          </div>
+          <div class="metric-card" style="border-left: 4px solid var(--warning);">
+            <div class="metric-label">Ticket Medio</div>
+            <div id="metric-ticket" class="metric-value">-</div>
+          </div>
+          <div class="metric-card" style="border-left: 4px solid var(--danger);">
+            <div class="metric-label">Taxa de Reembolso</div>
+            <div id="metric-refund" class="metric-value">-</div>
+            <div id="metric-refund-count" class="metric-change">0 reembolsos</div>
+          </div>
+          <div class="metric-card" style="border-left: 4px solid var(--success);">
+            <div class="metric-label">Conv. Real (Vendas/Sessoes)</div>
+            <div id="metric-real-conversion" class="metric-value">-</div>
+            <div class="metric-change">Vendas aprovadas / Sessoes</div>
+          </div>
+        </div>
+        
         <!-- Charts -->
         <div class="charts-grid">
           <!-- Funnel Chart -->
@@ -578,6 +606,34 @@
             <h3 class="chart-title">Distribuicao de Conversao</h3>
             <div class="chart-container">
               <canvas id="conversion-chart"></canvas>
+            </div>
+          </div>
+          
+          <!-- Sales by Source Table -->
+          <div class="chart-card">
+            <h3 class="chart-title">Vendas por Fonte de Trafego</h3>
+            <div style="overflow-x: auto; max-height: 300px;">
+              <table class="funnel-table" id="sales-by-source-table">
+                <thead>
+                  <tr>
+                    <th>Fonte (utm_source)</th>
+                    <th>Vendas</th>
+                    <th>Aprovadas</th>
+                    <th>Receita</th>
+                  </tr>
+                </thead>
+                <tbody id="sales-source-body">
+                  <tr><td colspan="4" style="text-align: center; color: var(--gray-500);">Nenhuma venda registrada</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <!-- Sales Chart -->
+          <div class="chart-card">
+            <h3 class="chart-title">Distribuicao de Vendas</h3>
+            <div class="chart-container">
+              <canvas id="sales-chart"></canvas>
             </div>
           </div>
           
@@ -777,8 +833,103 @@
       // Render conversion pie chart
       renderConversionChart(conversion);
       
+      // Render sales metrics
+      renderSalesMetrics(data.sales || {}, conversion);
+      
+      // Render sales by source
+      renderSalesBySource(data.sales_by_source || []);
+      
+      // Render sales chart
+      renderSalesChart(data.sales || {});
+      
       // Render answers
       renderAnswers(data.answers || []);
+    }
+    
+    function renderSalesMetrics(sales, conversion) {
+      const approved = parseInt(sales.approved_sales) || 0;
+      const refunded = parseInt(sales.refunded_sales) || 0;
+      const revenueCents = parseInt(sales.total_revenue_cents) || 0;
+      const ticketCents = parseInt(sales.avg_ticket_cents) || 0;
+      const refundRate = parseFloat(sales.refund_rate) || 0;
+      const totalSessions = parseInt(conversion.total_sessions) || 0;
+      
+      document.getElementById('metric-sales-approved').textContent = formatNumber(approved);
+      document.getElementById('metric-revenue').textContent = formatCurrency(revenueCents);
+      document.getElementById('metric-ticket').textContent = formatCurrency(ticketCents);
+      document.getElementById('metric-refund').textContent = `${refundRate}%`;
+      document.getElementById('metric-refund-count').textContent = `${refunded} reembolso(s)`;
+      
+      const realConvRate = totalSessions > 0 ? ((approved / totalSessions) * 100).toFixed(2) : 0;
+      const realConvEl = document.getElementById('metric-real-conversion');
+      realConvEl.textContent = `${realConvRate}%`;
+      realConvEl.className = 'metric-value ' + (parseFloat(realConvRate) >= 2 ? 'success' : parseFloat(realConvRate) >= 1 ? 'warning' : 'danger');
+      
+      const refundEl = document.getElementById('metric-refund');
+      refundEl.className = 'metric-value ' + (refundRate <= 5 ? 'success' : refundRate <= 10 ? 'warning' : 'danger');
+    }
+    
+    function renderSalesBySource(salesBySource) {
+      const tbody = document.getElementById('sales-source-body');
+      
+      if (!salesBySource || salesBySource.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--gray-500);">Nenhuma venda registrada</td></tr>';
+        return;
+      }
+      
+      tbody.innerHTML = salesBySource.map(s => {
+        const revenueCents = parseInt(s.total_revenue_cents) || 0;
+        return `
+          <tr>
+            <td><strong>${s.source || 'direto'}</strong></td>
+            <td>${formatNumber(s.total_sales || 0)}</td>
+            <td>${formatNumber(s.approved_sales || 0)}</td>
+            <td>${formatCurrency(revenueCents)}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+    
+    function renderSalesChart(sales) {
+      const ctx = document.getElementById('sales-chart').getContext('2d');
+      
+      if (charts.sales) {
+        charts.sales.destroy();
+      }
+      
+      const approved = parseInt(sales.approved_sales) || 0;
+      const refunded = parseInt(sales.refunded_sales) || 0;
+      const pending = (parseInt(sales.total_sales) || 0) - approved - refunded;
+      
+      charts.sales = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Aprovadas', 'Reembolsadas', 'Pendentes/Outras'],
+          datasets: [{
+            data: [approved, refunded, Math.max(0, pending)],
+            backgroundColor: [
+              'rgba(16, 185, 129, 0.8)',
+              'rgba(239, 68, 68, 0.8)',
+              'rgba(245, 158, 11, 0.8)'
+            ],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      });
+    }
+    
+    function formatCurrency(cents) {
+      const value = cents / 100;
+      return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
     }
     
     function renderFunnelChart(funnel) {

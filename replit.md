@@ -87,6 +87,13 @@ Set these in your Vercel project settings:
 3. View funnel analytics, answer distributions, and conversion metrics
 
 ## Recent Changes (December 06, 2025)
+- **Hotmart Integration**: Complete webhook integration for sales tracking
+  - New serverless endpoint `/api/hotmart-webhook.js` to receive Hotmart webhook notifications
+  - New `sales` table in Supabase to store sales data
+  - Dashboard updated with sales metrics: approved sales, revenue, avg ticket, refund rate
+  - Sales by source table to see which UTM sources generate more revenue
+  - Real conversion rate metric (approved sales / sessions)
+  - Requires `HOTMART_WEBHOOK_TOKEN` env var for security (optional but recommended)
 - **Dashboard Metrics Adjustments**:
   - Conversion rate now calculated based on sessions (checkouts / sessions)
   - Quiz completion rate now calculated based on sessions (step 18 views / sessions)
