@@ -69,15 +69,24 @@ ALTER TABLE answers ENABLE ROW LEVEL SECURITY;
 ALTER TABLE checkouts ENABLE ROW LEVEL SECURITY;
 
 -- Create policies for service role access (API can insert/select)
+-- Using DROP IF EXISTS to allow re-running the script safely
+DROP POLICY IF EXISTS "Enable insert for service role" ON sessions;
+DROP POLICY IF EXISTS "Enable select for service role" ON sessions;
 CREATE POLICY "Enable insert for service role" ON sessions FOR INSERT WITH CHECK (true);
 CREATE POLICY "Enable select for service role" ON sessions FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Enable insert for service role" ON step_events;
+DROP POLICY IF EXISTS "Enable select for service role" ON step_events;
 CREATE POLICY "Enable insert for service role" ON step_events FOR INSERT WITH CHECK (true);
 CREATE POLICY "Enable select for service role" ON step_events FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Enable insert for service role" ON answers;
+DROP POLICY IF EXISTS "Enable select for service role" ON answers;
 CREATE POLICY "Enable insert for service role" ON answers FOR INSERT WITH CHECK (true);
 CREATE POLICY "Enable select for service role" ON answers FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Enable insert for service role" ON checkouts;
+DROP POLICY IF EXISTS "Enable select for service role" ON checkouts;
 CREATE POLICY "Enable insert for service role" ON checkouts FOR INSERT WITH CHECK (true);
 CREATE POLICY "Enable select for service role" ON checkouts FOR SELECT USING (true);
 
@@ -265,6 +274,9 @@ CREATE INDEX IF NOT EXISTS idx_sales_utm_source ON sales(utm_source);
 ALTER TABLE sales ENABLE ROW LEVEL SECURITY;
 
 -- Create policies for service role access
+DROP POLICY IF EXISTS "Enable insert for service role" ON sales;
+DROP POLICY IF EXISTS "Enable select for service role" ON sales;
+DROP POLICY IF EXISTS "Enable update for service role" ON sales;
 CREATE POLICY "Enable insert for service role" ON sales FOR INSERT WITH CHECK (true);
 CREATE POLICY "Enable select for service role" ON sales FOR SELECT USING (true);
 CREATE POLICY "Enable update for service role" ON sales FOR UPDATE USING (true);
