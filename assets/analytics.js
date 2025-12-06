@@ -6,11 +6,13 @@
   const SESSION_KEY = 'quiz_session_id';
   const LAST_STEP_KEY = 'quiz_last_step';
   const STEP_START_TIME_KEY = 'quiz_step_start_time';
+  const CHECKOUT_CLICKED_KEY = 'quiz_checkout_clicked';
   
   let sessionId = null;
   let currentStep = 0;
   let stepStartTime = Date.now();
   let isInitialized = false;
+  let checkoutClicked = false;
   
   // Generate UUID v4
   function generateUUID() {
@@ -144,6 +146,9 @@
   
   // Track checkout click
   function trackCheckout(checkoutUrl, sourceStep) {
+    checkoutClicked = true;
+    sessionStorage.setItem(CHECKOUT_CLICKED_KEY, 'true');
+    
     sendEvent({
       event_type: 'checkout',
       checkout_url: checkoutUrl,
@@ -155,6 +160,11 @@
   
   // Track abandonment
   function trackAbandon() {
+    if (checkoutClicked || sessionStorage.getItem(CHECKOUT_CLICKED_KEY) === 'true') {
+      console.log('[Analytics] Skipping abandon tracking - user clicked checkout');
+      return;
+    }
+    
     const lastStep = parseInt(localStorage.getItem(LAST_STEP_KEY) || '0');
     const lastStepStartTime = parseInt(localStorage.getItem(STEP_START_TIME_KEY) || Date.now().toString());
     const dwellTime = Date.now() - lastStepStartTime;

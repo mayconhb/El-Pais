@@ -535,8 +535,15 @@ function startLoading() {
       clearInterval(loadingInterval);
       clearInterval(carouselInterval);
       setTimeout(() => {
+        const completedStep = step;
         step++;
+        window.step = step;
         render();
+        
+        if (window.QuizAnalytics) {
+          window.QuizAnalytics.trackStepComplete(completedStep);
+          window.QuizAnalytics.trackStepView(step);
+        }
       }, 100);
     }
     updateLoadingUI();
@@ -804,6 +811,10 @@ function handleCTAClick() {
     'event_label': 'cta_link_click',
     'cta_source': 'custom_cta_link'
   });
+  
+  if (window.QuizAnalytics) {
+    window.QuizAnalytics.trackCheckout('https://pay.hotmart.com/I103092154N?off=8pqi3d4c&checkoutMode=10', window.step || 18);
+  }
 }
 
 function renderNewsFeed() {

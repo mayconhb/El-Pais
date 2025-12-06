@@ -215,13 +215,38 @@ export default async function handler(req, res) {
         .gte('created_at', startDate.toISOString())
         .lte('created_at', endDate.toISOString());
       
+      const { data: step0Views } = await supabase
+        .from('step_events')
+        .select('session_id')
+        .eq('step_index', 0)
+        .eq('event_type', 'view')
+        .gte('created_at', startDate.toISOString())
+        .lte('created_at', endDate.toISOString());
+      
+      const { data: step18Views } = await supabase
+        .from('step_events')
+        .select('session_id')
+        .eq('step_index', 18)
+        .eq('event_type', 'view')
+        .gte('created_at', startDate.toISOString())
+        .lte('created_at', endDate.toISOString());
+      
+      const uniqueStep0Sessions = step0Views ? new Set(step0Views.map(v => v.session_id)).size : 0;
+      const uniqueStep18Sessions = step18Views ? new Set(step18Views.map(v => v.session_id)).size : 0;
+      
+      const totalViews = uniqueStep0Sessions;
+      const completedQuiz = uniqueStep18Sessions;
+      
       conversion = {
         total_sessions: totalSessions || 0,
         total_checkouts: totalCheckouts || 0,
-        conversion_rate: totalSessions > 0 
-          ? ((totalCheckouts / totalSessions) * 100).toFixed(2) 
+        total_views: totalViews,
+        conversion_rate: totalViews > 0 
+          ? ((totalCheckouts / totalViews) * 100).toFixed(2) 
           : 0,
-        quiz_completion_rate: 0,
+        quiz_completion_rate: totalViews > 0
+          ? ((completedQuiz / totalViews) * 100).toFixed(2)
+          : 0,
         avg_steps_before_abandon: 0
       };
     }

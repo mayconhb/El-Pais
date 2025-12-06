@@ -515,16 +515,22 @@
             <div id="metric-sessions" class="metric-value">-</div>
           </div>
           <div class="metric-card">
+            <div class="metric-label">Total de Visualizacoes</div>
+            <div id="metric-views" class="metric-value">-</div>
+          </div>
+          <div class="metric-card">
             <div class="metric-label">Checkouts</div>
             <div id="metric-checkouts" class="metric-value success">-</div>
           </div>
           <div class="metric-card">
             <div class="metric-label">Taxa de Conversao</div>
             <div id="metric-conversion" class="metric-value">-</div>
+            <div class="metric-change">Baseado em visualizacoes</div>
           </div>
           <div class="metric-card">
             <div class="metric-label">Conclusao do Quiz</div>
             <div id="metric-completion" class="metric-value">-</div>
+            <div class="metric-change">Chegaram ate o video</div>
           </div>
         </div>
         
@@ -744,6 +750,7 @@
       // Update metrics
       const conversion = data.conversion || {};
       document.getElementById('metric-sessions').textContent = formatNumber(conversion.total_sessions || 0);
+      document.getElementById('metric-views').textContent = formatNumber(conversion.total_views || 0);
       document.getElementById('metric-checkouts').textContent = formatNumber(conversion.total_checkouts || 0);
       document.getElementById('metric-conversion').textContent = `${conversion.conversion_rate || 0}%`;
       document.getElementById('metric-completion').textContent = `${conversion.quiz_completion_rate || 0}%`;
@@ -752,6 +759,11 @@
       const convRate = parseFloat(conversion.conversion_rate) || 0;
       const convEl = document.getElementById('metric-conversion');
       convEl.className = 'metric-value ' + (convRate >= 5 ? 'success' : convRate >= 2 ? 'warning' : 'danger');
+      
+      // Color coding for completion rate
+      const compRate = parseFloat(conversion.quiz_completion_rate) || 0;
+      const compEl = document.getElementById('metric-completion');
+      compEl.className = 'metric-value ' + (compRate >= 50 ? 'success' : compRate >= 25 ? 'warning' : 'danger');
       
       // Render funnel chart
       renderFunnelChart(data.funnel || []);
