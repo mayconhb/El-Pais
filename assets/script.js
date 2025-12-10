@@ -16,7 +16,7 @@ let isPlaying = false;
 let lastTimestamp = 0;
 let accumulatedSeconds = 0;
 let wistiaBindied = false;
-const CTA_THRESHOLD_SECONDS = 185;
+const CTA_THRESHOLD_SECONDS = 490;
 
 // Preload tracking
 let wistiaPreloaded = false;
