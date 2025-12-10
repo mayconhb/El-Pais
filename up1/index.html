@@ -50,6 +50,12 @@
       font-size: 48px;
       margin-top: 20px;
     }
+    
+    .video-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+    }
   </style>
 </head>
 <body>
@@ -62,6 +68,20 @@
     <p class="title">¡Mira abajo tu</p>
     <p class="title-highlight">PRIMERA CLASE!</p>
     <div class="pointer">👇</div>
+  </div>
+  
+  <div class="video-container">
+    <script src="https://fast.wistia.com/player.js" async></script>
+    <script src="https://fast.wistia.com/embed/jck9wmqj8x.js" async type="module"></script>
+    <style>
+      wistia-player[media-id='jck9wmqj8x']:not(:defined) { 
+        background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/jck9wmqj8x/swatch'); 
+        display: block; 
+        filter: blur(5px); 
+        padding-top:133.33%; 
+      }
+    </style>
+    <wistia-player media-id="jck9wmqj8x" seo="false" aspect="0.75"></wistia-player>
   </div>
 </body>
 </html>
