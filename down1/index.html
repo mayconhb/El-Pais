@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Última Oportunidad</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+    }
+    
+    .warning-banner {
+      background-color: #e52a2a;
+      color: #ffffff;
+      text-align: center;
+      padding: 12px 15px;
+      line-height: 1.4;
+    }
+    
+    .warning-line1 {
+      font-weight: bold;
+      font-size: 18px;
+      display: block;
+    }
+    
+    .warning-line2 {
+      font-weight: normal;
+      font-size: 14px;
+      display: block;
+      margin-top: 3px;
+    }
+    
+    @media (max-width: 480px) {
+      .warning-banner {
+        padding: 10px 12px;
+      }
+      
+      .warning-line1 {
+        font-size: 15px;
+      }
+      
+      .warning-line2 {
+        font-size: 12px;
+      }
+    }
+    
+    .main-content {
+      text-align: center;
+      padding: 40px 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .wait-text {
+      font-size: 20px;
+      color: #e52a2a;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    
+    .title {
+      font-size: 28px;
+      font-weight: bold;
+      color: #000000;
+      margin-bottom: 15px;
+      line-height: 1.3;
+    }
+    
+    .subtitle {
+      font-size: 18px;
+      color: #333333;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+    
+    .price-box {
+      background: linear-gradient(135deg, #f8f8f8 0%, #ffffff 100%);
+      border: 2px solid #e5a800;
+      border-radius: 15px;
+      padding: 25px 20px;
+      margin-bottom: 30px;
+    }
+    
+    .price-label {
+      font-size: 16px;
+      color: #666666;
+      margin-bottom: 10px;
+    }
+    
+    .old-price {
+      font-size: 24px;
+      color: #999999;
+      text-decoration: line-through;
+      margin-bottom: 5px;
+    }
+    
+    .new-price {
+      font-size: 48px;
+      font-weight: bold;
+      color: #16a34a;
+    }
+    
+    .new-price span {
+      font-size: 24px;
+    }
+    
+    .savings {
+      font-size: 16px;
+      color: #e52a2a;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    
+    .urgency-text {
+      font-size: 14px;
+      color: #666666;
+      margin-bottom: 25px;
+      font-style: italic;
+    }
+    
+    .hotmart-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+    }
+    
+    @media (max-width: 480px) {
+      .main-content {
+        padding: 25px 15px;
+      }
+      
+      .wait-text {
+        font-size: 18px;
+      }
+      
+      .title {
+        font-size: 22px;
+      }
+      
+      .subtitle {
+        font-size: 16px;
+      }
+      
+      .old-price {
+        font-size: 20px;
+      }
+      
+      .new-price {
+        font-size: 40px;
+      }
+      
+      .new-price span {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="warning-banner">
+    <span class="warning-line1">¡ESPERA! NO CIERRES ESTA PÁGINA</span>
+    <span class="warning-line2">Tenemos una oferta especial solo para ti</span>
+  </div>
+  
+  <div class="main-content">
+    <p class="wait-text">⚠️ ÚLTIMA OPORTUNIDAD ⚠️</p>
+    
+    <h1 class="title">Accede al Protocolo Completo con un Descuento Exclusivo</h1>
+    
+    <p class="subtitle">Sabemos que el precio puede ser un obstáculo. Por eso, queremos darte una última oportunidad para transformar tu vida.</p>
+    
+    <div class="price-box">
+      <p class="price-label">Precio original:</p>
+      <p class="old-price">$27 USD</p>
+      <p class="price-label">Tu precio especial hoy:</p>
+      <p class="new-price"><span>$</span>17 <span>USD</span></p>
+      <p class="savings">¡Ahorras $10 USD!</p>
+    </div>
+    
+    <p class="urgency-text">Esta oferta expira cuando cierres esta página</p>
+  </div>
+  
+  <div class="hotmart-container">
+    <div id="hotmart-sales-funnel"></div>
+  </div>
+  
+  <script src="https://checkout.hotmart.com/lib/hotmart-checkout-elements.js"></script>
+  <script>
+    checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel')
+  </script>
+</body>
+</html>
