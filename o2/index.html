@@ -243,5 +243,36 @@
     </div>
 
     <script src="/o2/assets/script.js" defer></script>
+
+    <!-- Scripts não críticos - carregam após DOM -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // GTM - carrega após página visível
+        setTimeout(function() {
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src="https://escala.purelifenews.com/cechksinwxgg.js?"+i;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','6sinyrou=DgNFMDokXj8hKTpDLVAnTRFaSllfTxcFWhcNBQsFGg0CCR0AHUcQBAo%3D');
+        }, 100);
+        
+        // Checkout params and tracking
+        var checkoutTerms = ['pay.hotmart', 'kiwify', 'checkout', 'payment', 'pay'];
+        document.addEventListener('mousedown', function(e) {
+          var target = e.target.closest('a');
+          if (target && target.href) {
+            var isCheckout = checkoutTerms.some(function(term) { return target.href.includes(term); });
+            if (isCheckout) {
+              // Track checkout click
+              if (window.QuizAnalytics) {
+                window.QuizAnalytics.trackCheckout(target.href, window.step || 18);
+              }
+              // Inject UTM params
+              var currentParams = window.location.search;
+              if (currentParams && !target.href.includes('xcod')) {
+                var separator = target.href.includes('?') ? '&' : '?';
+                target.href = target.href + separator + currentParams.replace(/^\?/, '');
+              }
+            }
+          }
+        });
+      });
+    </script>
 </body>
 </html>
