@@ -172,25 +172,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const shareBtn = document.getElementById('shareBtn');
     shareBtn.addEventListener('click', function() {
-        showPopup('You need to finish watching the video before sharing.');
+        showPopup('Necesitas terminar de ver el video antes de compartir.');
     });
 
     const commentBtn = document.getElementById('commentBtn');
     commentBtn.addEventListener('click', function() {
-        showPopup('You need to finish watching the video before commenting.');
+        showPopup('Necesitas terminar de ver el video antes de comentar.');
     });
 
     const commentActions = document.querySelectorAll('.comment-action');
     commentActions.forEach(action => {
-        if (action.textContent === 'Like') {
+        if (action.textContent === 'Me gusta') {
             action.addEventListener('click', function() {
                 action.style.color = action.style.color === 'rgb(24, 119, 242)' ? '' : '#1877f2';
                 action.style.fontWeight = action.style.fontWeight === '700' ? '600' : '700';
             });
         }
-        if (action.textContent === 'Reply') {
+        if (action.textContent === 'Responder') {
             action.addEventListener('click', function() {
-                showPopup('You need to finish watching the video before replying.');
+                showPopup('Necesitas terminar de ver el video antes de responder.');
             });
         }
     });
@@ -198,28 +198,28 @@ document.addEventListener('DOMContentLoaded', function() {
     const authorName = document.querySelector('.author-name');
     if (authorName) {
         authorName.addEventListener('click', function() {
-            showPopup('You need to finish watching the video before visiting the profile.');
+            showPopup('Necesitas terminar de ver el video antes de visitar el perfil.');
         });
     }
 
     const authorAvatar = document.querySelector('.author-avatar-img');
     if (authorAvatar) {
         authorAvatar.addEventListener('click', function() {
-            showPopup('You need to finish watching the video before visiting the profile.');
+            showPopup('Necesitas terminar de ver el video antes de visitar el perfil.');
         });
     }
 
     const commentAvatars = document.querySelectorAll('.comment-avatar');
     commentAvatars.forEach(avatar => {
         avatar.addEventListener('click', function() {
-            showPopup('You need to finish watching the video before visiting the profile.');
+            showPopup('Necesitas terminar de ver el video antes de visitar el perfil.');
         });
     });
 
     const commentAuthors = document.querySelectorAll('.comment-author');
     commentAuthors.forEach(author => {
         author.addEventListener('click', function() {
-            showPopup('You need to finish watching the video before visiting the profile.');
+            showPopup('Necesitas terminar de ver el video antes de visitar el perfil.');
         });
     });
 });
