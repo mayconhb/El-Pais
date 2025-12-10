@@ -56,6 +56,16 @@
       margin: 0 auto;
       padding: 0 20px 40px;
     }
+    
+    .hotmart-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+    }
+    
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -83,5 +93,92 @@
     </style>
     <wistia-player media-id="jck9wmqj8x" seo="false" aspect="0.75"></wistia-player>
   </div>
+  
+  <div id="hotmartContainer" class="hotmart-container hidden">
+    <div id="hotmart-sales-funnel"></div>
+  </div>
+  
+  <script src="https://checkout.hotmart.com/lib/hotmart-checkout-elements.js"></script>
+  <script>
+    (function() {
+      'use strict';
+      
+      const CTA_THRESHOLD_SECONDS = 7;
+      let isPlaying = false;
+      let lastTimestamp = 0;
+      let accumulatedSeconds = 0;
+      let hotmartShown = false;
+      let wistiaBindied = false;
+      
+      function showHotmart() {
+        if (hotmartShown) return;
+        hotmartShown = true;
+        
+        const container = document.getElementById('hotmartContainer');
+        if (container) {
+          container.classList.remove('hidden');
+          checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel');
+          console.log('[Video Tracker] Hotmart widget shown after', accumulatedSeconds.toFixed(1), 'seconds');
+        }
+      }
+      
+      function setupVideoTracking() {
+        if (wistiaBindied) return;
+        
+        const playerElement = document.querySelector('wistia-player[media-id="jck9wmqj8x"]');
+        
+        if (playerElement) {
+          wistiaBindied = true;
+          console.log('[Video Tracker] Wistia player found - binding events');
+          
+          playerElement.addEventListener('play', () => {
+            isPlaying = true;
+            console.log('[Video Tracker] PLAY - tracking time. Accumulated:', accumulatedSeconds.toFixed(1), 's');
+          });
+          
+          playerElement.addEventListener('pause', () => {
+            isPlaying = false;
+            console.log('[Video Tracker] PAUSE - stopped tracking. Total:', accumulatedSeconds.toFixed(1), 's');
+          });
+          
+          playerElement.addEventListener('end', () => {
+            isPlaying = false;
+            console.log('[Video Tracker] ENDED - Total:', accumulatedSeconds.toFixed(1), 's');
+          });
+          
+          playerElement.addEventListener('time-update', (event) => {
+            const currentTime = event.detail?.currentTime ?? event.target?.currentTime ?? 0;
+            
+            if (isPlaying && currentTime > lastTimestamp) {
+              const delta = currentTime - lastTimestamp;
+              if (delta > 0 && delta < 2) {
+                accumulatedSeconds += delta;
+              }
+            }
+            
+            lastTimestamp = currentTime;
+            
+            if (accumulatedSeconds >= CTA_THRESHOLD_SECONDS && !hotmartShown) {
+              console.log('[Video Tracker] THRESHOLD REACHED!', accumulatedSeconds.toFixed(1), 's - SHOWING HOTMART');
+              showHotmart();
+            }
+          });
+          
+          console.log('[Video Tracker] Events bound successfully');
+        } else {
+          console.log('[Video Tracker] Waiting for Wistia player...');
+          setTimeout(setupVideoTracking, 500);
+        }
+      }
+      
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+          setTimeout(setupVideoTracking, 1000);
+        });
+      } else {
+        setTimeout(setupVideoTracking, 1000);
+      }
+    })();
+  </script>
 </body>
 </html>
