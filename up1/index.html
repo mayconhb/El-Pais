@@ -20,10 +20,17 @@
       background-color: #e52a2a;
       color: #ffffff;
       text-align: center;
-      padding: 15px 20px;
+      padding: 10px 15px;
       font-weight: bold;
-      font-size: 16px;
-      line-height: 1.4;
+      font-size: 13px;
+      line-height: 1.3;
+    }
+    
+    @media (max-width: 480px) {
+      .warning-banner {
+        padding: 8px 12px;
+        font-size: 11px;
+      }
     }
     
     .main-content {
@@ -32,7 +39,7 @@
     }
     
     .title {
-      font-size: 32px;
+      font-size: 28px;
       font-weight: bold;
       color: #000000;
       font-style: italic;
@@ -40,21 +47,44 @@
     }
     
     .title-highlight {
-      font-size: 36px;
+      font-size: 32px;
       font-weight: bold;
       color: #e5a800;
       font-style: italic;
     }
     
     .pointer {
-      font-size: 48px;
-      margin-top: 20px;
+      font-size: 40px;
+      margin-top: 15px;
     }
     
     .video-container {
       max-width: 600px;
       margin: 0 auto;
-      padding: 0 20px 40px;
+      padding: 0 15px 30px;
+    }
+    
+    @media (max-width: 480px) {
+      .main-content {
+        padding: 25px 15px;
+      }
+      
+      .title {
+        font-size: 22px;
+      }
+      
+      .title-highlight {
+        font-size: 26px;
+      }
+      
+      .pointer {
+        font-size: 32px;
+        margin-top: 10px;
+      }
+      
+      .video-container {
+        padding: 0 10px 20px;
+      }
     }
     
     .hotmart-container {
@@ -70,7 +100,7 @@
 </head>
 <body>
   <div class="warning-banner">
-    NO SALGAS DE ESTA PÁGINA — ESTAMOS CREANDO TU ACCESO.<br>
+    NO SALGAS DE ESTA PÁGINA, ESTAMOS CREANDO TU ACCESO.<br>
     CERRARLA AHORA PODRÍA GENERAR ERRORES EN TU PEDIDO.
   </div>
   
