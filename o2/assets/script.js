@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
             targetStep.classList.add('active');
             
             // Handle loading step
-            if (stepNumber === 10) {
+            if (stepNumber === 11) {
                 simulateLoading();
             }
         }
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (progress >= 100) {
                 clearInterval(interval);
                 setTimeout(() => {
-                    goToStep(11);
+                    goToStep(12);
                 }, 300);
             }
         }, 50);

@@ -57,74 +57,85 @@
 
             <!-- QUIZ INTERATIVO -->
             <div class="quiz-container" id="quizContainer">
-                <!-- Step 0: Headline -->
+                <!-- Step 0: Video Wistia -->
                 <div class="quiz-step active" data-step="0">
+                    <div class="quiz-content video-step">
+                        <script src="https://fast.wistia.com/player.js" async></script>
+                        <script src="https://fast.wistia.com/embed/3hf26lz4vm.js" async type="module"></script>
+                        <style>wistia-player[media-id='3hf26lz4vm']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/3hf26lz4vm/swatch'); display: block; filter: blur(5px); padding-top:152.5%; }</style>
+                        <wistia-player media-id="3hf26lz4vm" seo="false" aspect="0.6557377049180327"></wistia-player>
+                        <button class="quiz-continue-btn" data-next="1">Continuar</button>
+                    </div>
+                </div>
+
+                <!-- Step 1: Headline -->
+                <div class="quiz-step" data-step="1">
                     <div class="quiz-content">
                         <h2 class="quiz-headline">¿Cuántos kilos deseas perder?</h2>
                         <p class="quiz-subheadline">Con base en tu respuesta, veremos si estás apta para eliminar grasa de forma acelerada.</p>
                         <div class="quiz-options">
-                            <button class="quiz-option" data-next="1">Hasta 5 kg</button>
-                            <button class="quiz-option" data-next="1">De 6 a 10 kg</button>
-                            <button class="quiz-option" data-next="1">De 11 a 15 kg</button>
-                            <button class="quiz-option" data-next="1">De 16 a 20 kg</button>
-                            <button class="quiz-option" data-next="1">Más de 20 kg</button>
+                            <button class="quiz-option" data-next="2">Hasta 5 kg</button>
+                            <button class="quiz-option" data-next="2">De 6 a 10 kg</button>
+                            <button class="quiz-option" data-next="2">De 11 a 15 kg</button>
+                            <button class="quiz-option" data-next="2">De 16 a 20 kg</button>
+                            <button class="quiz-option" data-next="2">Más de 20 kg</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Step 1: Tipo de cuerpo -->
-                <div class="quiz-step" data-step="1">
+                <!-- Step 2: Tipo de cuerpo -->
+                <div class="quiz-step" data-step="2">
                     <div class="quiz-content">
                         <h2 class="quiz-headline">¿Cómo clasificarías tu cuerpo hoy?</h2>
                         <div class="quiz-options">
-                            <button class="quiz-option" data-next="2">Regular</button>
-                            <button class="quiz-option" data-next="2">Flácido</button>
-                            <button class="quiz-option" data-next="2">Sobrepeso</button>
-                            <button class="quiz-option" data-next="2">Obeso</button>
+                            <button class="quiz-option" data-next="3">Regular</button>
+                            <button class="quiz-option" data-next="3">Flácido</button>
+                            <button class="quiz-option" data-next="3">Sobrepeso</button>
+                            <button class="quiz-option" data-next="3">Obeso</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Step 2: Zona de grasa -->
-                <div class="quiz-step" data-step="2">
+                <!-- Step 3: Zona de grasa -->
+                <div class="quiz-step" data-step="3">
                     <div class="quiz-content">
                         <h2 class="quiz-headline">¿En qué zona de tu cuerpo te gustaría reducir más grasa?</h2>
                         <div class="quiz-options">
-                            <button class="quiz-option" data-next="3">Región de las Caderas</button>
-                            <button class="quiz-option" data-next="3">Región de los Muslos</button>
-                            <button class="quiz-option" data-next="3">Región del Abdomen (barriga)</button>
-                            <button class="quiz-option" data-next="3">Región de los Glúteos</button>
-                            <button class="quiz-option" data-next="3">Región de los Brazos</button>
+                            <button class="quiz-option" data-next="4">Región de las Caderas</button>
+                            <button class="quiz-option" data-next="4">Región de los Muslos</button>
+                            <button class="quiz-option" data-next="4">Región del Abdomen (barriga)</button>
+                            <button class="quiz-option" data-next="4">Región de los Glúteos</button>
+                            <button class="quiz-option" data-next="4">Región de los Brazos</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Step 3: Feliz con apariencia -->
-                <div class="quiz-step" data-step="3">
+                <!-- Step 4: Feliz con apariencia -->
+                <div class="quiz-step" data-step="4">
                     <div class="quiz-content">
                         <h2 class="quiz-headline">¿Realmente estás feliz con tu apariencia?</h2>
                         <div class="quiz-options">
-                            <button class="quiz-option" data-next="4">No, porque me siento con sobrepeso</button>
-                            <button class="quiz-option" data-next="4">Sí, pero sé que puedo mejorar mi salud</button>
-                            <button class="quiz-option" data-next="4">No, me gustaría bajar de peso para mejorar mi bienestar</button>
+                            <button class="quiz-option" data-next="5">No, porque me siento con sobrepeso</button>
+                            <button class="quiz-option" data-next="5">Sí, pero sé que puedo mejorar mi salud</button>
+                            <button class="quiz-option" data-next="5">No, me gustaría bajar de peso para mejorar mi bienestar</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Step 4: Impedimento -->
-                <div class="quiz-step" data-step="4">
+                <!-- Step 5: Impedimento -->
+                <div class="quiz-step" data-step="5">
                     <div class="quiz-content">
                         <h2 class="quiz-headline">¿Qué es lo que más te impide bajar de peso?</h2>
                         <div class="quiz-options">
-                            <button class="quiz-option" data-next="5">Falta de tiempo – Rutina agitada</button>
-                            <button class="quiz-option" data-next="5">Autocontrol – Dificultad para resistir las tentaciones</button>
-                            <button class="quiz-option" data-next="5">Finanzas – Considerar que lo saludable es caro</button>
+                            <button class="quiz-option" data-next="6">Falta de tiempo – Rutina agitada</button>
+                            <button class="quiz-option" data-next="6">Autocontrol – Dificultad para resistir las tentaciones</button>
+                            <button class="quiz-option" data-next="6">Finanzas – Considerar que lo saludable es caro</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Step 5: Beneficios -->
-                <div class="quiz-step" data-step="5">
+                <!-- Step 6: Beneficios -->
+                <div class="quiz-step" data-step="6">
                     <div class="quiz-content">
                         <h2 class="quiz-headline">¿Cuáles de estos beneficios te gustaría tener?</h2>
                         <p class="quiz-subheadline">Personalizaremos tu protocolo para maximizar los resultados.</p>
@@ -135,12 +146,12 @@
                             <label class="quiz-checkbox"><input type="checkbox" checked> Aumentar la autoestima y la confianza</label>
                             <label class="quiz-checkbox"><input type="checkbox" checked> Reducir el estrés y la ansiedad</label>
                         </div>
-                        <button class="quiz-continue-btn" data-next="6">Continuar</button>
+                        <button class="quiz-continue-btn" data-next="7">Continuar</button>
                     </div>
                 </div>
 
-                <!-- Step 6: Peso actual -->
-                <div class="quiz-step" data-step="6">
+                <!-- Step 7: Peso actual -->
+                <div class="quiz-step" data-step="7">
                     <div class="quiz-content">
                         <h2 class="quiz-headline">¿Cuál es tu peso actual?</h2>
                         <p class="quiz-subheadline">¡Comencemos! Esto nos ayuda a personalizar tu protocolo.</p>
@@ -153,12 +164,12 @@
                             </div>
                         </div>
                         <p class="slider-note">✓ Ajustaremos la dosis ideal del Protocolo para tu cuerpo.</p>
-                        <button class="quiz-continue-btn" data-next="7">Continuar</button>
+                        <button class="quiz-continue-btn" data-next="8">Continuar</button>
                     </div>
                 </div>
 
-                <!-- Step 7: Estatura -->
-                <div class="quiz-step" data-step="7">
+                <!-- Step 8: Estatura -->
+                <div class="quiz-step" data-step="8">
                     <div class="quiz-content">
                         <h2 class="quiz-headline">¿Cuál es tu estatura?</h2>
                         <p class="quiz-subheadline">Calcularemos la dosis exacta del Protocolo para tu cuerpo.</p>
@@ -171,12 +182,12 @@
                             </div>
                         </div>
                         <p class="slider-note">✓ Ajustaremos la dosis ideal del Protocolo para tu cuerpo.</p>
-                        <button class="quiz-continue-btn" data-next="8">Continuar</button>
+                        <button class="quiz-continue-btn" data-next="9">Continuar</button>
                     </div>
                 </div>
 
-                <!-- Step 8: Peso objetivo -->
-                <div class="quiz-step" data-step="8">
+                <!-- Step 9: Peso objetivo -->
+                <div class="quiz-step" data-step="9">
                     <div class="quiz-content">
                         <h2 class="quiz-headline">¿Cuál es tu peso objetivo?</h2>
                         <p class="quiz-subheadline">¡Casi listo! Esto nos ayuda a definir tu meta.</p>
@@ -189,26 +200,26 @@
                             </div>
                         </div>
                         <p class="slider-note">✓ Ajustaremos la dosis ideal del Protocolo para tu cuerpo.</p>
-                        <button class="quiz-continue-btn" data-next="9">Continuar</button>
+                        <button class="quiz-continue-btn" data-next="10">Continuar</button>
                     </div>
                 </div>
 
-                <!-- Step 9: Agua -->
-                <div class="quiz-step" data-step="9">
+                <!-- Step 10: Agua -->
+                <div class="quiz-step" data-step="10">
                     <div class="quiz-content">
                         <h2 class="quiz-headline">¿Cuántos vasos de agua bebes al día?</h2>
                         <p class="quiz-subheadline">Tu nivel de hidratación también influye en tu pérdida de peso.</p>
                         <div class="quiz-options">
-                            <button class="quiz-option" data-next="10">Solo bebo café o té</button>
-                            <button class="quiz-option" data-next="10">1–2 vasos al día</button>
-                            <button class="quiz-option" data-next="10">2–6 vasos al día</button>
-                            <button class="quiz-option" data-next="10">Más de 6 vasos</button>
+                            <button class="quiz-option" data-next="11">Solo bebo café o té</button>
+                            <button class="quiz-option" data-next="11">1–2 vasos al día</button>
+                            <button class="quiz-option" data-next="11">2–6 vasos al día</button>
+                            <button class="quiz-option" data-next="11">Más de 6 vasos</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Step 10: Loading -->
-                <div class="quiz-step" data-step="10">
+                <!-- Step 11: Loading -->
+                <div class="quiz-step" data-step="11">
                     <div class="quiz-content loading-step">
                         <div class="loading-spinner"></div>
                         <h2 class="quiz-headline">Cargando resultados...</h2>
@@ -218,8 +229,8 @@
                     </div>
                 </div>
 
-                <!-- Step 11: Resultado -->
-                <div class="quiz-step" data-step="11">
+                <!-- Step 12: Resultado -->
+                <div class="quiz-step" data-step="12">
                     <div class="quiz-content result-step">
                         <h2 class="quiz-headline">¿Estás lista para transformar tu cuerpo y tu salud?</h2>
                         <p class="quiz-subheadline">Haz clic en Continuar si deseas obtener tu protocolo personalizado.</p>
@@ -241,12 +252,12 @@
                             </div>
                         </div>
                         
-                        <button class="quiz-continue-btn final-btn" data-next="12">Continuar</button>
+                        <button class="quiz-continue-btn final-btn" data-next="13">Continuar</button>
                     </div>
                 </div>
 
-                <!-- Step 12: VSL Final -->
-                <div class="quiz-step" data-step="12">
+                <!-- Step 13: VSL Final -->
+                <div class="quiz-step" data-step="13">
                     <div class="quiz-content vsl-step">
                         <div class="vsl-placeholder">
                             <p>VSL FINAL</p>

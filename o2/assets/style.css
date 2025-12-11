@@ -519,6 +519,20 @@ body {
     box-shadow: 0 6px 20px rgba(34,197,94,0.5);
 }
 
+/* Video step */
+.video-step {
+    padding: 0;
+}
+
+.video-step wistia-player {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.video-step .quiz-continue-btn {
+    margin: 16px;
+}
+
 /* VSL step */
 .vsl-step {
     display: flex;
