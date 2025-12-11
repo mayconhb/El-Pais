@@ -48,7 +48,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    let loadingInterval = null;
+
     function goToStep(stepNumber) {
+        if (!quizContainer) return;
+        
         const steps = quizContainer.querySelectorAll('.quiz-step');
         steps.forEach(step => step.classList.remove('active'));
         
@@ -64,19 +68,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function simulateLoading() {
-        const progressBar = document.getElementById('loadingProgress');
-        let progress = 0;
+        // Clear any existing interval
+        if (loadingInterval) {
+            clearInterval(loadingInterval);
+            loadingInterval = null;
+        }
         
-        const interval = setInterval(() => {
+        const progressBar = document.getElementById('loadingProgress');
+        if (!progressBar) return;
+        
+        let progress = 0;
+        progressBar.style.width = '0%';
+        
+        loadingInterval = setInterval(() => {
             progress += 2;
-            if (progressBar) {
-                progressBar.style.width = progress + '%';
-            }
+            progressBar.style.width = progress + '%';
             
             if (progress >= 100) {
-                clearInterval(interval);
+                clearInterval(loadingInterval);
+                loadingInterval = null;
                 setTimeout(() => {
-                    goToStep(13);
+                    goToStep(12);
                 }, 300);
             }
         }, 50);
@@ -92,20 +104,24 @@ document.addEventListener('DOMContentLoaded', function() {
         return num.toString();
     }
 
-    likeBtn.addEventListener('click', function() {
-        likeBtn.classList.toggle('active');
-        userLiked = !userLiked;
-        
-        const reactionsNumber = document.querySelector('.reactions-number');
-        
-        if (userLiked) {
-            likesCount += 1;
-        } else {
-            likesCount -= 1;
-        }
-        
-        reactionsNumber.textContent = formatNumber(likesCount);
-    });
+    if (likeBtn) {
+        likeBtn.addEventListener('click', function() {
+            likeBtn.classList.toggle('active');
+            userLiked = !userLiked;
+            
+            const reactionsNumber = document.querySelector('.reactions-number');
+            
+            if (userLiked) {
+                likesCount += 1;
+            } else {
+                likesCount -= 1;
+            }
+            
+            if (reactionsNumber) {
+                reactionsNumber.textContent = formatNumber(likesCount);
+            }
+        });
+    }
 
     function showPopup(message) {
         let popup = document.querySelector('.custom-popup');
