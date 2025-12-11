@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let videoLastTimestamp = 0;
     let videoAccumulatedSeconds = 0;
     let videoButtonShown = false;
-    const VIDEO_CTA_THRESHOLD = 10; // Show button after 10 seconds
+    const VIDEO_CTA_THRESHOLD = 485; // Show button after 8 minutes and 5 seconds
 
     function setupVideoTracking() {
         const playerElement = document.querySelector('wistia-player[media-id="3hf26lz4vm"]');
