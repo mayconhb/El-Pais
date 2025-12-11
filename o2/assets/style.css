@@ -477,6 +477,15 @@ body {
     transition: width 0.1s linear;
 }
 
+.loading-detail {
+    color: rgba(255,255,255,0.85);
+    font-size: 13px;
+    margin-top: 16px;
+    font-weight: 500;
+    min-height: 20px;
+    transition: opacity 0.3s ease;
+}
+
 /* Result step */
 .result-step {
     padding: 10px;

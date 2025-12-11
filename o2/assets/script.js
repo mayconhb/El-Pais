@@ -190,23 +190,53 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         const progressBar = document.getElementById('loadingProgress');
+        const loadingTitle = document.getElementById('loadingTitle');
+        const loadingSubtitle = document.getElementById('loadingSubtitle');
+        const loadingDetail = document.getElementById('loadingDetail');
         if (!progressBar) return;
         
+        const loadingSteps = [
+            { progress: 0, title: "Analizando tus respuestas...", subtitle: "Por favor espera un momento", detail: "✓ Iniciando análisis..." },
+            { progress: 15, title: "Analizando tus respuestas...", subtitle: "Evaluando tu perfil metabólico", detail: "✓ Peso y estatura registrados" },
+            { progress: 30, title: "Calculando tu IMC...", subtitle: "Determinando tu índice de masa corporal", detail: "✓ Perfil corporal identificado" },
+            { progress: 45, title: "Evaluando tus objetivos...", subtitle: "Analizando metas de pérdida de peso", detail: "✓ Objetivo de peso definido" },
+            { progress: 60, title: "Personalizando tu protocolo...", subtitle: "Ajustando dosis ideal para tu cuerpo", detail: "✓ Zona de enfoque: Abdomen" },
+            { progress: 75, title: "Optimizando resultados...", subtitle: "Calculando beneficios esperados", detail: "✓ Beneficios personalizados listos" },
+            { progress: 90, title: "Preparando tu plan...", subtitle: "Finalizando protocolo personalizado", detail: "✓ Plan de hidratación incluido" },
+            { progress: 100, title: "¡Listo!", subtitle: "Tu protocolo está preparado", detail: "✓ Todo listo para comenzar" }
+        ];
+        
         let progress = 0;
+        let currentStepIndex = 0;
         progressBar.style.width = '0%';
         
+        function updateLoadingText() {
+            for (let i = loadingSteps.length - 1; i >= 0; i--) {
+                if (progress >= loadingSteps[i].progress) {
+                    if (i !== currentStepIndex) {
+                        currentStepIndex = i;
+                        if (loadingTitle) loadingTitle.textContent = loadingSteps[i].title;
+                        if (loadingSubtitle) loadingSubtitle.textContent = loadingSteps[i].subtitle;
+                        if (loadingDetail) loadingDetail.textContent = loadingSteps[i].detail;
+                    }
+                    break;
+                }
+            }
+        }
+        
         loadingInterval = setInterval(() => {
-            progress += 2;
+            progress += 1;
             progressBar.style.width = progress + '%';
+            updateLoadingText();
             
             if (progress >= 100) {
                 clearInterval(loadingInterval);
                 loadingInterval = null;
                 setTimeout(() => {
                     goToStep(12);
-                }, 300);
+                }, 500);
             }
-        }, 50);
+        }, 40);
     }
 
     let likesCount = 12700;
