@@ -918,3 +918,16 @@ body {
 .cta-link:hover {
   background-color: #ebd040;
 }
+
+/* Video Page - White Background */
+body.video-page {
+  background-color: white !important;
+}
+
+body.video-page .main-container {
+  background-color: white !important;
+}
+
+body.video-page .header {
+  background-color: white !important;
+}

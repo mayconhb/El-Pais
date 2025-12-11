@@ -861,6 +861,13 @@ function render() {
   const quizContainer = document.getElementById('quiz-container');
   let content = '';
   
+  // Add/remove video-page class for white background on video steps
+  if (step === 18) {
+    document.body.classList.add('video-page');
+  } else {
+    document.body.classList.remove('video-page');
+  }
+  
   switch (step) {
     case 0:
       content = renderIntro();
