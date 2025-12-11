@@ -629,6 +629,20 @@ body {
     max-width: 100%;
 }
 
+.vsl-step .quiz-continue-link {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    margin: 0;
+    width: auto;
+    padding: 14px 40px;
+    border-radius: 25px;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(34,197,94,0.4);
+}
+
 .video-placeholder {
     position: absolute;
     top: 0;
