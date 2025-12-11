@@ -59,6 +59,63 @@ document.addEventListener('DOMContentLoaded', function() {
     // Start video tracking after a short delay for Wistia to load
     setTimeout(setupVideoTracking, 1000);
 
+    // Video tracking for step 13 (VSL final) link
+    let vslIsPlaying = false;
+    let vslLastTimestamp = 0;
+    let vslAccumulatedSeconds = 0;
+    let vslLinkShown = false;
+    const VSL_CTA_THRESHOLD = 10; // Show link after 10 seconds
+
+    function setupVSLTracking() {
+        const playerElement = document.querySelector('wistia-player[media-id="mzot6yec0n"]');
+        const continueLink = document.getElementById('vslContinueLink');
+        
+        if (playerElement && continueLink) {
+            console.log('[VSL Tracker O2] Wistia player found - binding events');
+            
+            playerElement.addEventListener('play', () => {
+                vslIsPlaying = true;
+                console.log('[VSL Tracker O2] PLAY - tracking time. Accumulated:', vslAccumulatedSeconds.toFixed(1), 's');
+            });
+            
+            playerElement.addEventListener('pause', () => {
+                vslIsPlaying = false;
+                console.log('[VSL Tracker O2] PAUSE - Total watched:', vslAccumulatedSeconds.toFixed(1), 's');
+            });
+            
+            playerElement.addEventListener('end', () => {
+                vslIsPlaying = false;
+                console.log('[VSL Tracker O2] ENDED - Total watched:', vslAccumulatedSeconds.toFixed(1), 's');
+            });
+            
+            playerElement.addEventListener('time-update', (event) => {
+                const currentTime = event.detail?.currentTime ?? event.target?.currentTime ?? 0;
+                
+                if (vslIsPlaying && currentTime > vslLastTimestamp) {
+                    const delta = currentTime - vslLastTimestamp;
+                    if (delta > 0 && delta < 2) {
+                        vslAccumulatedSeconds += delta;
+                    }
+                }
+                
+                vslLastTimestamp = currentTime;
+                
+                if (vslAccumulatedSeconds >= VSL_CTA_THRESHOLD && !vslLinkShown) {
+                    console.log('[VSL Tracker O2] THRESHOLD REACHED! Watched', vslAccumulatedSeconds.toFixed(1), 's - SHOWING LINK');
+                    vslLinkShown = true;
+                    continueLink.classList.remove('hidden');
+                }
+            });
+            
+            console.log('[VSL Tracker O2] Events bound successfully');
+        } else {
+            setTimeout(setupVSLTracking, 500);
+        }
+    }
+
+    // Start VSL tracking after a delay
+    setTimeout(setupVSLTracking, 1500);
+
     // Quiz functionality
     const quizContainer = document.getElementById('quizContainer');
     if (quizContainer) {
