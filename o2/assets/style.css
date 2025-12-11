@@ -8,6 +8,15 @@
     display: none !important;
 }
 
+.quiz-continue-btn-green {
+    background: #22c55e !important;
+    color: white !important;
+}
+
+.quiz-continue-btn-green:hover {
+    background: #16a34a !important;
+}
+
 img {
     max-width: 100%;
     height: auto;
