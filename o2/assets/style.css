@@ -521,25 +521,43 @@ body {
 
 /* Video step */
 .video-step {
-    padding: 0;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
 }
 
-.video-step wistia-player {
-    width: 100%;
-    margin-bottom: 16px;
+.video-step .wistia-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .video-step .quiz-continue-btn {
-    margin: 16px;
+    margin-top: 10px;
+    flex-shrink: 0;
+    z-index: 10;
+    position: relative;
 }
 
 /* VSL step */
 .vsl-step {
-    padding: 0;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
 }
 
-.vsl-step wistia-player {
-    width: 100%;
+.vsl-step .wistia-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .video-placeholder {
