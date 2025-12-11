@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let vslLastTimestamp = 0;
     let vslAccumulatedSeconds = 0;
     let vslLinkShown = false;
-    const VSL_CTA_THRESHOLD = 10; // Show link after 10 seconds
+    const VSL_CTA_THRESHOLD = 25; // Show link after 25 seconds
 
     function setupVSLTracking() {
         const playerElement = document.querySelector('wistia-player[media-id="mzot6yec0n"]');
