@@ -1,6 +1,87 @@
 document.addEventListener('DOMContentLoaded', function() {
     const likeBtn = document.getElementById('likeBtn');
 
+    // Quiz functionality
+    const quizContainer = document.getElementById('quizContainer');
+    if (quizContainer) {
+        // Handle option clicks
+        const options = quizContainer.querySelectorAll('.quiz-option');
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                const nextStep = parseInt(this.dataset.next);
+                goToStep(nextStep);
+            });
+        });
+
+        // Handle continue buttons
+        const continueBtns = quizContainer.querySelectorAll('.quiz-continue-btn');
+        continueBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const nextStep = parseInt(this.dataset.next);
+                goToStep(nextStep);
+            });
+        });
+
+        // Slider updates
+        const pesoSlider = document.getElementById('pesoSlider');
+        const pesoValue = document.getElementById('pesoValue');
+        if (pesoSlider && pesoValue) {
+            pesoSlider.addEventListener('input', function() {
+                pesoValue.textContent = this.value;
+            });
+        }
+
+        const estaturaSlider = document.getElementById('estaturaSlider');
+        const estaturaValue = document.getElementById('estaturaValue');
+        if (estaturaSlider && estaturaValue) {
+            estaturaSlider.addEventListener('input', function() {
+                estaturaValue.textContent = this.value;
+            });
+        }
+
+        const pesoObjetivoSlider = document.getElementById('pesoObjetivoSlider');
+        const pesoObjetivoValue = document.getElementById('pesoObjetivoValue');
+        if (pesoObjetivoSlider && pesoObjetivoValue) {
+            pesoObjetivoSlider.addEventListener('input', function() {
+                pesoObjetivoValue.textContent = this.value;
+            });
+        }
+    }
+
+    function goToStep(stepNumber) {
+        const steps = quizContainer.querySelectorAll('.quiz-step');
+        steps.forEach(step => step.classList.remove('active'));
+        
+        const targetStep = quizContainer.querySelector(`[data-step="${stepNumber}"]`);
+        if (targetStep) {
+            targetStep.classList.add('active');
+            
+            // Handle loading step
+            if (stepNumber === 10) {
+                simulateLoading();
+            }
+        }
+    }
+
+    function simulateLoading() {
+        const progressBar = document.getElementById('loadingProgress');
+        let progress = 0;
+        
+        const interval = setInterval(() => {
+            progress += 2;
+            if (progressBar) {
+                progressBar.style.width = progress + '%';
+            }
+            
+            if (progress >= 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    goToStep(11);
+                }, 300);
+            }
+        }, 50);
+    }
+
     let likesCount = 12700;
     let userLiked = false;
 

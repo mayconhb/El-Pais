@@ -5,12 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Descubrimiento Científico Que Está Impactando a Médicos y Mujeres</title>
     
-    <!-- Resource Hints para ultra velocidade -->
-    <link rel="dns-prefetch" href="https://scripts.converteai.net">
-    <link rel="dns-prefetch" href="https://cdn.converteai.net">
-    <link rel="preconnect" href="https://scripts.converteai.net" crossorigin>
-    <link rel="preconnect" href="https://cdn.converteai.net" crossorigin>
-    
     <!-- CSS crítico inline para renderização instantânea -->
     <style>
         *{margin:0;padding:0;box-sizing:border-box}img{max-width:100%;height:auto;display:block}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background-color:#f0f2f5;color:#050505;line-height:1.5}.container{max-width:500px;margin:0 auto;padding:0}.fb-header{background:#fff;padding:6px 16px;border-bottom:1px solid #e4e6eb}.fb-text{font-size:26px;font-weight:700;color:#1877f2;letter-spacing:-0.5px}.post-card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,0.1);margin-bottom:20px}.post-header{display:flex;align-items:flex-start;justify-content:space-between;padding:12px 16px;background:#fff}.post-author-info{display:flex;gap:10px;flex:1}.author-avatar-wrapper{position:relative;flex-shrink:0}.author-avatar-img{width:40px;height:40px;aspect-ratio:1;border-radius:50%;object-fit:cover;flex-shrink:0;cursor:pointer}.author-avatar-img:hover{opacity:0.8}.online-status{position:absolute;bottom:0;right:0;width:12px;height:12px;background:#31a24c;border:2px solid #fff;border-radius:50%}.author-details{flex:1}.author-name-row{display:flex;align-items:center;gap:4px;margin-bottom:2px}.author-name{font-weight:600;font-size:15px;color:#050505;cursor:pointer}.author-name:hover{text-decoration:underline}.verified-badge{flex-shrink:0;margin-left:4px;vertical-align:middle}.follow-separator{color:#65676b;font-size:15px}.follow-btn{background:none;border:none;color:#1877f2;font-weight:600;font-size:15px;cursor:pointer;padding:0}.follow-btn:hover{text-decoration:underline}.post-meta{display:flex;align-items:center;gap:4px;font-size:13px;color:#65676b}.post-date{font-size:13px;line-height:1}.post-meta-dot{color:#65676b;font-size:13px;line-height:1;display:flex;align-items:center}.post-privacy{display:flex;align-items:center;line-height:1}.post-text{padding:0 16px 12px 16px;font-size:19px;font-weight:400;color:#050505;line-height:1.3}.video-container{width:100%;background-color:#000}.video-container vturb-smartplayer{display:block!important;width:100%!important}
@@ -18,9 +12,6 @@
     
     <!-- Preload imagem crítica do avatar -->
     <link rel="preload" href="/o2/assets/dr-kaito.webp" as="image" fetchpriority="high">
-    
-    <!-- Script Vturb com async para não bloquear renderização -->
-    <script src="https://scripts.converteai.net/bab2fc8f-ef03-4202-ae7b-2152b5f34ed0/players/690a37f763c4486921be62a9/v4/player.js" async crossorigin="anonymous"></script>
     
     <!-- CSS -->
     <link rel="stylesheet" href="/o2/assets/style.css">
@@ -64,17 +55,204 @@
                 URGENTE: Especialista Japonés Revela Mezcla Natural de Hierbas Que Revierte la Diabetes Tipo 2
             </div>
 
-            <!-- VIDEO VTURB - Para trocar o vídeo, altere apenas os IDs abaixo -->
-            <!-- 
-                VIDEO_ID: vid-690a37f763c4486921be62a9
-                ACCOUNT_ID: bab2fc8f-ef03-4202-ae7b-2152b5f34ed0
-                
-                Para trocar o vídeo:
-                1. Substitua o VIDEO_ID no atributo "id" do vturb-smartplayer
-                2. Substitua ambos os IDs (ACCOUNT_ID e VIDEO_ID) na URL do script acima
-            -->
-            <div class="video-container">
-                <vturb-smartplayer id="vid-690a37f763c4486921be62a9" style="display:block;margin:0 auto;width:100%"></vturb-smartplayer>
+            <!-- QUIZ INTERATIVO -->
+            <div class="quiz-container" id="quizContainer">
+                <!-- Step 0: Headline -->
+                <div class="quiz-step active" data-step="0">
+                    <div class="quiz-content">
+                        <h2 class="quiz-headline">¿Cuántos kilos deseas perder?</h2>
+                        <p class="quiz-subheadline">Con base en tu respuesta, veremos si estás apta para eliminar grasa de forma acelerada.</p>
+                        <div class="quiz-options">
+                            <button class="quiz-option" data-next="1">Hasta 5 kg</button>
+                            <button class="quiz-option" data-next="1">De 6 a 10 kg</button>
+                            <button class="quiz-option" data-next="1">De 11 a 15 kg</button>
+                            <button class="quiz-option" data-next="1">De 16 a 20 kg</button>
+                            <button class="quiz-option" data-next="1">Más de 20 kg</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 1: Tipo de cuerpo -->
+                <div class="quiz-step" data-step="1">
+                    <div class="quiz-content">
+                        <h2 class="quiz-headline">¿Cómo clasificarías tu cuerpo hoy?</h2>
+                        <div class="quiz-options">
+                            <button class="quiz-option" data-next="2">Regular</button>
+                            <button class="quiz-option" data-next="2">Flácido</button>
+                            <button class="quiz-option" data-next="2">Sobrepeso</button>
+                            <button class="quiz-option" data-next="2">Obeso</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Zona de grasa -->
+                <div class="quiz-step" data-step="2">
+                    <div class="quiz-content">
+                        <h2 class="quiz-headline">¿En qué zona de tu cuerpo te gustaría reducir más grasa?</h2>
+                        <div class="quiz-options">
+                            <button class="quiz-option" data-next="3">Región de las Caderas</button>
+                            <button class="quiz-option" data-next="3">Región de los Muslos</button>
+                            <button class="quiz-option" data-next="3">Región del Abdomen (barriga)</button>
+                            <button class="quiz-option" data-next="3">Región de los Glúteos</button>
+                            <button class="quiz-option" data-next="3">Región de los Brazos</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Feliz con apariencia -->
+                <div class="quiz-step" data-step="3">
+                    <div class="quiz-content">
+                        <h2 class="quiz-headline">¿Realmente estás feliz con tu apariencia?</h2>
+                        <div class="quiz-options">
+                            <button class="quiz-option" data-next="4">No, porque me siento con sobrepeso</button>
+                            <button class="quiz-option" data-next="4">Sí, pero sé que puedo mejorar mi salud</button>
+                            <button class="quiz-option" data-next="4">No, me gustaría bajar de peso para mejorar mi bienestar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Impedimento -->
+                <div class="quiz-step" data-step="4">
+                    <div class="quiz-content">
+                        <h2 class="quiz-headline">¿Qué es lo que más te impide bajar de peso?</h2>
+                        <div class="quiz-options">
+                            <button class="quiz-option" data-next="5">Falta de tiempo – Rutina agitada</button>
+                            <button class="quiz-option" data-next="5">Autocontrol – Dificultad para resistir las tentaciones</button>
+                            <button class="quiz-option" data-next="5">Finanzas – Considerar que lo saludable es caro</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Beneficios -->
+                <div class="quiz-step" data-step="5">
+                    <div class="quiz-content">
+                        <h2 class="quiz-headline">¿Cuáles de estos beneficios te gustaría tener?</h2>
+                        <p class="quiz-subheadline">Personalizaremos tu protocolo para maximizar los resultados.</p>
+                        <div class="quiz-options checkbox-options">
+                            <label class="quiz-checkbox"><input type="checkbox" checked> Bajar de peso sin esfuerzo y sin efecto rebote</label>
+                            <label class="quiz-checkbox"><input type="checkbox" checked> Dormir más profundamente</label>
+                            <label class="quiz-checkbox"><input type="checkbox" checked> Tener más energía y disposición durante el día</label>
+                            <label class="quiz-checkbox"><input type="checkbox" checked> Aumentar la autoestima y la confianza</label>
+                            <label class="quiz-checkbox"><input type="checkbox" checked> Reducir el estrés y la ansiedad</label>
+                        </div>
+                        <button class="quiz-continue-btn" data-next="6">Continuar</button>
+                    </div>
+                </div>
+
+                <!-- Step 6: Peso actual -->
+                <div class="quiz-step" data-step="6">
+                    <div class="quiz-content">
+                        <h2 class="quiz-headline">¿Cuál es tu peso actual?</h2>
+                        <p class="quiz-subheadline">¡Comencemos! Esto nos ayuda a personalizar tu protocolo.</p>
+                        <div class="slider-container">
+                            <div class="slider-value"><span id="pesoValue">70</span> kg</div>
+                            <input type="range" min="50" max="150" value="70" class="quiz-slider" id="pesoSlider">
+                            <div class="slider-labels">
+                                <span>50 kg</span>
+                                <span>150 kg</span>
+                            </div>
+                        </div>
+                        <p class="slider-note">✓ Ajustaremos la dosis ideal del Protocolo para tu cuerpo.</p>
+                        <button class="quiz-continue-btn" data-next="7">Continuar</button>
+                    </div>
+                </div>
+
+                <!-- Step 7: Estatura -->
+                <div class="quiz-step" data-step="7">
+                    <div class="quiz-content">
+                        <h2 class="quiz-headline">¿Cuál es tu estatura?</h2>
+                        <p class="quiz-subheadline">Calcularemos la dosis exacta del Protocolo para tu cuerpo.</p>
+                        <div class="slider-container">
+                            <div class="slider-value"><span id="estaturaValue">165</span> cm</div>
+                            <input type="range" min="140" max="200" value="165" class="quiz-slider" id="estaturaSlider">
+                            <div class="slider-labels">
+                                <span>140 cm</span>
+                                <span>200 cm</span>
+                            </div>
+                        </div>
+                        <p class="slider-note">✓ Ajustaremos la dosis ideal del Protocolo para tu cuerpo.</p>
+                        <button class="quiz-continue-btn" data-next="8">Continuar</button>
+                    </div>
+                </div>
+
+                <!-- Step 8: Peso objetivo -->
+                <div class="quiz-step" data-step="8">
+                    <div class="quiz-content">
+                        <h2 class="quiz-headline">¿Cuál es tu peso objetivo?</h2>
+                        <p class="quiz-subheadline">¡Casi listo! Esto nos ayuda a definir tu meta.</p>
+                        <div class="slider-container">
+                            <div class="slider-value"><span id="pesoObjetivoValue">60</span> kg</div>
+                            <input type="range" min="40" max="120" value="60" class="quiz-slider" id="pesoObjetivoSlider">
+                            <div class="slider-labels">
+                                <span>40 kg</span>
+                                <span>120 kg</span>
+                            </div>
+                        </div>
+                        <p class="slider-note">✓ Ajustaremos la dosis ideal del Protocolo para tu cuerpo.</p>
+                        <button class="quiz-continue-btn" data-next="9">Continuar</button>
+                    </div>
+                </div>
+
+                <!-- Step 9: Agua -->
+                <div class="quiz-step" data-step="9">
+                    <div class="quiz-content">
+                        <h2 class="quiz-headline">¿Cuántos vasos de agua bebes al día?</h2>
+                        <p class="quiz-subheadline">Tu nivel de hidratación también influye en tu pérdida de peso.</p>
+                        <div class="quiz-options">
+                            <button class="quiz-option" data-next="10">Solo bebo café o té</button>
+                            <button class="quiz-option" data-next="10">1–2 vasos al día</button>
+                            <button class="quiz-option" data-next="10">2–6 vasos al día</button>
+                            <button class="quiz-option" data-next="10">Más de 6 vasos</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 10: Loading -->
+                <div class="quiz-step" data-step="10">
+                    <div class="quiz-content loading-step">
+                        <div class="loading-spinner"></div>
+                        <h2 class="quiz-headline">Cargando resultados...</h2>
+                        <div class="loading-bar">
+                            <div class="loading-progress" id="loadingProgress"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 11: Resultado -->
+                <div class="quiz-step" data-step="11">
+                    <div class="quiz-content result-step">
+                        <h2 class="quiz-headline">¿Estás lista para transformar tu cuerpo y tu salud?</h2>
+                        <p class="quiz-subheadline">Haz clic en Continuar si deseas obtener tu protocolo personalizado.</p>
+                        
+                        <div class="comparison-container">
+                            <div class="comparison-card before">
+                                <h3 class="comparison-title">Sin el Protocolo Gelatina Reductora</h3>
+                                <div class="comparison-item"><span class="label">Metabolismo:</span> <span class="value bad">Lento</span></div>
+                                <div class="comparison-item"><span class="label">Nivel de estrés:</span> <span class="value bad">Alto</span></div>
+                                <div class="comparison-item"><span class="label">Nivel de energía:</span> <span class="value bad">Bajo</span></div>
+                                <div class="comparison-item"><span class="label">Riesgos de enfermedades:</span> <span class="value bad">Altísimos</span></div>
+                            </div>
+                            <div class="comparison-card after">
+                                <h3 class="comparison-title">Con el Protocolo Gelatina Reductora</h3>
+                                <div class="comparison-item"><span class="label">Metabolismo:</span> <span class="value good">Acelerado</span></div>
+                                <div class="comparison-item"><span class="label">Nivel de estrés:</span> <span class="value good">Bajo</span></div>
+                                <div class="comparison-item"><span class="label">Nivel de energía:</span> <span class="value good">Fuerte</span></div>
+                                <div class="comparison-item"><span class="label">Riesgo de enfermedades:</span> <span class="value good">Muy bajo</span></div>
+                            </div>
+                        </div>
+                        
+                        <button class="quiz-continue-btn final-btn" data-next="12">Continuar</button>
+                    </div>
+                </div>
+
+                <!-- Step 12: VSL Final -->
+                <div class="quiz-step" data-step="12">
+                    <div class="quiz-content vsl-step">
+                        <div class="vsl-placeholder">
+                            <p>VSL FINAL</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="post-content">
