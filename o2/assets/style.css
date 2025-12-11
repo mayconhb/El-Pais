@@ -535,19 +535,11 @@ body {
 
 /* VSL step */
 .vsl-step {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+    padding: 0;
 }
 
-.vsl-placeholder {
-    background: rgba(0,0,0,0.5);
-    color: #fff;
-    padding: 40px;
-    border-radius: 12px;
-    font-size: 24px;
-    font-weight: 700;
+.vsl-step wistia-player {
+    width: 100%;
 }
 
 .video-placeholder {
