@@ -1,6 +1,64 @@
 document.addEventListener('DOMContentLoaded', function() {
     const likeBtn = document.getElementById('likeBtn');
 
+    // Video tracking for step 0 button
+    let videoIsPlaying = false;
+    let videoLastTimestamp = 0;
+    let videoAccumulatedSeconds = 0;
+    let videoButtonShown = false;
+    const VIDEO_CTA_THRESHOLD = 10; // Show button after 10 seconds
+
+    function setupVideoTracking() {
+        const playerElement = document.querySelector('wistia-player[media-id="3hf26lz4vm"]');
+        const continueBtn = document.getElementById('videoContinueBtn');
+        
+        if (playerElement && continueBtn) {
+            console.log('[Video Tracker O2] Wistia player found - binding events');
+            
+            playerElement.addEventListener('play', () => {
+                videoIsPlaying = true;
+                console.log('[Video Tracker O2] PLAY - tracking time. Accumulated:', videoAccumulatedSeconds.toFixed(1), 's');
+            });
+            
+            playerElement.addEventListener('pause', () => {
+                videoIsPlaying = false;
+                console.log('[Video Tracker O2] PAUSE - Total watched:', videoAccumulatedSeconds.toFixed(1), 's');
+            });
+            
+            playerElement.addEventListener('end', () => {
+                videoIsPlaying = false;
+                console.log('[Video Tracker O2] ENDED - Total watched:', videoAccumulatedSeconds.toFixed(1), 's');
+            });
+            
+            playerElement.addEventListener('time-update', (event) => {
+                const currentTime = event.detail?.currentTime ?? event.target?.currentTime ?? 0;
+                
+                if (videoIsPlaying && currentTime > videoLastTimestamp) {
+                    const delta = currentTime - videoLastTimestamp;
+                    if (delta > 0 && delta < 2) {
+                        videoAccumulatedSeconds += delta;
+                    }
+                }
+                
+                videoLastTimestamp = currentTime;
+                
+                if (videoAccumulatedSeconds >= VIDEO_CTA_THRESHOLD && !videoButtonShown) {
+                    console.log('[Video Tracker O2] THRESHOLD REACHED! Watched', videoAccumulatedSeconds.toFixed(1), 's - SHOWING BUTTON');
+                    videoButtonShown = true;
+                    continueBtn.classList.remove('hidden');
+                }
+            });
+            
+            console.log('[Video Tracker O2] Events bound successfully');
+        } else {
+            console.log('[Video Tracker O2] Waiting for Wistia player element...');
+            setTimeout(setupVideoTracking, 500);
+        }
+    }
+
+    // Start video tracking after a short delay for Wistia to load
+    setTimeout(setupVideoTracking, 1000);
+
     // Quiz functionality
     const quizContainer = document.getElementById('quizContainer');
     if (quizContainer) {
