@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (progress >= 100) {
                 clearInterval(interval);
                 setTimeout(() => {
-                    goToStep(12);
+                    goToStep(13);
                 }, 300);
             }
         }, 50);
