@@ -735,16 +735,16 @@ function renderTransformReady() {
 
 function renderVideoPage() {
   const comments = [
-    { name: 'Mariana Gutiérrez', photo: images.profilePhoto1, text: 'Este protocolo lo cambió todo para mí. En pocas semanas vi cómo mi abdomen desinflamaba y la ropa volvía a quedarme.', time: 'hace 2 min' },
-    { name: 'Camila Rodríguez', photo: images.profilePhoto2, text: 'Intenté de todo, pero nada funcionaba... hasta conocer este protocolo. Hoy estoy 14 kg más liviana y con la autoestima por las nubes.', time: 'hace 5 min' },
-    { name: 'Sofía Morales', photo: images.profilePhoto3, text: 'Es increíble cómo algo tan simple puede transformar tanto. Ya son 3 meses siguiéndolo y me siento otra persona.', time: 'hace 8 min' },
-    { name: 'Valeria Castillo', photo: images.profilePhoto4, text: 'Había perdido las esperanzas, pero este protocolo que devolvió la confianza y la energía. Nunca imaginé que funcionaría tan bien.', time: 'hace 12 min' },
+    { name: 'Mariana Gutiérrez', photo: images.profilePhoto1, text: 'Este video me abrió los ojos. En pocas semanas vi cómo mi abdomen desinflamaba y la ropa volvía a quedarme.', time: 'hace 2 min' },
+    { name: 'Camila Rodríguez', photo: images.profilePhoto2, text: 'Intenté de todo, pero nada funcionaba... hasta que vi este video. Hoy estoy 14 kg más liviana y con la autoestima por las nubes.', time: 'hace 5 min' },
+    { name: 'Sofía Morales', photo: images.profilePhoto3, text: 'Es increíble cómo algo tan simple puede transformar tanto. Ya son 3 meses siguiendo las instrucciones y me siento otra persona.', time: 'hace 8 min' },
+    { name: 'Valeria Castillo', photo: images.profilePhoto4, text: 'Había perdido las esperanzas, pero este método me devolvió la confianza y la energía. Nunca imaginé que funcionaría tan bien.', time: 'hace 12 min' },
     { name: 'Fernanda López', photo: images.profilePhoto5, text: 'Mi vida cambió por completo. La balanza finalmente empezó a bajar y no se detuvo más.', time: 'hace 15 min' },
-    { name: 'Carolina Ramírez', photo: images.profilePhoto6, text: 'Nunca voy a olvidar la sensación de ver mi cuerpo cambiar día tras día gracias a este protocolo.', time: 'hace 18 min' },
+    { name: 'Carolina Ramírez', photo: images.profilePhoto6, text: 'Nunca voy a olvidar la sensación de ver mi cuerpo cambiar día tras día gracias a este método.', time: 'hace 18 min' },
     { name: 'Lucía Fernández', photo: images.profilePhoto7, text: 'En solo 10 días ya vi resultados que no logré en años de gimnasio y dietas.', time: 'hace 22 min' },
-    { name: 'Gabriela Torres', photo: images.profilePhoto8, text: 'El protocolo fue como un renacimiento para mí. Me siento más joven, más ligera y feliz con mi cuerpo.', time: 'hace 25 min' },
-    { name: 'Isabella Vargas', photo: images.profilePhoto9, text: 'Hoy, después de 18 kg menos, solo tengo una palabra: gratitud por este protocolo.', time: 'hace 30 min' },
-    { name: 'Patricia Martínez', photo: images.profilePhoto10, text: 'Hoy, después de 18 kg menos, solo tengo una palabra: gratitud por este protocolo.', time: 'hace 35 min' }
+    { name: 'Gabriela Torres', photo: images.profilePhoto8, text: 'Este método fue como un renacimiento para mí. Me siento más joven, más ligera y feliz con mi cuerpo.', time: 'hace 25 min' },
+    { name: 'Isabella Vargas', photo: images.profilePhoto9, text: 'Hoy, después de 18 kg menos, solo tengo una palabra: gratitud por compartir esto.', time: 'hace 30 min' },
+    { name: 'Patricia Martínez', photo: images.profilePhoto10, text: 'Increíble como algo tan simple puede cambiar tanto. Estoy muy agradecida por haber visto este video.', time: 'hace 35 min' }
   ];
   
   return `
