@@ -532,17 +532,28 @@ body {
 }
 
 .video-step .wistia-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
+    position: relative;
 }
 
 .video-step .wistia-wrapper wistia-player {
-    width: 100% !important;
     height: 100% !important;
+    width: auto !important;
+    max-width: 100%;
     display: block;
+}
+
+.video-step .wistia-wrapper .wistia_responsive_wrapper,
+.video-step .wistia-wrapper .wistia_embed,
+.video-step .wistia-wrapper iframe,
+.video-step .wistia-wrapper video {
+    height: 100% !important;
+    width: auto !important;
+    max-width: 100%;
 }
 
 .video-step .quiz-continue-btn {
@@ -567,17 +578,28 @@ body {
 }
 
 .vsl-step .wistia-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
+    position: relative;
 }
 
 .vsl-step .wistia-wrapper wistia-player {
-    width: 100% !important;
     height: 100% !important;
+    width: auto !important;
+    max-width: 100%;
     display: block;
+}
+
+.vsl-step .wistia-wrapper .wistia_responsive_wrapper,
+.vsl-step .wistia-wrapper .wistia_embed,
+.vsl-step .wistia-wrapper iframe,
+.vsl-step .wistia-wrapper video {
+    height: 100% !important;
+    width: auto !important;
+    max-width: 100%;
 }
 
 .video-placeholder {
